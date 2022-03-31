@@ -1,0 +1,24 @@
+<!-- Authors: Varsha, Sanjana
+Date: 14-10-2020
+Aim: This is the parent component that calls the two child components responsible to hold filterinputs and buttons and to display the table of pos items respectively. It is also responsible for the data exchange between the child components -->
+
+<template>
+    <!-- breadcrumbs to display home and pos catalog -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <!-- takes user to the home page -->
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>POS Catalog</a></li>
+        </ul>
+     </div> 
+    </br>
+    <!-- invokes a component called jfwPosCatalogFiltersComponent to search pos item, brand filter and to download the pos catalog -->
+     <c-jfw-inventory-pos-catalog-filters-component onsendsearchdatatoparent={searchEventHandler} onselectbrandevent={brandEvent} onselectitemtypeevent={itemTypeEvent}></c-jfw-inventory-pos-catalog-filters-component>
+    <!-- Author: Thanvi, Sanjana
+    Date: 9/3/2021
+    introducing item type Id for satisfying the CR - JFW-09-March-10 -->
+
+     <!-- invokes a component called jfwInventoryPosCatalogTableComponent to display the list pos item details -->
+     <c-jfw-inventory-pos-catalog-table-component get-brand-id={brandId} get-item-type-id={itemTypeId} get-search-value={searchValue}></c-jfw-inventory-pos-catalog-table-component>
+
+</template>

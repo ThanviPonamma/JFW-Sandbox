@@ -1,0 +1,37 @@
+<!-- Author : Thanvi, Vighnesh
+Date : 19/10/2020
+Aim : To display the contents on the site -->
+
+
+<template>
+    <template if:false={accountDetailsForJFW}>
+    <!-- To navigate to home page -->
+    <template if:true={isHome}>
+        <c-jfw-home-component></c-jfw-home-component>
+    </template>
+    <!-- To navigate to Pos catalog page -->
+    <template if:true={isPosCatalog}>
+        <c-jfw-inventory-pos-catalog-component></c-jfw-inventory-pos-catalog-component>
+    </template>
+    <!-- To navigate to place order - pos item list page -->
+    <template if:true={isPosItemMenuPage}>
+        <c-jfw-pos-item-menu-component></c-jfw-pos-item-menu-component>
+    </template>
+    <!-- To navigate to shopping cart page -->
+    <template if:true={isShoppingCart}>
+        <c-jfw-shopping-cart-component></c-jfw-shopping-cart-component>
+    </template>
+    <!--  To navigate to Preview  page -->
+    <template if:true={isPreviewOrder}>
+        <c-jfw-preview-order-component emerge-order-id={orderId}></c-jfw-preview-order-component>
+    </template>
+    <!-- To navigate to Order Status page -->
+    <template if:true={isOrderStatusPage}>
+        <c-jfw-order-status-component></c-jfw-order-status-component>
+    </template>
+    <!-- To navigate to  Address book page -->
+    <template if:true={isAddressBook}>
+        <c-jfw-inventory-address-book></c-jfw-inventory-address-book>
+    </template>
+    </template>
+</template>

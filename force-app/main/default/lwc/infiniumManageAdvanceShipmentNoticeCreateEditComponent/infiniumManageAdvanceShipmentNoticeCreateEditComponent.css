@@ -1,0 +1,120 @@
+/* MODAL style */
+.modal_header_style {
+    background-color: #001137;
+    border-bottom: #001137;
+    color: white;
+  }
+  
+  .modal_body_style {
+    border-right: 2px solid #001137 !important;
+    border-left: 2px solid #001137 !important;
+  }
+  .slds-form-element__label{
+    color:black !important;
+  }
+  
+  .display_notification_style {
+    font-weight: 700;
+    color: #001137;
+    font-size: 12px;
+  }
+  
+  .modal_footer_style {
+    border-right: 2px solid #001137 !important;
+    border-left: 2px solid #001137 !important;
+    border-bottom: 2px solid #001137 !important;
+  }
+  
+  .modal_margin_style {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .slds-modal__close {
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+  }
+  
+  .slds-text-heading_small {
+    margin-bottom: 0;
+  }
+  
+  .slds-table_fixed-layout {
+    table-layout: unset;
+  }
+  
+  .scrollbar {
+    overflow: auto;
+  }
+  
+  .scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    background-color: white;
+  }
+  
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+    background-color: white;
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #001137 !important;
+  }
+  
+  /*  .add_icon {
+      background-color: #001137;
+  } */
+  
+  .icon_style {
+    color: white;
+    background-color: #001137;
+  }
+  
+  .slds-table_bordered {
+    border-top: 2px solid rgb(212, 212, 212);
+    border-bottom: 2px solid rgb(212, 212, 212);
+  }
+  
+  b {
+    color: black
+  }
+  
+  .display_selected_style {
+    width: 170px;
+    white-space: normal;
+  }
+  
+  .display_unselected_style {
+    width: 250px;
+    white-space: normal;
+  }
+  
+  /* HP Resolution */
+  @media only screen and (min-width:1200px) and (max-width:1280px) {
+    .slds-modal .slds-modal__container {
+      width: 47%;
+  
+    }
+  }
+  
+  .slds-dropdown-trigger_click.slds-is-open .slds-dropdown {
+    position: inherit !important;
+  }
+  
+  .save_button_text_color_style {
+    color: white;
+  }
+  
+  .submit_to_warehouse_text_color_style {
+    color: white;
+  
+  }
+  
+  .button_text_color {
+    color: white !important;
+    font-weight: 600;
+    background-color: #001137 !important;
+  }

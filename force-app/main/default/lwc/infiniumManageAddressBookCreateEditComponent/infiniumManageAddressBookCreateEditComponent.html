@@ -1,0 +1,160 @@
+<!--Author : Sanjana; Date : 21-09-2021
+
+     Aim: On click of create or edit buttton the Address PopUp modal should open -->
+
+
+     <template>
+        <template if:true={isModalOpen}>
+            <!-- lightning button for open modal window -->
+            <!--Use template if:true to display/hide popup based on isModalOpen value-->
+            <!-- Modal/Popup Box LWC starts here -->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box LWC header here -->
+                    <header class="slds-modal__header popUpHeader">
+                        <!-- to display the pop-up header for edit -->
+                        <template if:true={isEditClicked}>
+                            <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close"
+                                variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit Address Book for
+                                "{labelName}"</h2>
+                        </template>
+                        <!-- to display the pop-up header for create -->
+                        <template if:false={isEditClicked}>
+                            <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close"
+                                variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                            <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Create Address Book
+                            </h2>
+                        </template>
+                    </header>
+    
+                    <!-- Modal/Popup Box LWC body starts here -->
+                    <div class="slds-modal__content modal_body_style scroll-box">
+                        <div class="slds-m-around_large ">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_small">
+                                    <lightning-input required name="addressBookDestinationName"
+                                        value={updatedAddressBook.Destination_Name__c} class="addressBookDestinationName"
+                                        disabled label="Destination Name" maxlength="60"></lightning-input>
+                                </div>
+    
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small">
+                                    <div onkeydown={validateEmailOnkeydown}>
+                                        <lightning-input type="email" name="addressBookEmail" class="addressBookEmail"
+                                            value={updatedAddressBook.Email__c} onchange={handleChangeEmail} label="Email">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_small">
+                                    <lightning-input name="addressBookShipToName" class="addressBookShipToName"
+                                        value={updatedAddressBook.Shipto_Name__c} required onchange={handleChangeShipToName}
+                                        label="Ship To Name">
+                                    </lightning-input>
+                                </div>
+    
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small">
+                                    <div onkeydown={removeSpecialCharactersForPhone_Fax}
+                                        onkeypress={removeSpecialCharactersForPhone_Fax}>
+                                        <lightning-input required formatter="number" value={updatedAddressBook.Phone__c}
+                                            onchange={handleChangePhone} label="Phone" name="addressBookPhone"
+                                            class="addressBookPhone" maxlength="13" minlength="10">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_small">
+                                    <lightning-input required class="addressBookShipToCompany"
+                                        name="addressBookShipToCompany" value={updatedAddressBook.Shipto_Company__c}
+                                        onchange={handleChangeShipToCompany} maxlength="40"
+                                        label="Ship to Company - (Duplicate name if no company)">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small">
+                                    <lightning-combobox label="State" value={updatedAddressBook.State__c}
+                                        options={getStateNames} onchange={handleChangeState} placeholder="Select" required
+                                        class="addressBookState">
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+    
+    
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_small">
+                                    <lightning-input required name="addressBookAddress" class="addressBookAddress"
+                                        value={updatedAddressBook.Address__c} onchange={handleChangeAddress}
+                                        label="Address">
+                                    </lightning-input>
+                                </div>
+    
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small">
+                                    <div onkeydown={removeSpecialCharactersForPhone_Fax}
+                                        onkeypress={removeSpecialCharactersForPhone_Fax}>
+                                        <lightning-input name="addressBookFax" class="addressBookFax" type="number"
+                                            formatter="number" value={updatedAddressBook.Fax__c} onchange={handleChangeFax}
+                                            label="Fax" maxlength="11" minlength="11">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+    
+    
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_small">
+                                    <div onkeydown={validateCitySpecialCharactersOnkeydown}
+                                        onkeypress={validateSpecialCharactersOnkeypress}>
+                                        <lightning-input required name="addressBookCity" class="addressBookCity"
+                                            value={updatedAddressBook.City__c} onfocusout={updatedCity}
+                                            onchange={handleChangeCity} label="City">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+    
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small">
+                                    <div onkeydown={removeZipCodeSpecialCharacters}
+                                        onkeypress={removeZipCodeSpecialCharacters}>
+                                        <lightning-input required name="addressBookZip" class="addressBookZip"
+                                            formatter="number" value={updatedAddressBook.Zip__c} onchange={handleChangeZip}
+                                            label="Zip" maxlength="10" minlength="5">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+    
+    
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_12-of-12 slds-p-right_xx-small">
+    
+                                    <lightning-input type="checkbox" label="Active" checked={updatedAddressBook.Active__c}
+                                        onchange={handleChangeActive} name="addressBookActive">
+                                    </lightning-input>
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>
+    
+                    <!-- Modal Body closes here -->
+    
+                    <!-- Modal/Popup Box LWC footer starts here -->
+                    <footer class="slds-modal__footer modal_footer_style">
+                        <!-- To get the footer button att center we use the slds class -->
+                        <div class="slds-align_absolute-center ">
+    
+                            <!-- To enable the save button if all the required field is satisfied -->
+    
+                            <lightning-button variant="brand" class="slds-m-around_xx-small" type="submit" title="save"
+                                label="Save" onclick={SaveAddressBook} disabled={showErrorMessage}></lightning-button>
+    
+                            <!-- On click fo cancel button the popup is closed and no changes will be saved -->
+                            <lightning-button variant="brand" type="cancel" title="cancel" label="Cancel"
+                                onclick={closeModal}></lightning-button>
+                        </div>
+                    </footer>
+                </div>
+            </section>
+        </template>
+    </template>

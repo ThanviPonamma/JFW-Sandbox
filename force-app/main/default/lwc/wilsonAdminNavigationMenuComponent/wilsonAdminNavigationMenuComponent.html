@@ -1,0 +1,79 @@
+<!-- Author : Thanvi, Vanditha
+Date : 04/10/2021
+Aim : responsible to handle the navigation menu -->
+
+
+<template>
+    <!-- Header logo with log out  -->
+    <template if:false={accountDetailsForWilsonDaniel}>
+
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_2-of-12 ">
+                <img style="height: 70px;" src={wilsonDanielHeaderLogo} />
+            </div>
+            <div class="slds-col slds-size_8-of-12 ">
+                </div>
+            <div class="slds-col slds-size_2-of-12 " style="text-align: right;margin-top:25px">
+                <lightning-button-icon size="large" icon-name="utility:logout" variant="bare" alternative-text="Log Out" icon-class="dark" onclick={logoutApplication}></lightning-button-icon>
+            </div>
+        </div>
+    
+    <!-- The menu list for ADMIN/ ADMIN RPT -->
+    
+        <div class="topnav hover_header_display_style">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light no-padding hover_header_display_style">
+                <div class="navbar-collapse navbar_collapse_div_style" >
+                    <ul class="navbar-nav mr-auto navigation-menu" style="flex-direction: initial;">
+                        <li class="has-submenu">
+                            <a class="menu_item_style nav-link" onclick={navigateToHomeComponent}><i class="mdi mdi-view-dashboard "></i>Home</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a class="menu_item_style nav-link">Admin</a>
+                            <ul class="submenu megamenu">
+                                <li>
+                                    <a class="subMenuDecoration" onclick={navigateManageBrandComponent}>Manage Brands</a>
+                                    <a class="subMenuDecoration" onclick={navigateManageItemTypeComponent}>Manage Item Types</a>  
+                                    <a class="subMenuDecoration" onclick={navigateManagePosItemComponent}>Manage POS Items</a><a class="subMenuDecoration" onclick={navigateManageTerritoriesComponent}>Manage Territories</a>
+                                </li>
+                                <li>
+                                    <a class="subMenuDecoration" onclick={navigateManageApprovalsComponent}>Manage Approvals</a>
+                                    <a class="subMenuDecoration" onclick={navigateManageShippingMethodComponent}>Manage Shipping Methods</a>
+                                    <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Manage Address Book</a>
+                                    <a class="subMenuDecoration" onclick={navigateManageASNComponent}>Manage Advance Shipment <br/>Notice</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="has-submenu">
+                            <a class="menu_item_style nav-link"><i class="mdi mdi-view-dashboard"></i>Inventory Order</a>
+                            <ul class="submenu megamenu">
+                                <li>
+                                    <a class="subMenuDecoration" onclick={navigateToPOSCatalog}>POS Catalog</a>
+                                    <a class="subMenuDecoration" onclick={navigateToInventoryPlaceOrderComponent}>Place Orders</a>
+                                    <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Address Book</a>
+                                    <a class="subMenuDecoration" onclick={navigateToInventoryShoppingCartComponent}>Shopping Cart Details</a>
+                                    <a class="subMenuDecoration" onclick={navigateToInventoryOrderStatusComponent}>Order Status</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="has-submenu">
+                            <a class="menu_item_style nav-link" onclick={navigateToPODSite}><i class="mdi mdi-view-dashboard"></i>Print On Demand</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a class="menu_item_style nav-link" onclick={navigateToReportsPage}><i class="mdi mdi-view-dashboard"></i>Report</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a class="menu_item_style nav-link" onclick={openHelpDesk}><i class="mdi mdi-view-dashboard"></i>Help Desk</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- Author: Sanjana ; Date:31/01/2021 -->
+        <!-- to navigate to the POD site along with user credentials -->
+        <form id="myForm" name="myForm" action="https://www.wilsondanielspos.com/index.php?route=account/login&amp;SSL" method="post" enctype="multipart/form-data" target="_blank">
+            <input type="hidden" name="email" value={userName} />
+           
+            <input type="hidden" name="override" value="1" />
+        </form>
+ </template>
+    </template>

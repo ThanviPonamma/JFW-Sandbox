@@ -1,0 +1,19 @@
+<!-- Authors: Sanjana
+Date: 10-08-2021
+Aim: This component is used to create a new brand -->
+
+
+<template>
+    <!-- Breadcrumb with on click of home it will navigate to home page -->
+            <div class="breadcrumbContents">
+                <!-- displaying breadcrumbs -->
+                <ul class="breadcrumb">
+                    <!-- navigates user to the home page on click event -->
+                    <li><a onclick={navigateToHomePage}>Home</a></li>
+                    <li><a>Manage Brand</a></li>
+                </ul>
+             </div>
+    <br/>
+    <!-- invoking the child component that displays the brand list details -->
+<c-copper-manage-brand-list-component></c-copper-manage-brand-list-component>
+</template>

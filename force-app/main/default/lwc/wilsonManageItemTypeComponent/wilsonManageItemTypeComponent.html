@@ -1,0 +1,16 @@
+<!-- Authors:Vanditha,Thanvi
+Date:05-01-2021
+Aim:To display the breadcrumb of manage item type page and call the child component-->
+
+     <template>
+        <!-- Breadcrumb with on click of home it will navigate to home page -->
+        <div class="breadcrumbContents">
+            <ul class="breadcrumb">
+                <li><a onclick={navigateToHomePage}>Home</a></li>
+                <li><a>Manage Item Types</a></li>
+            </ul>
+         </div>
+        <br/>
+        <!-- To call child component for displaying table of manage item type system -->
+        <c-wilson-manage-item-type-list-component></c-wilson-manage-item-type-list-component>
+        </template>

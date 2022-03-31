@@ -1,0 +1,825 @@
+<!-- Authors:Sanjana    Date:09-11-2021-->
+<!-- Aim: To hold the Approvals Details  -->
+<template>
+ 
+     
+    <!-- Manage Approvals Details -->
+
+ <template for:each={cometOrderDetailsList} for:item="cometOrderDetails">
+     <div class="slds-box" key={cometOrderDetails.Id} style="border-color: black;">
+         
+             <div class="slds-align_absolute-center slds-text-heading_medium order_number_heading_style"
+                 style="font-weight: 600;color:black; font-family:'Hind Madurai',sans-serif;">Order Number :
+                 {cometOrderDetails.cometOrder.OrderName__c}
+                 ​​​​​</div>
+             <template if:true={cometOrderDetails.cometOrder.ShipMethAppReq__c}>
+                 <template if:false={cometOrderDetails.cometOrder.ShipMethodApproved__c}>
+                     <template if:false={cometOrderDetails.cometOrder.ShippingMethodRejeted__c}>
+                         <div style="width:100%;" class="slds-align_absolute-center">
+                             <p class="align-center shipping_method_header_text_style">
+                                 Shipping Method Approvals</p>
+                             </br>
+                         </div>
+                         <div >
+                             <table class="slds-table slds-table_bordered slds-table_fixed-layout"
+                                 style="width: 100%" role="grid">
+                                 <thead>
+                                     <tr class="slds-line-height_reset">
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style" title="Ordered By">Ordered
+                                                     By</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style" title="Order Number">Order
+                                                     Number</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style" title="Ship to Company">Ship to
+                                                     Company</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style" title="Ship to Name">Ship to
+                                                     Name</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style" title="Ship to City">Ship to
+                                                     City</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style" title="Address">Address</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style"
+                                                     title="Selected Shipping Method">Selected Shipping Method</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style"
+                                                     title="Approved Shipping Method">Approved Shipping Method</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style" title="Approve">Approve</span>
+                                             </div>
+                                         </th>
+                                         <th class="header_th_style">
+                                             <div
+                                                 class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                 <span class="item_type_header_style" title="Reject">Reject</span>
+                                             </div>
+                                         </th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.CreatedBy.Name}>
+                                                 {cometOrderDetails.cometOrder.CreatedBy.Name}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.OrderName__c}>
+                                                 {cometOrderDetails.cometOrder.OrderName__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.AddressBook__r.Shipto_Company__c}>
+                                                 {cometOrderDetails.cometOrder.AddressBook__r.Shipto_Company__c}
+                                             </div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.AddressBook__r.Shipto_Name__c}>
+                                                 {cometOrderDetails.cometOrder.AddressBook__r.Shipto_Name__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.AddressBook__r.City__c}>
+                                                 {cometOrderDetails.cometOrder.AddressBook__r.City__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.AddressBook__r.Address__c}>
+                                                 {cometOrderDetails.cometOrder.AddressBook__r.Address__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.SelectedShippingMethod__r.Shipping_Method_Name__c}>
+                                                 {cometOrderDetails.cometOrder.SelectedShippingMethod__r.Shipping_Method_Name__c}
+                                             </div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <lightning-combobox 
+                                                 name={cometOrderDetails.cometOrder}
+                                                 data-id={cometOrderDetails.cometOrder.Id} variant="label-hidden"
+                                                 placeholder="Select"
+                                                 value={cometOrderDetails.cometOrder.Shipping_Method__c}
+                                                 options={shippingMethodNameToDisplay}
+                                                 onchange={onChangeShippingMethod}>
+                                             </lightning-combobox>
+
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style" title="Approve">
+                                                 <lightning-button class="btn_style" variant="brand" label="Approve"
+                                                     title="Approve" onclick={approveShippingMethodOrder}
+                                                     value={cometOrderDetails.cometOrder}></lightning-button>
+                                             </div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style" title="Reject">
+                                                 <lightning-button class="btn_style" variant="brand" label="Reject"
+                                                     title="Reject" onclick={rejectShippingMethodOrder}
+                                                     value={cometOrderDetails.cometOrder}></lightning-button>
+                                             </div>
+                                         </td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                     </template>
+                 </template>
+             </template>
+
+             <template if:true={cometOrderDetails.isCometOrderItemsForApprovalExists}>
+                 <div style="width:100%;" class="slds-align_absolute-center">
+                     <p class="align-center shipping_method_header_text_style "
+                       >
+                         Item
+                         Approvals</p>
+                 </div>
+                 <div>
+                     <div class="fix-width scroll-inner">
+                         <table style="width:120%"
+                             class="slds-table_bordered table table-striped "
+                             role="grid">
+                             <!-- <div class="scrollbar" id="createASN"> -->
+                             <thead>
+                                 <tr class="slds-line-height_reset">
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ordered By">Ordered
+                                                 By</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Order Number">Order
+                                                 Number</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ship to Company">Ship to
+                                                 Company</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ship to Name">Ship to
+                                                 Name</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ship to City">Ship to
+                                                 City</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Brand">Brand</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Item Description">Item
+                                                 Name</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Pack Of">Pack Of</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Order Quantity">Order
+                                                 Quantity</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Approve">Approve</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Reject">Reject</span>
+                                         </div>
+                                     </th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <template for:each={cometOrderDetails.cometOrderItemsForItemApproval}
+                                     for:item="cometOrderItem">
+                                     <tr key={cometOrderItem.Id}>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.CreatedBy.Name}>
+                                                 {cometOrderDetails.cometOrder.CreatedBy.Name}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.OrderName__c}>
+                                                 {cometOrderDetails.cometOrder.OrderName__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.AddressBook__r.Shipto_Company__c}>
+                                                 {cometOrderDetails.cometOrder.AddressBook__r.Shipto_Company__c}
+                                             </div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.AddressBook__r.Shipto_Name__c}>
+                                                 {cometOrderDetails.cometOrder.AddressBook__r.Shipto_Name__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderDetails.cometOrder.AddressBook__r.City__c}>
+                                                 {cometOrderDetails.cometOrder.AddressBook__r.City__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderItem.POS_Item__r.Brand__r.Brand_Name__c}>
+                                                 {cometOrderItem.POS_Item__r.Brand__r.Brand_Name__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderItem.POS_Item__r.Item_Name__c}>
+                                                 {cometOrderItem.POS_Item__r.Item_Name__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderItem.POS_Item__r.Pack_Of__c}>
+                                                 {cometOrderItem.POS_Item__r.Pack_Of__c}</div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderItem.Quantity__c}>{cometOrderItem.Quantity__c}
+                                             </div>
+                                         </td> <template
+                                             if:true={cometOrderItem.OrderDestination__r.ShipMethAppReq__c}>
+                                             <template
+                                                 if:false={cometOrderItem.OrderDestination__r.ShipMethodApproved__c}>
+
+                                                 <template
+                                                     if:false={cometOrderItem.OrderDestination__r.ShippingMethodRejeted__c}>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title="Approve">
+                                                             <lightning-button disabled variant="brand"
+                                                                 label="Approve" title="Approve"></lightning-button>
+                                                         </div>
+                                                     </td>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title="Reject">
+                                                             <lightning-button disabled variant="brand"
+                                                                 label="Reject" title="Reject"></lightning-button>
+                                                         </div>
+                                                     </td>
+                                                 </template>
+                                             </template>
+                                         </template>
+
+                                         <template if:true={cometOrderItem.OrderDestination__r.ShipMethAppReq__c}>
+                                             <template
+                                                 if:true={cometOrderItem.OrderDestination__r.ShipMethodApproved__c}>
+                                                 <template
+                                                     if:false={cometOrderItem.OrderDestination__r.ShippingMethodRejeted__c}>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title="Approve">
+                                                             <lightning-button variant="brand" label="Approve"
+                                                                 title="Approve" onclick={approveItem}
+                                                                 value={cometOrderItem}></lightning-button>
+                                                         </div>
+                                                     </td>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title="Reject">
+                                                             <lightning-button variant="brand" label="Reject"
+                                                                 title="Reject" onclick={rejectItem}
+                                                                 value={cometOrderItem}>
+                                                             </lightning-button>
+                                                         </div>
+                                                     </td>
+                                                 </template>
+                                             </template>
+                                         </template>
+                                         <template if:false={cometOrderItem.OrderDestination__r.ShipMethAppReq__c}>
+
+                                             <td role="gridcell">
+                                                 <div class="slds-truncate item_type_content_style" title="Approve">
+                                                     <lightning-button variant="brand" label="Approve"
+                                                         title="Approve" onclick={approveItem}
+                                                         value={cometOrderItem}></lightning-button>
+                                                 </div>
+                                             </td>
+                                             <td role="gridcell">
+                                                 <div class="slds-truncate item_type_content_style" title="Reject">
+                                                     <lightning-button variant="brand" label="Reject" title="Reject"
+                                                         onclick={rejectItem} value={cometOrderItem}>
+                                                     </lightning-button>
+                                                 </div>
+                                             </td>
+                                         </template>
+                                     </tr>
+                                 </template>
+                             </tbody>
+                             <!-- </div> -->
+                         </table>
+                     </div>
+                 </div>
+             </template>
+             <template if:true={cometOrderDetails.isCometOrderItemsForMaxOrdQtyApprovalExists}>
+                 <div style="width:100%;" class="slds-align_absolute-center">
+                     <p class="align-center  shipping_method_header_text_style"
+                        >
+                         Max
+                         Order Quantity Approvals</p>
+                 </div>
+                 <template for:each={cometOrderDetails.cometOrderItemsForMaxOrdQtyApprovalWithQuantityDisable}
+                     for:item="cometOrderItem">
+                     <template if:true={cometOrderItem.isdisableQuantity}>
+                         <span key={cometOrderItem.Id} class="approval_text_style"><b>Approved Quantity can not be
+                                 greater
+                                 than requested quantity
+                                 {cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.SelectedQuantity__c}</b></span>
+
+                     </template>
+                     <div class="fix-width scroll-inner" key={cometOrderItem.Id}>
+                         <table key={cometOrderItem.Id} style="width: 120%;"
+                             class="slds-table slds-table_bordered slds-table_fixed-layout">
+
+                             <thead>
+                                 <tr class="slds-line-height_reset">
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ordered By">Ordered
+                                                 By</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Order Number">Order
+                                                 Number</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ship to Company">Ship to
+                                                 Company</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ship to Name">Ship to
+                                                 Name</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ship to City">Ship to
+                                                 City</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Brand">Brand</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style"
+                                                 title="Item Name">Item
+                                                 Name</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style"
+                                                 title="Pack Of">Pack
+                                                 Of</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Maximum Order Oty">Maximum Order
+                                                 Qty</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Ordered Quantity">Ordered
+                                                 Quantity</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Approved Quantity">Approved
+                                                 Quantity</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Approve">Approve</span>
+                                         </div>
+                                     </th>
+                                     <th class="header_th_style">
+                                         <div
+                                             class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                             <span class="item_type_header_style" title="Reject">Reject</span>
+                                         </div>
+                                     </th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <tr>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderDetails.cometOrder.CreatedBy.Name}>
+                                             {cometOrderDetails.cometOrder.CreatedBy.Name}</div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderDetails.cometOrder.OrderName__c}>
+                                             {cometOrderDetails.cometOrder.OrderName__c}</div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderDetails.cometOrder.AddressBook__r.Shipto_Company__c}>
+                                             {cometOrderDetails.cometOrder.AddressBook__r.Shipto_Company__c}</div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderDetails.cometOrder.AddressBook__r.Shipto_Name__c}>
+                                             {cometOrderDetails.cometOrder.AddressBook__r.Shipto_Name__c}</div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderDetails.cometOrder.AddressBook__r.City__c}>
+                                             {cometOrderDetails.cometOrder.AddressBook__r.City__c}</div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.POS_Item__r.Brand__r.Brand_Name__c}>
+                                             {cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.POS_Item__r.Brand__r.Brand_Name__c}
+                                         </div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.POS_Item__r.Item_Name__c}>
+                                             {cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.POS_Item__r.Item_Name__c}
+                                         </div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.POS_Item__r.Pack_Of__c}>
+                                             {cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.POS_Item__r.Pack_Of__c}
+                                         </div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.POS_Item__r.Maximum_Order_Qty__c}>
+                                             {cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.POS_Item__r.Maximum_Order_Qty__c}
+                                         </div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.SelectedQuantity__c}>
+                                             {cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.SelectedQuantity__c}
+                                         </div>
+                                     </td>
+                                     <!-- Shipping method and item requires approval and still not rejected or approved,disabled the input filed and button -->
+                                     <template
+                                         if:true={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShipMethAppReq__c}>
+                                         <template
+                                             if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShipMethodApproved__c}>
+                                             <template
+                                                 if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShippingMethodRejeted__c}>
+                                                 <template
+                                                     if:true={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemAppReq__c}>
+                                                     <template
+                                                         if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemApproved__c}>
+                                                         <template
+                                                             if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemRejected__c}>
+                                                             <td role="gridcell">
+                                                                 <div class="slds-truncate item_type_content_style"
+                                                                     title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}>
+                                                                     <div onkeydown={validateNumber}>
+                                                                         <lightning-input
+                                                                             value={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}
+                                                                             class="btn_width slds-align_absolute-center input_width"
+                                                                             maxlength="3" variant="label-hidden"
+                                                                             disabled>
+                                                                         </lightning-input>
+                                                                     </div>
+                                                                 </div>
+                                                             </td>
+                                                             <td role="gridcell">
+                                                                 <div class="slds-truncate item_type_content_style"
+                                                                     title="Approve">
+
+                                                                     <lightning-button class="btn_style"
+                                                                         variant="brand" label="Approve"
+                                                                         title="Approve" disabled>
+                                                                     </lightning-button>
+                                                                 </div>
+                                                             </td>
+                                                             <td role="gridcell">
+                                                                 <div class="slds-truncate item_type_content_style"
+                                                                     title="Reject">
+
+                                                                     <lightning-button class="btn_style"
+                                                                         variant="brand" label="Reject"
+                                                                         title="Reject" disabled>
+                                                                     </lightning-button>
+                                                                 </div>
+                                                             </td>
+                                                         </template>
+                                                     </template>
+                                                 </template>
+                                             </template>
+                                         </template>
+                                     </template>
+                                     <!-- Shipping method is approved & item is yet to be approved,disable input filed and button -->
+                                     <template
+                                         if:true={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShipMethAppReq__c}>
+                                         <template
+                                             if:true={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShipMethodApproved__c}>
+                                             <template
+                                                 if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShippingMethodRejeted__c}>
+                                                 <template
+                                                     if:true={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemAppReq__c}>
+                                                     <template
+                                                         if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemApproved__c}>
+                                                         <template
+                                                             if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemRejected__c}>
+                                                             <td role="gridcell">
+                                                                 <div class="slds-truncate item_type_content_style"
+                                                                     title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}>
+                                                                     <div onkeydown={validateNumber}>
+                                                                         <lightning-input
+                                                                             value={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}
+                                                                             class="btn_width slds-align_absolute-center input_width"
+                                                                             maxlength="3" variant="label-hidden"
+                                                                             disabled>
+                                                                         </lightning-input>
+                                                                     </div>
+                                                                 </div>
+                                                             </td>
+                                                             <td role="gridcell">
+                                                                 <div class="slds-truncate item_type_content_style"
+                                                                     title="Approve">
+
+                                                                     <lightning-button class="btn_style"
+                                                                         variant="brand" label="Approve"
+                                                                         title="Approve" disabled>
+                                                                     </lightning-button>
+                                                                 </div>
+                                                             </td>
+                                                             <td role="gridcell">
+                                                                 <div class="slds-truncate item_type_content_style"
+                                                                     title="Reject">
+
+                                                                     <lightning-button class="btn_style"
+                                                                         variant="brand" label="Reject"
+                                                                         title="Reject" disabled>
+                                                                     </lightning-button>
+                                                                 </div>
+                                                             </td>
+                                                         </template>
+                                                     </template>
+                                                 </template>
+                                             </template>
+                                         </template>
+                                     </template>
+                                     <!-- no shipping method required approval neither rejected or approved and items required approval not needed,disable the input filed and button  -->
+                                     <template
+                                         if:true={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShipMethAppReq__c}>
+                                         <template
+                                             if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShipMethodApproved__c}>
+                                             <template
+                                                 if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShippingMethodRejeted__c}>
+                                                 <template
+                                                     if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemAppReq__c}>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}>
+                                                             <div onkeydown={validateNumber}>
+                                                                 <lightning-input
+                                                                     value={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}
+                                                                     class="btn_width slds-align_absolute-center input_width"
+                                                                     maxlength="3" variant="label-hidden" disabled>
+                                                                 </lightning-input>
+                                                             </div>
+                                                         </div>
+                                                     </td>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title="Approve">
+
+                                                             <lightning-button class="btn_style" variant="brand"
+                                                                 label="Approve" title="Approve" disabled>
+                                                             </lightning-button>
+                                                         </div>
+                                                     </td>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title="Reject">
+
+                                                             <lightning-button class="btn_style" variant="brand"
+                                                                 label="Reject" title="Reject" disabled>
+                                                             </lightning-button>
+                                                         </div>
+                                                     </td>
+                                                 </template>
+                                             </template>
+                                         </template>
+                                     </template>
+                                     <!-- no shipping method required and items required approval neither approved or rejected,disable the input filed and button  -->
+                                     <template
+                                         if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.OrderDestination__r.ShipMethAppReq__c}>
+                                         <template
+                                             if:true={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemAppReq__c}>
+                                             <template
+                                                 if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemApproved__c}>
+                                                 <template
+                                                     if:false={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.ItemRejected__c}>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}>
+                                                             <div onkeydown={validateNumber}>
+                                                                 <lightning-input
+                                                                     value={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}
+                                                                     class="btn_width slds-align_absolute-center input_width"
+                                                                     maxlength="3" variant="label-hidden" disabled>
+                                                                 </lightning-input>
+                                                             </div>
+                                                         </div>
+                                                     </td>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title="Approve">
+
+                                                             <lightning-button class="btn_style" variant="brand"
+                                                                 label="Approve" title="Approve" disabled>
+                                                             </lightning-button>
+                                                         </div>
+                                                     </td>
+                                                     <td role="gridcell">
+                                                         <div class="slds-truncate item_type_content_style"
+                                                             title="Reject">
+
+                                                             <lightning-button class="btn_style" variant="brand"
+                                                                 label="Reject" title="Reject" disabled>
+                                                             </lightning-button>
+                                                         </div>
+                                                     </td>
+                                                 </template>
+                                             </template>
+                                         </template>
+                                     </template>
+                                     <!-- to disable the button if the value enetred exceed the ordered quantity -->
+                                     <template if:true={cometOrderItem.isdisableQuantity}>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style"
+                                                 title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}>
+                                                 <div onkeydown={validateNumber}>
+                                                     <lightning-input
+                                                         class="btn_width slds-align_absolute-center input_width"
+                                                         maxlength="3"
+                                                         value={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}
+                                                         onchange={validateQty} variant="label-hidden"
+                                                         data-id={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Id}
+                                                         name={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval}
+                                                         min="0">
+                                                     </lightning-input>
+                                                 </div>
+                                             </div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style" title="Approve">
+
+                                                 <lightning-button class="btn_style" variant="brand" label="Approve"
+                                                     title="Approve" disabled></lightning-button>
+                                             </div>
+                                         </td>
+                                         <td role="gridcell">
+                                             <div class="slds-truncate item_type_content_style" title="Reject">
+
+                                                 <lightning-button class="btn_style" variant="brand" label="Reject"
+                                                     title="Reject" disabled></lightning-button>
+                                             </div>
+                                         </td>
+                                     </template>
+                                     <!-- Enabled -->
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style"
+                                             title={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}>
+                                             <div onkeydown={validateNumber}>
+                                                 <lightning-input
+                                                     class="btn_width slds-align_absolute-center input_width"
+                                                     maxlength="3"
+                                                     value={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Quantity__c}
+                                                     onchange={validateQty} variant="label-hidden"
+                                                     data-id={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval.Id}
+                                                     name={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval}
+                                                     min="0">
+                                                 </lightning-input>
+                                             </div>
+                                         </div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style" title="Approve">
+                                             <lightning-button class="btn_style" variant="brand" label="Approve"
+                                                 title="Approve" onclick={approveMaxOrderQty}
+                                                 value={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval}>
+                                             </lightning-button>
+                                         </div>
+                                     </td>
+                                     <td role="gridcell">
+                                         <div class="slds-truncate item_type_content_style" title="Reject">
+                                             <lightning-button class="btn_style" variant="brand" label="Reject"
+                                                 title="Reject" onclick={rejectMaxOrderQty}
+                                                 value={cometOrderItem.cometOrderItemsForMaxOrdQtyApproval}>
+                                             </lightning-button>
+                                         </div>
+                                     </td>
+                                 </tr>
+                             </tbody>
+
+                         </table>
+                     </div>
+                 </template>
+             </template>
+         <!-- </div> -->
+     </div>
+
+     <br key={cometOrderDetails.Id}>
+ </template>
+
+
+
+</template>

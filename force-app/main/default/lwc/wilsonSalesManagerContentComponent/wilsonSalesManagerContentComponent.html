@@ -1,0 +1,43 @@
+<!-- Authors:Vanditha,Thanvi      Date:06-01-2021
+Aim : To display the contents on the site -->
+
+
+<template>
+    <template if:false={accountDetailsForWilsonDaniel}>
+    <!-- To navigate to home page -->
+    <template if:true={isHome}>
+        <c-wilson-home-component></c-wilson-home-component>
+    </template>
+
+    <!-- To navigate to Pos catalog page -->
+    <template if:true={isPosCatalog}>
+     <c-wilson-inventory-pos-catalog-component></c-wilson-inventory-pos-catalog-component>
+    </template>
+
+    <!-- To navigate to place order - pos item list page -->
+    <template if:true={isPosItemMenuPage}>
+       <c-wilson-pos-item-menu-component></c-wilson-pos-item-menu-component>
+    </template>
+
+    <!-- To navigate to shopping cart page -->
+    <template if:true={isShoppingCart}>
+        <c-wilson-shopping-cart-component></c-wilson-shopping-cart-component> 
+    </template>
+
+    <!--  To navigate to Preview  page -->
+    <template if:true={isPreviewOrder}>
+       <c-wilson-preview-order-component emerge-order-id={orderId}></c-wilson-preview-order-component>
+    </template>
+
+    <!-- To navigate to Order Status page -->
+    <template if:true={isOrderStatusPage}>
+        <c-wilson-order-status-component></c-wilson-order-status-component>
+    </template>
+
+    <!-- To navigate to  Address book page -->
+    <template if:true={isAddressBook}>
+        <c-wilson-manage-address-book-component></c-wilson-manage-address-book-component>
+    </template>
+    
+    </template>
+</template>

@@ -1,0 +1,122 @@
+<!--Author:Sanjana
+Date: 11-08-2021
+Aim: pop-up modal to view submitted ASN on click of "view details" icon -->
+
+<template>
+    <!-- invoke the method existingASNDetails -->
+   <template if:false={existingASNDetails}>
+   
+       <div class="slds-m-around_xx-large">
+           <!-- display the heading and close icon -->
+           <section role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                   <header class="slds-modal__header modal_header_style">
+                       <lightning-button-icon icon-name="utility:close" onclick={closeModal} variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                       <h2 id="modal-heading-01"
+                       class="slds-text-heading_medium slds-hyphenate slds-text-heading_small popUp_header">
+                       View Shipment Notice
+                   </h2>
+                      
+                   </header>
+                <!-- modal body starts here -->
+                   <div class="exampleHolder ">
+                       <div class="scrollable" id="viewASN">
+                           <div class="slds-modal__content modal_body_style " id="modal-content-id-1">
+                               <div class="slds-m-around_large modal_margin_style">
+                                   <div class="slds-grid slds-wrap ">
+                                  
+                                              
+                                               <div class="slds-col slds-size_6-of-12 slds-p-right_small">
+                                                   <!-- purchase order number -->
+                                                   <lightning-input name="purchaseOrderNumber" type="text" disabled="true" value={asnDetails.Purchase_Order_Number__c} label="Purchase Order Number"></lightning-input>
+                                                   <!-- expected date -->
+                                                   <lightning-input name="advanceShipmentNoticeExpectedDate" type="Date" disabled="true" value={asnDetails.Expected_Date__c} label="Expected Date"></lightning-input>
+                                                   <!-- carrier -->
+                                                   <lightning-input name="advanceShipmentNoticeCarrier" type="text" disabled="true" value={asnDetails.Carrier__c} label="Carrier"></lightning-input>
+                                                   <!-- vendor -->
+                                                   <lightning-input name="advanceShipmentNoticeVendor" type="text" disabled="true" value={asnDetails.Vendor__c} label="Vendor"></lightning-input>
+                                               </div>
+                                               <div class="slds-col slds-size_6-of-12 slds-p-left_small">
+                                                   <!-- tracking number -->
+                                                   <lightning-input name="trackingNumber" type="text" disabled="true" value={asnDetails.Tracking_Number__c} label="Tracking Number"></lightning-input>
+                                                   <!-- package count -->
+                                                   <lightning-input label="Package Count" type="number" disabled="true" name={packageCount} value={asnDetails.Package_Count__c}></lightning-input>
+                                                   <!-- pallet count -->
+                                                   <lightning-input name="palletCount" type="text" disabled="true" value={asnDetails.Pallet_Count__c} label="Pallet Count"></lightning-input>
+                                                   <!-- warehouse status -->
+                                                   <lightning-input name="warehouseStatus" type="text" disabled="true" value={asnDetails.Warehouse_Status__c} label="Warehouse Status"></lightning-input>
+                                               </div>
+                                               
+                                            
+                                   </div>
+       
+                               </div>
+                               <div class="scrollbar" id="viewASN1" style="height:11rem;">
+                                   <div style="width:90%;" class="slds-align_absolute-center modal_margin_style">
+                                       <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout" role="grid">
+                                           <thead>
+                                               <tr class="slds-line-height_reset">
+                                                   <!-- item name -->
+                                                   <th aria-label="Address" aria-sort="none" scope="col">
+                                                      
+                                                       <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                           <span class="slds-truncate" title="Address">Item Name</span>
+                                                       </div>
+                                                   </th>
+                                                   <!-- item number -->
+                                                   <th aria-label="Address" aria-sort="none" scope="col">
+                                                       <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                           <span class="slds-truncate" title="Address">Item Number</span>
+                                                       </div>
+                                                   </th>
+                                                   <!-- quantity -->
+                                                   <th aria-label="Address" aria-sort="none" scope="col">
+                                                       <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                           <span class="slds-truncate" title="Address">Quantity</span>
+                                                       </div>
+                                                   </th>
+                                               </tr>
+       
+       
+                                           </thead>
+                                           <tbody>
+                                               <template for:each={detailsToBeDisplayed} for:item="details">
+                                                   <tr class="table_Column" key={details.Id}>
+                                                         <!-- item name -->
+                                                       <td role="gridcell">
+                                                           <div class="slds-truncate" title={details.POS_Item__r.Item_Name__c}>{details.POS_Item__r.Item_Name__c}</div>
+                                                       </td>
+                                                         <!-- item number -->
+                                                       <td role="gridcell">
+                                                           <div class="slds-truncate" title={details.POS_Item__r.Item_No__c}>{details.POS_Item__r.Item_No__c}</div>
+                                                       </td>
+                                                         <!-- quantity -->
+                                                       <td role="gridcell">
+                                                           <div class="slds-truncate" title={details.Quantity__c}>{details.Quantity__c}</div>
+                                                       </td>
+                                                   </tr>
+                                               </template>
+                                           </tbody>
+                                       </table>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <footer class="slds-modal__footer modal_footer_style">
+                           <div class="slds-align_absolute-center">
+                               <!-- close modal button -->
+                               <div>
+                                   <lightning-button variant="brand" type="cancel" title="cancel" label="Cancel"
+                                       onclick={closeModal}></lightning-button>
+                               </div>                    </div>
+                       </footer>
+                   </div>
+               </div>
+           </section>
+       
+       </div>
+   </template>
+   
+   
+       
+   </template>

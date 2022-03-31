@@ -1,0 +1,108 @@
+<template>
+  <!-- Author : Vanditha and Vignesh Date:May 14 2020 
+        Aim : To display the Report of Users with no orders-->
+     <!-- to display the breadcrumbs -->
+     <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a>Home</a></li>
+             <li><a>Custom Report</a></li>
+            <li><a>Report Of Users With No Orders</a></li>
+        </ul>
+     </div>
+
+
+      <!-- to display the UI in card form -->
+         
+    <div class="slds-box">
+
+        <!-- To get the select field we use combobox in lwc -->
+              
+                    <label class="label_text">Select Program</label>
+                    <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" style ="font-size:small" dropdown-alignment="right"   name="orderStatus" placeholder="Select a Program" value={value}  options={programDetails} onchange={handleProgramChange}></lightning-combobox> 
+            
+     <!-- button to download the pdf -->
+              <template if:true={userReportWithNoOrderResult}>             
+               <a target="_self"  class="slds-button button_color slds-align_absolute-center"  download="userWithNoOrder.csv" href={hrefdata} onclick={exportToCSV}   style="margin-left: 61%; color:white;width: max-content;">Download Report</a>
+              
+             
+               
+               <lightning-input type="number"   class="slds-float_right" style="width: fit-content;
+               position: sticky; margin-top: -46px;"
+               label="Total Available Budget"
+               value={TotalAmount}
+               formatter="currency"
+               disabled>
+               </lightning-input>
+              </template>
+            
+    </div>
+   
+<br/>
+
+
+       <!-- to display the UI in card form -->
+<template if:true={userReportWithNoOrderResult}>
+<lightning-card>
+ <div class="table-responsive scroll-box">
+  
+<!-- tables -->
+   <table class="table-fixed">
+    
+       <thead >
+           <tr>
+               <th class="tableheader ">
+                   <div class="table_label ">Program Name</div>
+                 </th>
+                 <th class="tableheader ">
+                   <div class="table_label ">Designation Name</div>
+                 </th>
+                 <th class="tableheader ">
+                   <div class="table_labelCustom ">User</div>
+                 </th>
+                 <th class="tableheader ">
+                    <div class="table_labelCustom ">Order Status</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_labelCustom ">Budget Remaning</div>
+                  </th>
+         </tr>              
+       </thead>
+      
+        
+
+       <tbody>
+        <template for:each={userReportWithNoOrders.data} for:item="users">
+          <tr class="table_Column" key={users.Id} >  
+               <td title={users.programName}>{users.programName}</td> 
+               <td title={users.ChairName}>{users.ChairName}</td> 
+               <td title={users.ChairUserName}>{users.ChairUserName}</td> 
+               <td title={users.OrdStatus}>{users.OrdStatus}</td> 
+               <td>
+                 <lightning-input type="number" style="width: fit-content;
+                 position: sticky;"
+                 value={users.BudgetAvailable}
+                 formatter="currency"
+                 disabled>
+    </lightning-input>
+               </td>
+             </tr>
+        </template>
+           </tbody>
+     
+   </table>
+</div>
+
+</lightning-card>
+</template>
+
+
+<template if:false={programOrderId}>
+  <p class="fontData">Please select the program to continue</p>
+ </template> 
+  <!-- <template if:false={userReportWithNoOrderResult}>
+    <template if:true={programOrderId}>
+    <p class="fontData">The selected program does not have any orders</p>
+   </template> 
+</template> -->
+
+</template>

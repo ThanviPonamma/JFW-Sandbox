@@ -1,0 +1,14 @@
+<!-- Authors:Vanditha,Thanvi    Date:06-01-2021
+      Aim: The Parent component Address Book display the breadcrumbs and to call the child components to display the table -->
+      <template>
+        <!-- Breadcrumb with on click of home it will navigate to home page -->
+                <div class="breadcrumbContents">
+                    <ul class="breadcrumb">
+                        <li><a onclick={navigateToHomePage}>Home</a></li>
+                        <li><a>Manage Address Book</a></li>
+                    </ul>
+                 </div>
+        <br/>
+        <!-- This child component has the responsibility of displaying the address in the table -->
+       <c-wilson-manage-address-book-list-component ></c-wilson-manage-address-book-list-component>
+    </template>

@@ -1,0 +1,68 @@
+<!--Authors:Sanjana      Date:08-11-2021
+Aim : To display a table that holds preview order details.-->
+
+<template>
+    <!-- to show the preview order details in the card form -->
+  <div class="c-container">
+        <!-- class to mae table responsive and show the scroll bar -->
+      <div class="table-responsive scroll-box">
+          <!-- to display the preview order details only if the condition matches -->
+            <template if:false={cometOrders}>
+                <!--ti show the preview order in table format -->
+            <table class="table-fixed">
+                <!-- table header -->
+              <thead>
+                  <!-- to take table row -->
+                  <tr >
+                      <!-- table header -->
+                      <th class="tableheaderfirst ">Preview Item</th>
+                      <th class="tableheader ">Item Name</th>
+                      <th class="tableheader ">Item Number</th>
+                      <th class="tableheader ">Order Number</th>
+                      <th class="tableheader ">Ship To Company</th>
+                      <th class="tableheader ">Ship To Name</th>
+                      <th class="tableheader ">Address</th>
+                      <th class="tableheader tablewidth">City</th>
+                      <th class="tableheader tablewidth">State</th>
+                      <th class="tableheader ">Shipping Method</th>
+                      <th class="tableheader tablewidth">Selected Quantity</th>
+                      <th class="tableheader tablewidth">Pack Of</th>
+                  </tr>
+              </thead>
+
+              <!-- table body -->
+              <tbody>
+                  <!-- to get the each preview order list and bind it in the table -->
+                 <template for:each={allCometOrders} for:item="cometorder">
+                     <tr  class="table_Column" key={cometorder.Id}>
+                        <td>  
+                            <template if:true={cometorder.posItemAttachmentURL}>
+                            <div>                         
+                                <img style="height: 65px;" src={cometorder.posItemAttachmentURL}/>
+                            </div>
+                            </template>
+                            <template if:false={cometorder.posItemAttachmentURL}>
+                                <div>                          
+                                    <img style="height: 65px;" src={NoImageURL}/>
+                                </div>
+                            </template>
+                       </td>
+                      <td title={cometorder.OrderItems.POS_Item__r.Item_Name__c}>{cometorder.OrderItems.POS_Item__r.Item_Name__c}</td>
+                      <td title={cometorder.OrderItems.POS_Item__r.Item_No__c}>{cometorder.OrderItems.POS_Item__r.Item_No__c}</td>
+                      <td title={cometorder.OrderItems.OrderDestination__r.OrderName__c}>{cometorder.OrderItems.OrderDestination__r.OrderName__c}</td>
+                      <td title={cometorder.OrderItems.OrderDestination__r.AddressBook__r.Shipto_Company__c}>{cometorder.OrderItems.OrderDestination__r.AddressBook__r.Shipto_Company__c}</td>
+                      <td title={cometorder.OrderItems.OrderDestination__r.AddressBook__r.Shipto_Name__c}>{cometorder.OrderItems.OrderDestination__r.AddressBook__r.Shipto_Name__c}</td>
+                      <td title={cometorder.OrderItems.OrderDestination__r.AddressBook__r.Address__c}>{cometorder.OrderItems.OrderDestination__r.AddressBook__r.Address__c}</td>
+                      <td title={cometorder.OrderItems.OrderDestination__r.AddressBook__r.City__c}>{cometorder.OrderItems.OrderDestination__r.AddressBook__r.City__c}</td>
+                      <td title={cometorder.OrderItems.OrderDestination__r.AddressBook__r.State__r.State_Code__c}>{cometorder.OrderItems.OrderDestination__r.AddressBook__r.State__r.State_Code__c}</td>
+                      <td title={cometorder.OrderItems.OrderDestination__r.SelectedShippingMethod__r.Shipping_Method_Name__c}>{cometorder.OrderItems.OrderDestination__r.SelectedShippingMethod__r.Shipping_Method_Name__c}</td>
+                      <td title={cometorder.OrderItems.Quantity__c}>{cometorder.OrderItems.Quantity__c}</td>
+                      <td title={cometorder.OrderItems.POS_Item__r.Pack_Of__c}>{cometorder.OrderItems.POS_Item__r.Pack_Of__c}</td>
+                     </tr>
+                </template>
+                 </tbody>
+             </table>
+            </template>
+          </div>
+    </div>
+</template>

@@ -1,0 +1,19 @@
+<!-- Author:Sanjana
+Date: 13-08-2021
+Aim: This component is used to display breadcrumbs and call the child component-->
+
+
+<template>
+    <!-- Breadcrumb with on click of home it will navigate to home page -->
+            <div class="breadcrumbContents">
+                <!-- displaying breadcrumbs -->
+                <ul class="breadcrumb">
+                    <!-- navigates user to the home page on click event -->
+                    <li><a onclick={navigateToHomePage}>Home</a></li>
+                    <li><a>Manage Chair User</a></li>
+                </ul>
+             </div>
+    <br/>
+    <!-- invoking the child component that displays the brand list details -->
+<c-copper-manage-chair-user-list-component></c-copper-manage-chair-user-list-component>
+</template>

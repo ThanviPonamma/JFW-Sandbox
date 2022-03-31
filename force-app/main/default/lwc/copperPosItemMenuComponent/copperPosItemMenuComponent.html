@@ -1,0 +1,131 @@
+<!-- Author:Thanvi; Date:31/Aug2021
+Aim : To display breadcrubms , cart button and to invoke the child components copperPosItemMenuWithFiltersComponent and copperPosItemMenuAddOrRemoveItemsComponent -->
+
+<template>
+    <!-- to display the breadcrumbs -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Buy Book Ordering</a></li>
+            <li><a>Place Order</a></li>
+        </ul>
+    </div>
+    <br />
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_2-of-12">
+            <lightning-button label="Back to Program" icon-position="left" onclick={goToOpenProgramList} variant="Brand"></lightning-button>
+        </div>
+        <div class="slds-col slds-size_8-of-12">
+            <div class="slds_box_style">
+                <lightning-progress-indicator class="indicator_style" current-step="2" type="path"  variant="base">
+                    <lightning-progress-step label="Select Buy Book" value="1"></lightning-progress-step>
+                    <lightning-progress-step label="Add Items to Cart" value="2"></lightning-progress-step>
+                    <lightning-progress-step label="Add Address to Items" value="3"></lightning-progress-step>
+                    <lightning-progress-step label="Preview and Submit Order" value="4"></lightning-progress-step>
+                </lightning-progress-indicator>
+            </div>
+        </div>
+        <div class="slds-col slds-size_2-of-12">
+                <!-- to display the cart size to the users -->
+                <template if:false={isDisableViewCart}>
+                    <button class="slds-button slds-button_brand slds-float_right"
+                        onclick={navigateToShoppingCartComponent} title="View Cart">
+                        View Cart({viewCartSize})
+                    </button>
+        
+                </template>
+        
+                <!-- The "isDisableViewCart" is an boolean variable to disble the view cart button if the order addedto cart is 0 -->
+                <template if:true={isDisableViewCart}>
+                    <button class="slds-button slds-button_brand slds-float_right viewcart_disabled_button_style"
+                        title="View Cart" disabled>
+                        View Cart
+                    </button>
+        
+                </template>
+        </div>
+        
+    </div><br/>
+    <!-- BUY BOOK BUDGET DETAILS -->
+    <div class="slds-box box_background_style" style="background-color: #d0cece;padding:20px;">
+        <div class="slds-align_absolute-center">
+                <h3>{selectedBuyBookDetail.Program__r.Name__c}</h3>
+            </div>
+        </div>
+    <!-- <div class="slds-box box_background_style" style="background-color: #d0cece;padding:0;">
+        <div class="slds-align_absolute-center">
+            <div class="program_header_style">
+                <h3>{selectedBuyBookDetail.Program__r.Name__c}</h3>
+            </div>
+        </div>
+        <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+            <lightning-layout-item class="slds-p-left_small" flexibility="grow" size="4">
+                <p class="budget_header_style">
+                    Allocated Budget
+                </p>
+                <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                    <lightning-layout-item>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <span>
+                            <lightning-formatted-number value={selectedBuyBookDetail.Allocated_Budget__c}
+                                format-style="currency" currency-code="USD">
+                            </lightning-formatted-number>
+                        </span>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="grow" class="slds-p-left_xx-small" size="4">
+                <p class="budget_header_style">
+                    Utilized Budget
+                </p>
+                <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                    <lightning-layout-item>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <span>
+
+                            <lightning-formatted-number value={selectedBuyBookDetail.Consumed_Budget__c}
+                                format-style="currency" currency-code="USD">
+                            </lightning-formatted-number>
+                        </span>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="grow" class="slds-p-right_small slds-p-left_xx-small" size="4">
+                <p class="budget_header_style">
+                    Available Budget
+                </p>
+                <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                    <lightning-layout-item>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <span> -->
+                            <!-- <ui:outputCurrency value="{!v.programChairBudgetDetails.program_chairBudget.Available_Budget__c-v.programChairBudgetDetails.program_chairBudget.Consumed_Budget__c}"/> -->
+                            <!-- <lightning-formatted-number value={availabeBudget} format-style="currency"
+                                currency-code="USD">
+                            </lightning-formatted-number>
+                        </span>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div><br /> -->
+    <!-- To call the child components to parent -->
+
+    <!-- To call the child component that holds all the filter conditions -->
+    <!-- And the custom event is sent from the child component to the parent component to get brandId,ItemTypeId,SortById -->
+    <c-copper-pos-item-menu-with-filters-component onselectbrandevent={brandIdEvent}
+        onselectitemtypeevent={itemTypeIdEvent} buy-book-id={buyBookId} onselectsortbyevent={getSortbyIdEvent}
+        onsendsearchdatatoparent={searchEventHandler} onviewitemevent={viewItemEvent}
+        addallitemevent={addAllBuyBookItemEventHandler}></c-copper-pos-item-menu-with-filters-component>
+
+    <!-- To call the child component to display the pos items with add/remove button  -->
+    <!-- And the child components can receive the data from the parent component when the component is called  -->
+    <c-copper-pos-item-menu-add-or-remove-items-component get-brand-id={brandId} get-item-type-id={itemTypeId}
+        buy-book-id={buyBookId} get-sort-by={sortByValue} oncartitemsize={cartItemSizeEvent}
+        get-search-value={searchValue} is-list-view={isListView}>
+    </c-copper-pos-item-menu-add-or-remove-items-component>
+
+</template>

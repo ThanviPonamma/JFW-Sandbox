@@ -1,0 +1,92 @@
+.combobox {
+    width: fit-content;
+    text-align: left;
+    font-size: medium;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+
+.table_Column {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    height: 55px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+
+    /* Safari only override */
+    .header_th_style {
+        color: #808080;
+        background-color: #231F20;
+        font-weight: 500;
+        position: sticky !important;
+        top: 0;
+        height: 40px;
+        z-index: 99;
+        font-weight: 600 !important;
+    }
+}
+
+
+.td_content_style {
+    font-size: 13px;
+    font-weight: 600;
+    color: black;
+    white-space: normal;
+    width: 112px;
+}
+
+.slds-table thead th {
+    width: 10%;
+}
+
+.scroll-box {
+    width: 100%;
+    height: 450px;
+    overflow-y: auto;
+}
+
+.scroll-box::-webkit-scrollbar {
+    width: .4em;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+    overflow: visible;
+    border-radius: 4px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+    background: #a26a37;
+}
+
+.table_header_style {
+    background-color: white;
+    position: sticky !important;
+    color: black;
+    top: 0;
+}
+
+.header_th_style {
+    color: #808080;
+    background-color: #231F20;
+    font-weight: 500;
+    position: sticky !important;
+    top: 0;
+    z-index: 99;
+    font-weight: 600 !important;
+}
+
+
+.toggle_Style {
+    margin-top: 10px;
+}
+
+.slds-icon_container {
+    padding-left: 7px;
+}
+
+.message_text {
+    text-align: center;
+    color: #a26a37;
+    font-size: 16px
+}

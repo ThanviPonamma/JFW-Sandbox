@@ -1,0 +1,18 @@
+.popUp_header {
+    margin-top: -6px;
+    margin-bottom: -9px;
+  
+  }
+  
+@media (min-width: 48em){
+.slds-modal_medium .slds-modal__container {
+    width: 0%;
+    max-width: 75rem;
+    min-width: 30rem;
+}
+}
+
+.popUpHeader {
+    background-color: #a26a37;
+    color: white;
+  }

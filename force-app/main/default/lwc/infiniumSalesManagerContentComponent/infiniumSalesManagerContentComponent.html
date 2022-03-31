@@ -1,0 +1,64 @@
+<!-- Author : Thanvi: Date :06/Aug/2021
+Aim : To display the contents on the site -->
+
+
+<template>
+    <template if:false={accountDetailsForInfinium}>
+        <!-- To navigate to home page -->
+        <template if:true={isHome}>
+            <c-infinium-home-component></c-infinium-home-component>
+        </template>
+        <!-- To navigate to  Address book page -->
+        <template if:true={isAddressBook}>
+            <c-infinium-manage-address-book-component></c-infinium-manage-address-book-component>
+        </template>
+        <!-- To navigate to Manage Playbook-->
+        <template if:true={isManagePlaybook}>
+            <c-infinium-program-playbook-component></c-infinium-program-playbook-component>
+        </template>
+        <!-- To navigate to Open Buy Book List-->
+        <template if:true={isOpenProgramList}>
+            <c-infinium-open-program-component></c-infinium-open-program-component>
+        </template>
+        <!-- To navigate to Add/remove POS Items for a Buy book-->
+        <template if:true={isProgramPOSItemToCart}>
+            <c-infinium-pos-item-menu-component selected-program-detail={selectedProgramDetail}
+                program-id={selectedProgramId}></c-infinium-pos-item-menu-component>
+        </template>
+        <!-- To navigate to shopping cart for a Buy book-->
+        <template if:true={isProgramShoppingCart}>
+            <c-infinium-shopping-cart-component selected-program-detail={selectedProgramDetail}
+                program-id={selectedProgramId}></c-infinium-shopping-cart-component>
+        </template>
+        <!--  To navigate to Preview  page -->
+        <template if:true={isPreviewOrder}>
+            <c-infinium-preview-order-component emerge-order-id={orderId} program-id={selectedProgramId}>
+            </c-infinium-preview-order-component>
+        </template>
+        <!-- To navigate to Order Status page -->
+        <template if:true={isOrderStatus}>
+            <c-infinium-order-status-component></c-infinium-order-status-component>
+        </template>
+        <template if:true={isInventoryOrderStatus}>
+            <c-infinium-inventory-order-status-component></c-infinium-inventory-order-status-component>
+        </template>
+
+        <template if:true={isInventoryShoppingCart}>
+            <c-infinium-inventory-shopping-cart-component></c-infinium-inventory-shopping-cart-component>
+        </template>
+        <template if:true={isInventoryPreviewOrder}>
+            <c-infinium-inventory-preview-order-component emerge-order-id={inventoryOrderId}>
+            </c-infinium-inventory-preview-order-component>
+        </template>
+
+        <!-- To navigate to place order - pos item list page -->
+        <template if:true={isInventoryisPosItemMenuPage}>
+            <c-infinium-inventory-pos-item-menu-component></c-infinium-inventory-pos-item-menu-component>
+        </template>
+        <!-- to navigate to pos catalog component -->
+        <template if:true={isPosCatalog}>
+            <c-infinium-inventory-pos-catalog-component></c-infinium-inventory-pos-catalog-component>
+        </template>
+
+    </template>
+</template>

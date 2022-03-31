@@ -1,0 +1,47 @@
+<!-- Authors:Vanditha,Thanvi      Date:08-01-2021-->
+<!-- Aim: To hold the bread crumb and the c-wilson-manage-approvals-order-details child component  -->
+<template>
+    <!-- Breadcrumb with on click of home will navigate to home page -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Manage Approvals</a></li>
+        </ul>
+    </div>
+    <br />
+    <!--This conditions is meant to check if the comet order item has data  -->
+    <template if:true={cometOrderApprovalList}>
+        <p></p>
+    </template>
+    <!--This conditions is meant to check if the shipping method has the data  -->
+    <template if:true={shippingMethod}>
+        <p></p>
+    </template>
+    <!-- Spinner -->
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+            </lightning-spinner>
+        </template>
+    </div>
+    <!-- The child component is opened only this condition matches -->
+    <template if:true={isCometOrders}>
+        <template if:true={approvalItemsFound}>
+        <template if:true={isShippingMethod}>
+            <!-- The child component is called to display the table -->
+            <c-wilson-manage-approvals-order-details comet-order-from-parent={cometOrders}
+                shipping-method-from-parent={shippingMethodList} onrefreshorderapproval={refreshApprovalOrderList}>
+            </c-wilson-manage-approvals-order-details>
+        </template>
+    </template>
+    </template>
+
+    <!-- Error message if no approval orders are found -->
+    <template if:false={approvalItemsFound}>
+        <lightning-card class="error_message">
+            <p>No orders found for the Approval</p>
+        </lightning-card>
+        <br/><br/><br/><br/><br/>
+    </template>
+    
+</template>

@@ -1,0 +1,274 @@
+<!-- Authorss: TP,SN,VM,SN
+Date: 07-10-2020
+Aim: This is the child component that displays all the pos items in the cart -->
+
+<template>
+    <!-- To display the shopping cart page-->
+    <template if:false={cartItemDetails}>
+        <!-- lightning card to hold 'add same address for all' button and 'preview order button'-->
+        <lightning-card>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_4-of-12">
+
+                </div>
+                <div class="slds-col slds-size_7-of-12">
+                    <!-- to enable the button only if the pos item details is present -->
+                    <template if:true={isAddressAvailableForDisplay}>
+                        <!-- the lightning button to add same address to all the items -->
+                        <lightning-button class="slds-m-left_x-small  addAddress_button_style" value={cartItem}
+                            onclick={addSameAddressForAllItems} title="Add Same Address For All Items"
+                            label="Add Same Address For All Items" variant="brand"> </lightning-button>
+                    </template>
+                    <!-- to disable the button if no pos item details is present -->
+                    <template if:false={isAddressAvailableForDisplay}>
+                        <!-- lightning button to be disabled if no pos items are present in the cart -->
+                        <lightning-button class="slds-m-left_x-small  addAddress_button_style" value={cartItem}
+                            onclick={addSameAddressForAllItems} title="Add Same Address For All Items"
+                            label="Add Same Address For All Items" variant="brand" disabled> </lightning-button>
+                    </template>
+                </div>
+                <div class="slds-col slds-size_1-of-12">
+                    <!-- If the quantity is less than or equal to 0 and quantity not exceded, disable preview button-->
+                    <template if:true={disablePreview}>
+                        <!-- lightning button for preview page -->
+                        <lightning-button class="slds-m-left_x-small  slds-float_right preview_button_style" disabled
+                            title="Preview" label="Preview" variant="brand"> </lightning-button>
+                    </template>
+
+                    <!--If the quantity greater than 0 and quantity does not exceded, enable preview   -->
+                    <template if:false={disablePreview}>
+                        <!-- lightning button for preview page -->
+                        <lightning-button class="slds-m-left_x-small  slds-float_right preview_button_style"
+                            value={cartItem} onclick={openPreviewPage} title="Preview" label="Preview" variant="brand">
+                        </lightning-button>
+                    </template>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+        </lightning-card>
+        <br />
+
+        <!-- lightning card for the pos item table -->
+        <lightning-card>
+            <!-- if the pos item has data only then table to be enabled -->
+            <template if:true={isAddressAvailableForDisplay}>
+                <!-- to add scroll bar for the table -->
+                <div class="table-responsive scroll-box">
+                    <!-- table tag  -->
+                    <table class="table-fixed">
+                        <!-- table header tag to hold the table header data -->
+                        <thead>
+                            <!-- table row -->
+                            <tr>
+                                <!--  -->
+                                <th class="tableheader table_width">Preview POS Item</th>
+                                <th class="tableheader item_description_style">Item Description</th>
+                                <th class="tableheader " style="width: 32%;">Shipping Address Details</th>
+                                <th class="tableheader " style="text-align:center;">Total Quantity</th>
+                                <th class="tableheader " style="text-align:center;">Remove</th>
+                            </tr>
+                        </thead>
+
+                        <!-- table body -->
+                        <tbody>
+                            <!-- template for each to get the all the pos item data and bind it will all th variable -->
+                            <template for:each={cartItemsToBeDisplayed.data} for:item="cartItem">
+                                <tr key={cartItem.Id} class="table_Column">
+
+                                    <!-- to get the pos item image -->
+                                    <template if:true={cartItem.posItemImageAttachmentUrl}>
+                                        <td class="table_width">
+                                            <img style="height: 130px; width:70%"
+                                                src={cartItem.posItemImageAttachmentUrl} />
+                                        </td>
+                                    </template>
+
+                                    <!-- to add no image of pos item image doesnt have an image -->
+                                    <template if:false={cartItem.posItemImageAttachmentUrl}>
+                                        <td class="table_width">
+                                            <img style="height: 130px; width:70%" src={jfwNoImage} />
+                                        </td>
+                                    </template>
+
+                                    <!-- Pos item details as follows -->
+                                    <td>
+                                        <div class="slds-p-left_small slds-text-body_small">
+                                            <b>Item Number : {cartItem.posItem.Item_No__c}</b><br />
+                                            <b>Brand Name : {cartItem.posItem.Brand__r.Brand_Name__c}</b><br />
+                                            <b> Item Type : {cartItem.posItem.Type_of_Item__r.Item_Type__c}</b><br />
+                                            <b> Pack Of : {cartItem.posItem.Pack_Of__c}</b><br />
+                                            <b>Price : ${cartItem.posItem.Price__c}</b><br />
+                                            <template if:true={cartItem.posItem.Approval_Required__c}>
+                                                <b>Approval Required : YES</b><br /></template>
+                                            <template if:false={cartItem.posItem.Approval_Required__c}>
+                                                <b>Approval Required : NO</b><br /></template>
+                                            <b>Available Stock : {cartItem.posItem.Logical_Invenory_Stock__c} </b><br />
+                                            <template if:true={cartItem.posItem.Maximum_Order_Qty__c}>
+                                                <b>Maximum Order Quantity
+                                                    : {cartItem.posItem.Maximum_Order_Qty__c}</b><br /></template>
+                                            <template if:false={cartItem.posItem.Maximum_Order_Qty__c}>
+                                                <b>Maximum Order Quantity : N/A </b><br /></template>
+                                            <!--Authorss: Sanjana & Thanvi Date:04/01/2021 CR no:  JFW-28-Dec-03-->
+                                            <template if:true={cartItem.posItem.Approval_Required__c}>
+                                                <b style="color: #d12424;font-size:12px">
+                                                    This item requires approval. This order will be submitted for
+                                                    approval.</b>
+                                            </template>
+                                        </div>
+                                    </td>
+
+                                    <!-- to add the error message if the quntity order exceeds avaible stock -->
+                                    <td>
+                                        <template if:true={cartItem.isAvailableQuantityExceeded}>
+                                            <b class="error_message_for_exceed">The ordered quantity for this item
+                                                exceeds Available Stock.</b>
+                                        </template>
+
+                                        <!-- to hold selected address destination name along with input filed to hold quantity -->
+                                        <lightning-card>
+                                            <table class="table-fixed">
+                                                <tbody>
+                                                    <template for:each={cartItem.selectedAddressWithQtyDetails}
+                                                        for:item="shippingAddress">
+                                                        <tr key={shippingAddress.id}>
+                                                            <!-- Authors: Thanvi & Vanditha Date: 11-01-2021
+                                                              CR No : JFW-11-Jan-07 
+                                                            The below code is commented and rewritten to add the state code instead of state name -->
+                                                            <td>
+                                                                <!-- {shippingAddress.selectedAddress.Destination_Name__c} -
+                                                                {shippingAddress.selectedAddress.Shipto_Name__c} -
+                                                                {shippingAddress.selectedAddress.State__r.State_Name__c} -->
+                                                                <!-- Authors: Thanvi & Vanditha Date: 13-01-2021 CR no: JFW-13-Jan-10 
+                                                                 The below line is comented and rewritten to meet the requirements of the CR-->
+                                                                <!--{shippingAddress.selectedAddress.Destination_Name__c} -
+                                                                {shippingAddress.selectedAddress.Shipto_Name__c} -
+                                                                {shippingAddress.selectedAddress.State__r.State_Code__c}-->
+                                                                <div style="margin-right: 15px;">
+                                                                    {shippingAddress.selectedAddress.Shipto_Name__c},
+                                                                    {shippingAddress.selectedAddress.Shipto_Company__c},
+                                                                    {shippingAddress.selectedAddress.Address__c},
+                                                                    {shippingAddress.selectedAddress.City__c},
+                                                                    {shippingAddress.selectedAddress.State__r.State_Code__c}
+                                                                </div>
+                                                                <br />
+                                                                <!-- Authors: Sanjana,Thanvi Date: 05/10/2020 CR No: JFW-28-Dec-03
+                                                                The below line is added to display the Alert message on exceeding the max order qty-->
+                                                                <!-- <template
+                                                                    if:true={shippingAddress.isMaxOrderQtyExceeded}>
+                                                                    <b style="color: #d12424;font-size:12px">
+                                                                    The ordered quantity exceeds the maximum quantity limit.  This order will be submitted for approval.
+                                                                    </b>
+                                                                </template> -->
+                                                                <!-- Authors: Vanditha,Thanvi Date: 12/1/2021 CR No: JFW-12-Jan-09 
+                                                                The below line is added to display the Alert message on exceeding the max order qty-->
+                                                                <template
+                                                                    if:true={shippingAddress.isMaxOrderQtyExceeded}>
+                                                                    <b style="color: #d12424;font-size:12px">The ordered
+                                                                        quantity exceeds the maximum quantity limit.
+                                                                        This order will be submitted for approval.
+                                                                        Please check order status.</b>
+                                                                </template>
+                                                            </td>
+                                                            <td>
+                                                                <!-- Authors: Sanjana,Thanvi Date: 05/10/2020 CR No: JFW-28-Dec-03
+                                                            *The below tag is commented to meet the requirements of the CR
+                                                            <div onkeydown={validateNumber}>
+                                                                <lightning-input type="number"
+                                                                   class="quantity_field"
+                                                                    max-length="3" value={shippingAddress.quantity}
+                                                                    onchange={updateQuantity} name={cartItem}
+                                                                    data-id={shippingAddress.selectedAddress.Id}
+                                                                    data-pos={cartItem.posItem.Id}
+                                                                    data-order={cartItem.orderId} formatter="number">
+                                                                </lightning-input>
+                                                            
+                                                            </div> -->
+                                                                <!-- Authors: Thanvi, sanjana Date: 05/10/2020 CR No: JFW-28-Dec-03-->
+                                                                <!-- To enable the quantity input field -->
+                                                                <template if:true={shippingAddress.isQuantityEditable}>
+                                                                    <div onkeydown={validateNumber}>
+                                                                        <lightning-input type="number"
+                                                                            class="quantity_field" max-length="4"
+                                                                            value={shippingAddress.quantity}
+                                                                            onchange={updateQuantity} name={cartItem}
+                                                                            data-id={shippingAddress.selectedAddress.Id}
+                                                                            data-pos={cartItem.posItem.Id}
+                                                                            data-order={cartItem.orderId}
+                                                                            formatter="number">
+                                                                        </lightning-input>
+                                                                    </div>
+                                                                </template>
+                                                                <br />
+                                                                <!-- To disable the quantity input field -->
+                                                                <template if:false={shippingAddress.isQuantityEditable}>
+                                                                    <div onkeydown={validateNumber}>
+                                                                        <lightning-input type="number"
+                                                                            class="quantity_field"
+                                                                            value={shippingAddress.quantity} disabled>
+                                                                        </lightning-input>
+
+                                                                    </div>
+                                                                </template>
+                                                                <br />
+                                                            </td>
+
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </lightning-card>
+
+                                        <div>
+
+                                            <!-- lightning button -->
+                                            <lightning-button style="width:34%" class="slds-m-left_x-small"
+                                                value={cartItem} onclick={openShippingAddressModal}
+                                                title="Shipping Address" label="Shipping Address" variant="brand">
+                                            </lightning-button>
+                                        </div>
+                                        <br />
+
+                                    </td>
+
+                                    <!-- input field to calculate the total quntity and its disabled -->
+                                    <td>
+                                        <lightning-input type="number" class="slds-align_absolute-center totalQuantity_field_style"  formatter="number" value={cartItem.totalQuantityFromAllAddresses} disabled>
+                                        </lightning-input>
+                                    </td>
+                                    <td>
+                                        <!-- lightning button to remove the pos item details -->
+                                        <lightning-button-icon icon-name="utility:delete"
+                                            class="slds-align_absolute-center" size="small" onclick={deleteItem}
+                                            value={cartItem} name={cartItem} detail={cartItem}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+            <!-- if no data found show the error message -->
+            <template if:false={isAddressAvailableForDisplay}>
+                <b class="slds-align_absolute-center" style="font-size:18px">No items in cart</b>
+            </template>
+        </lightning-card>
+    </template>
+
+    <!-- to invoke shopping cart address modal component -->
+    <template if:true={isModalOpen}>
+        <c-jfw-shopping-cart-address-modal-component shipping-method-list-data={shippingMethodListToDisplay}
+            onclosemodal={closeModal} is-add-all-addresses={isAddAllAddresses} pos-items-list-in-cart={cartItems}
+            particular-pos-item-details={posCartItemDetails} selected-address-for-pos-items={selectedAddressForPosItems}
+            shipping-method-list-to-display={shippingMethodListToDisplay} user={user}>
+        </c-jfw-shopping-cart-address-modal-component>
+    </template>
+
+</template>

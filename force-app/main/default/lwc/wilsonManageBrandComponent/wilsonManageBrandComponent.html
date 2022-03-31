@@ -1,0 +1,19 @@
+<!-- Authors:Vanditha,Thanvi
+Date:05-01-2021
+Aim: This is a parent component that is responsible for displaying breadcrumbs and to call the child component wilsonManageBrandListComponent -->
+
+
+<template>
+    <!-- Breadcrumb with on click of home it will navigate to home page -->
+            <div class="breadcrumbContents">
+                <!-- displaying breadcrumbs -->
+                <ul class="breadcrumb">
+                    <!-- navigates user to the home page on click event -->
+                    <li><a onclick={navigateToHomePage}>Home</a></li>
+                    <li><a>Manage Brand</a></li>
+                </ul>
+             </div>
+    <br/>
+    <!-- invoking the child component that displays the brand list details -->
+<c-wilson-manage-brand-list-component></c-wilson-manage-brand-list-component>
+</template>

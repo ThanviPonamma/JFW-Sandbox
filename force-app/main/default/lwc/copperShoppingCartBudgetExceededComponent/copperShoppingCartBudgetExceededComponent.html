@@ -1,0 +1,50 @@
+<template>
+    <!-- <template if:true={isBudgetExceeded}> -->
+        <!-- To obtain result and display the data to the pop-up modal  -->
+        <!-- <template if:false={userAddressBookData}> -->
+          <!-- lightning card for the  popup modal -->
+          <lightning-card>
+            <div class="slds-m-around_medium">
+              <!-- modal section  -->
+              <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+                <!-- modal container -->
+                <div class="slds-modal__container">
+                  <!-- Box LWC header here -->
+                  <!-- To display the modal heading in the header -->
+                  <header class="slds-modal__header popUpHeader">
+                    <!-- the close button icon on click of which the button closes -->
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close" onclick={closeModal} variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+    
+                      <h3 class="slds-text-heading_medium slds-hyphenate popUp_header">Order Exceeds The Budget</h3>
+                  </header>
+    
+    
+                  <!-- Modal Body -->
+                  <div class="slds-modal__content modal_body_style" id="modal-content-id-1">
+                    <div class="slds-m-around_large">
+                        <div class="slds-align_absolute-center">
+                            <span>
+                                    The order exceeds the available budget ,click on edit order to edit your order.
+                                </span>
+                        </div>
+                    </div>
+                </div>
+    
+                  <!-- PopUp Footer -->
+                  <footer class="slds-modal__footer modal_footer_style">
+                    <!-- To get the footer button att center we use the slds class -->
+                    <div class="slds-align_absolute-center ">
+                      <!-- On click fo cancel button the popup is closed and no changes will be saved -->
+                      <lightning-button variant="brand" type="cancel" title="Edit Order" label="Edit Order" onclick={closeModal}>
+                      </lightning-button>
+                    </div>
+                  </footer>
+                  <!-- PopUp Footer Ends -->
+                </div>
+              </section>
+            </div>
+          </lightning-card>
+        <!-- </template> -->
+      <!-- </template> -->
+</template>

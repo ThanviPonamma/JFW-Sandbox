@@ -1,0 +1,134 @@
+.page_section_style {
+    border: solid 1px #93011B;
+    ;
+    padding: 1rem;
+}
+
+.page_right_style {
+    background: white;
+    height: 500px;
+    ;
+    width: auto;
+}
+
+.page_right_style_view {
+    background: white;
+    height: 240px;
+    width: auto;
+}
+
+.item_text_style {
+    font-weight: 700;
+    font-size: small;
+}
+
+.pagination_index_no_padding_style {
+    padding: 2px;
+    margin: 12px;
+}
+
+.bg_color {
+    background-color: #534133 !important;
+    width: 100% !important;
+    border-color: #534133 !important;
+    color: white;
+    border-style: none;
+    padding: 7px;
+    border-radius: 4px;
+    font-weight: 500px;
+
+}
+
+.on_hover_card_style {
+    border: 1px solid black;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Transition to a bigger shadow on hover */
+.on_hover_card_style:hover {
+    box-shadow: 0 5px 10px #534133;
+}
+
+.on_hover_card_style:hover::after {
+    opacity: 1;
+}
+
+.tooltip_style {
+    display: inline-block;
+    font-weight: 700;
+    font-size: small;
+}
+
+.tooltip_style .tooltip_style_text {
+    visibility: hidden;
+    width: 300px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 9;
+    margin-left: -16px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: normal;
+    margin-top: -120px;
+}
+
+/* for description */
+.tooltip_style:hover .tooltip_style_text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* pagination */
+
+.pagination_index_no_padding_style {
+    padding: 2px;
+    /* width: 259px; */
+}
+
+.pagination_background_style {
+    background-color: #d0cece;
+    color: black;
+}
+
+.pagination_background_style_left {
+    margin-right: 5px;
+    background-color: #d0cece;
+    color: black;
+}
+
+.pagination_background_style_right {
+    margin-left: 26px;
+    background-color: #d0cece;
+    color: black;
+}
+
+.number_button_style {
+    padding-left: 18px;
+}
+
+.pagination_last {
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+
+.btn {
+    background-color: #008000 !important;
+    width: 100% !important;
+    border-color: #008000 !important;
+    color: white;
+    border-style: none;
+    padding: 7px;
+    border-radius: 4px;
+    font-weight: 500px;
+}
+
+.icon_style svg {
+    fill: white;
+    background-color: white;
+}

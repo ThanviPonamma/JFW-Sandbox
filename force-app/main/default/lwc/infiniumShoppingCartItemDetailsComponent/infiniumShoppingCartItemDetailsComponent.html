@@ -1,0 +1,190 @@
+<!--  Author:Thanvi;Date:20-SEP-2021
+Aim: This is the child component that displays all the pos items in the cart -->
+
+<template>
+    <!-- To display the shopping cart page-->
+    <template if:false={cartItemDetails}>
+        <!-- lightning card to hold 'add same address for all' button and 'total order amount'-->
+        <lightning-card>
+            <lightning-layout vertical-align="end" multiple-rows="true">
+                <lightning-layout-item size="2" flexibility="grow"></lightning-layout-item>
+                <lightning-layout-item size="8" flexibility="grow">
+                    <template if:true={isAddressAvailableForDisplay}>
+                        <!-- the lightning button to add same address to all the items -->
+                        <lightning-button class="slds-align_absolute-center addAddress_button_style" value={cartItem}
+                            onclick={addSameAddressForAllItems} title="Add Same Address For All Items"
+                            label="Add Same Address For All Items" variant="brand"> </lightning-button>
+                    </template>
+                    <!-- to disable the button if no pos item details is present -->
+                    <template if:false={isAddressAvailableForDisplay}>
+                        <!-- lightning button to be disabled if no pos items are present in the cart -->
+                        <lightning-button class="slds-align_absolute-center addAddress_button_style" value={cartItem}
+                            onclick={addSameAddressForAllItems} title="Add Same Address For All Items"
+                            label="Add Same Address For All Items" variant="brand" disabled> </lightning-button>
+                    </template>
+
+                </lightning-layout-item>
+                <lightning-layout-item size="2" flexibility="grow" class="slds-align_absolute-center">
+                    <span>Total Order Amount:
+                        <div class="slds-border_top slds-border_right slds-border_bottom slds-border_left display_currency_style"  style="width:100%">
+                            <lightning-formatted-number  value={totalPrice} format-style="currency" currency-code="USD">
+                            </lightning-formatted-number>
+                        </div>
+                        </span>
+
+                </lightning-layout-item>
+
+            </lightning-layout>
+
+        </lightning-card>
+        <br/>
+
+        <!-- lightning card for the pos item table -->
+        <lightning-card>
+            <!-- if the pos item has data only then table to be enabled -->
+            <template if:true={isAddressAvailableForDisplay}>
+                <!-- to add scroll bar for the table -->
+                <div class="table-responsive scroll-box">
+                    <!-- table tag  -->
+                    <table class="table-fixed">
+                        <!-- table header tag to hold the table header data -->
+                        <thead>
+                            <!-- table row -->
+                            <tr>
+                                <th class="tableheader table_width">Preview POS Item</th>
+                                <th class="tableheader item_description_style">Item Description</th>
+                                <th class="tableheader " style="width: 32%;">Shipping Address Details</th>
+                                <th class="tableheader " style="text-align:center;">Total Quantity</th>
+                                <th class="tableheader " style="text-align:center;">Remove</th>
+                            </tr>
+                        </thead>
+
+                        <!-- table body -->
+                        <tbody>
+                            <!-- template for each to get the all the pos item data and bind it will all th variable -->
+                            <template for:each={cartItemsToBeDisplayed.data} for:item="cartItem">
+                                <tr key={cartItem.Id} class="table_Column">
+
+                                    <!-- to get the pos item image -->
+                                    <template if:true={cartItem.posItemImageAttachmentUrl}>
+                                        <td class="table_width">
+                                            <img class="image_style" src={cartItem.posItemImageAttachmentUrl} />
+                                        </td>
+                                    </template>
+                                    <!-- to add no image of pos item image doesnt have an image -->
+                                    <template if:false={cartItem.posItemImageAttachmentUrl}>
+                                        <td class="table_width">
+                                            <img class="image_style" src={infiniumNoImage} />
+                                        </td>
+                                    </template>
+                                    <!-- Pos item details as follows -->
+                                    <td>
+                                        <div class="slds-p-left_small slds-text-body_small">
+                                            <b>Item Number : {cartItem.posItem.Item_No__c}</b><br />
+                                            <b>Brand Name : {cartItem.posItem.Brand__r.Brand_Name__c}</b><br />
+                                            <b> Item Type : {cartItem.posItem.Type_of_Item__r.Item_Type__c}</b><br />
+                                            <b> Pack Of : {cartItem.posItem.Pack_Of__c}</b><br />
+                                            <b>Price : ${cartItem.posItem.Price__c}</b><br />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <!-- to hold selected address destination name along with input filed to hold quantity -->
+                                        <lightning-card>
+                                            <table class="table-fixed">
+                                                <tbody>
+                                                    <template for:each={cartItem.selectedAddressWithQtyDetails}
+                                                        for:item="shippingAddress">
+                                                        <tr key={shippingAddress.id}>
+
+                                                            <td>
+                                                                <div style="margin-right: 15px;">
+                                                                    {shippingAddress.selectedAddress.Shipto_Name__c},
+                                                                    {shippingAddress.selectedAddress.Shipto_Company__c},
+                                                                    {shippingAddress.selectedAddress.Address__c},
+                                                                    {shippingAddress.selectedAddress.City__c},
+                                                                    {shippingAddress.selectedAddress.State__r.State_Code__c}
+                                                                </div>
+                                                                <br />
+
+                                                            </td>
+                                                            <td>
+
+
+                                                                <!-- To enable the quantity input field -->
+                                                                <template if:true={shippingAddress.isQuantityEditable}>
+                                                                    <div onkeydown={validateNumber}>
+                                                                        <lightning-input type="number"
+                                                                            class="quantity_field" max-length="3"
+                                                                            value={shippingAddress.quantity}
+                                                                            onchange={updateQuantity} name={cartItem}
+                                                                            data-id={shippingAddress.selectedAddress.Id}
+                                                                            data-pos={cartItem.posItem.Id}
+                                                                            data-order={cartItem.orderId}
+                                                                          
+                                                                            formatter="number">
+                                                                        </lightning-input>
+                                                                    </div>
+                                                                </template>
+                                                                <br />
+                                                                <!-- To disable the quantity input field -->
+                                                                <template if:false={shippingAddress.isQuantityEditable}>
+                                                                    <div onkeydown={validateNumber}>
+                                                                        <lightning-input type="number"
+                                                                            class="quantity_field"
+                                                                            value={shippingAddress.quantity} disabled>
+                                                                        </lightning-input>
+
+                                                                    </div>
+                                                                </template>
+                                                                <br />
+                                                            </td>
+
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </lightning-card>
+
+                                    </td>
+
+                                    <!-- input field to calculate the total price and its disabled -->
+                                    <td >
+                                        <div
+                                            class="slds-border_top slds-border_right slds-border_bottom slds-border_left display_currency_style"  style="margin-left:100px">
+                                            <lightning-formatted-number value={cartItem.totalPriceFromAllAddresses}
+                                                format-style="currency" currency-code="USD">
+                                            </lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <!-- lightning button to remove the pos item details -->
+                                        <lightning-button-icon icon-name="utility:delete"
+                                            class="slds-align_absolute-center" size="small" onclick={deleteItem}
+                                            value={cartItem} name={cartItem} detail={cartItem}></lightning-button-icon>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+            <!-- if no data found show the error message -->
+            <template if:false={isAddressAvailableForDisplay}>
+                <b class="slds-align_absolute-center" style="font-size:18px">No items in cart</b>
+            </template>
+        </lightning-card>
+    </template>
+
+    <!-- to invoke shopping cart address modal component -->
+    <template if:true={isModalOpen}>
+        <c-infinium-shopping-cart-address-modal-component onclosemodal={closeModal} pos-items-list-in-cart={cartItems}
+            selected-address-for-pos-items={selectedAddressForPosItems} user={user} program-id={programId}>
+        </c-infinium-shopping-cart-address-modal-component>
+    </template>
+    <!-- Below componet is comment as the budget exceed should noot be part of inifnium -->
+    <!-- to invoke budget exceeded modal component -->
+    <!-- <template if:true={isBudgetExceeded}>
+        <c-infinium-shopping-cart-budget-exceeded-component onexceedclosemodal={exceedCloseModal}></c-infinium-shopping-cart-budget-exceeded-component>
+    </template> -->
+
+</template>

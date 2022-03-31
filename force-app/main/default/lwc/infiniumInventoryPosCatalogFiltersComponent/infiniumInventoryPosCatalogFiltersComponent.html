@@ -1,0 +1,43 @@
+<!-- Authors:Sanjana      Date:08-11-2021
+Aim: this is the child component of infiniumInventoryPosCatalogComponent which is responsible to display the filter inputs and download button and to send brand Id and search keyword to the parent-->
+
+<template>
+    <div class="c-container">
+      <div class="slds-align_absolute-center" style="height:2rem;">
+        <div class="search_input_div_style">
+          <!-- to display the search input box for the user to search pos item -->
+          <lightning-input type="search" label="Search" style="width: 85%;"
+            class="slds-align_absolute-center slds-media_center" placeholder="Search based on Item Name and Item Number"
+            onchange={searchPosItem} value={searchedKeyword}></lightning-input>
+          <!-- to display the search button -->
+          <button class="slds-button slds-button_neutral slds-align_absolute-center search_button_style" title="Search"
+            onclick={searchEvent}>Search</button>
+        </div>
+      </div>
+      <br />
+      <!-- div to hold the brand and download pdf button  -->
+      <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_3-of-12">
+  
+        </div>
+        <div class="slds-col slds-size_3-of-12">
+          <!-- to display the brand dropdown for the user to filter the items based on brand -->
+          <lightning-combobox
+            class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small"
+            style="font-size:small;margin-left:6vw; margin-right:20px;" label="Brand" dropdown-alignment="right"
+            placeholder="All Brands" value={value} options={brandListToDisplay} onchange={handleChangeForBrand}>
+          </lightning-combobox>
+        </div>
+        <!-- to display the button for the user to download pos catalog -->
+        <div class="slds-col slds-size_3-of-12">
+          <lightning-button class="slds-button slds-button_neutral slds-align_absolute-center download_button"
+            icon-name="utility:download" variant="brand" label="Download PDF" title="Download" onclick={getPOSCatalog}>
+          </lightning-button>
+        </div>
+        <div class="slds-col slds-size_3-of-12">
+        </div>
+      </div>
+      <br />
+    </div>
+  
+  </template>

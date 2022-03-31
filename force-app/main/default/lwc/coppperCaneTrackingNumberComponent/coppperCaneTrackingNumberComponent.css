@@ -1,0 +1,131 @@
+/* breadcrumbs */
+
+.breadcrumbContents {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .breadcrumb {
+    list-style: none;
+    overflow: hidden;
+    padding: 0;
+    background-color: white;
+  }
+  
+  .breadcrumb li {
+    float: left;
+  }
+  
+  .breadcrumb li a {
+    color: #b7a15e;
+    text-decoration: none;
+    padding: 2px 0 3px 55px;
+    background: black;
+    /* fallback color */
+    position: relative;
+    display: block;
+    float: left;
+  }
+  
+  .breadcrumb li a:after {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid black;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 100%;
+    z-index: 2;
+  }
+  
+  .breadcrumb li a:before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    /* Go big on the size, and let overflow hide */
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid white;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: 1px;
+    left: 100%;
+    z-index: 1;
+  }
+  
+  .breadcrumb li:first-child a {
+    padding-left: 10px;
+  }
+  
+  .breadcrumb li:last-child a {
+    background: black !important;
+    color: #b7a15e;
+    pointer-events: none;
+    cursor: default;
+    border-radius: 14px;
+    padding-right: 25px;
+  }
+  
+  .breadcrumb li:last-child a:after {
+    border: 0;
+  }
+  
+  .header_div_style {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    height: 620px;
+  }
+  
+  .table thead th {
+    top: -1px;
+    padding-top: 8px;
+  }
+  
+  .table_Column {
+    border-bottom: 1px solid #dee2e6;
+    padding: 8px;
+    height: 55px;
+  }
+  
+  .table_header_style {
+    position: sticky !important;
+    color: #b7a15e;
+    background-color: black;
+    top: 0;
+  }
+  
+  .scroll-box {
+    width: 100%;
+    height: 590px;
+    overflow-y: auto;
+  }
+  
+  .scroll-box::-webkit-scrollbar {
+    width: .4em;
+  }
+  
+  .scroll-box::-webkit-scrollbar-thumb {
+    overflow: visible;
+    border-radius: 4px;
+  }
+  
+  .scroll-box::-webkit-scrollbar-thumb {
+    background: black;
+  }
+  
+  .button_text_color {
+    font-weight: 600;
+  }
+  
+  .spinner_style {
+    position: relative;
+    background-color: #16325c;
+    height: 80px;
+  }

@@ -1,0 +1,25 @@
+<!-- Authors:Vanditha,Thanvi      Date:07-01-2021
+Aim : To hold breadcrumb , edit ,confirm buttons and call the child component responsible for showing preview order data-->
+
+
+<template>
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Preview Order</a></li>
+        </ul>
+    </div>
+    <br />
+
+    <lightning-button class="slds-float_left edit_button_style" label="Edit Order" title="search"
+        variant="brand" onclick={editOrderEvent}>
+        ></lightning-button>
+
+
+    <lightning-button class="slds-float_right confirm_button_style" variant="brand"
+        label="Confirm Order" title="confrm order" onclick={confirmOrderEvent}>
+        ></lightning-button>
+    <br />
+    <c-wilson-preview-order-details-component  emerge-order-id={emergeOrderId} ></c-wilson-preview-order-details-component>
+
+</template>

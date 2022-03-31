@@ -1,0 +1,20 @@
+<!-- Author:Vighnesh and Jaya Prasad
+     Date:12 October 2020
+      Aim: The Parent component Address Book to call the child components to create and display the table -->
+<template>
+    <!-- Breadcrumb with on click of home it will navigate to home page -->
+            <div class="breadcrumbContents">
+                <ul class="breadcrumb">
+                    <li><a onclick={navigateToHomePage}>Home</a></li>
+                    <li><a>Manage Address Book</a></li>
+                </ul>
+             </div>
+    <br/>
+
+    <!-- The first child component is called from parent which has Create and Search Address -->
+    <c-jfw-inventory-create-and-search-address-book onsendsearchdatatoparent={searchEventHandler}></c-jfw-inventory-create-and-search-address-book>
+    
+    <!-- This child component has the responsibility of displaying the address in the table -->
+    <c-jfw-inventory-address-book-table get-search-value={searchValue}></c-jfw-inventory-address-book-table>
+
+</template>

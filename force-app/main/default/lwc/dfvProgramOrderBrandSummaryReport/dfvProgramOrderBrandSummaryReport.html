@@ -1,0 +1,112 @@
+<template>
+    <!-- Author : Vanditha and Vignesh Date:May 01 2020 
+        Aim : To display the Program Order Brand Summary Report-->
+     <!-- to display the breadcrumbs -->
+     <div class="breadcrumbContents">
+         <ul class="breadcrumb">
+             <li><a>Home</a></li>
+              <li><a>Custom Report</a></li>
+             <li><a>Order Brand Summary Report</a></li>
+         </ul>
+      </div>
+
+
+       <!-- to display the UI in card form -->
+             <!-- to display the UI in card form -->
+             <div class="slds-box">
+
+                <!-- To get the select field we use combobox in lwc -->
+               
+                     <label class="label_text">Select Program</label>
+                     <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" style ="font-size:small" dropdown-alignment="right"   name="orderStatus" placeholder="Select a Program" value={value}  options={programBrandDetails} onchange={handleProgramChange} ></lightning-combobox> 
+                <!-- button to download the pdf -->
+               
+             
+            <template if:true={programBrandResult}>
+                <a target="_self"  class="slds-button button_color slds-align_absolute-center"  download="ProgramOrderItemSummaryReport.csv" href={hrefdata} onclick={exportToCSV}  
+                  style="margin-left: 61%; color:white;width: max-content;">Download Report</a>
+ 
+                  <!-- Author : Vanditha and Vighnesh 
+                       Date : 26 may 2020
+                      Aim : To add the total Amount Spent  -->
+                  <lightning-input type="number" class="slds-float_right" style="width: fit-content;
+                  position: sticky; margin-top: -46px;"
+                  label="Total Budget Spent"
+                  value={TotalAmount}
+                  formatter="currency"
+                  disabled>
+                  </lightning-input>
+              
+                </template>
+              
+
+        </div>
+    
+ <br/>
+ <!-- <template if:true={itemProgramId}>
+  <template if:true={casesSpinner} class="exampleHolder"> 
+  <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+</template> -->
+
+<!-- <template if:false ={casesSpinner}> -->
+
+ <template if:true={programBrandResult}>
+<lightning-card>
+  <div class="table-responsive scroll-box">
+   
+ <!-- tables -->
+    <table class="table-fixed">
+     
+        <thead >
+            <tr>
+                <th class="tableheader ">
+                    <div class="table_label ">Program Name</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_label ">Brand Name</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_labelCustom ">Total Amount spent on the Brand </div>
+                  </th>
+          </tr>              
+        </thead>
+       
+         
+
+        <tbody>
+            <template for:each={programBrandOrderSummary.data} for:item="brands">
+            <tr style="border-bottom: 1px solid #dee2e6; padding:3px;" key={brands.Id} >
+                <td title={brands.ProgramName}>{brands.ProgramName}</td>
+                <td title={brands.BrandName}>{brands.BrandName}</td>
+               
+                <td>
+                  <lightning-input type="number" style="width: fit-content;
+                  position: sticky;"
+                  value={brands.ItemTotalAmountForBrand}
+                  formatter="currency"
+                  disabled
+                  >
+     </lightning-input>
+                </td>
+              </tr>
+                 </template>
+
+            </tbody>
+      
+    </table>
+</div>
+
+</lightning-card>
+</template>
+
+
+<template if:false={itemProgramId}>
+  <p class="fontData">Please select the program to continue</p>
+ </template> 
+  <template if:false={programBrandResult}>
+    <template if:true={itemProgramId}>
+    <p class="fontData">The selected program does not have any orders</p>
+   </template> 
+</template>
+
+</template>

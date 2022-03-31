@@ -1,0 +1,21 @@
+.combobox {
+    text-align: left;
+    font-size: medium;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+.c-container {
+    border: 1px solid #d8dde6;
+    /* margin: 10px 0 20px 0; */
+}
+
+.search_Text_Style{
+    font-size: small;
+    font-weight: 800;
+    color: #610c04;
+}
+.button_style{
+    margin-top: 25px;
+    /* margin-left: 10px; */
+    text-align: center;
+}

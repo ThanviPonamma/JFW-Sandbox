@@ -1,0 +1,84 @@
+<!-- Author:Sanjana
+Date: 12-08-2021
+     Aim:To display the list of fixed positions and its details -->
+
+<template>
+    <!-- displaying a box -->
+    <div class="slds-box">
+        <div>
+            <template if:false={getFixedPositionList}>
+                <template if:true={displayTable}>
+                    <br />
+                    <!-- displaying a table of Designation list and its details -->
+                    <div class="table-responsive scroll-box">
+                        <!-- table starts here -->
+                        <table class="table-fixed">
+                            <thead>
+                                <tr>
+                                    <th class="tableheader">Fixed Position Name</th>
+                                    <th class="tableheader">Designation Name</th>
+                                    <th class="tableheader">Level</th>
+                                    <th class="tableheader">Assign</th>
+                                    <th class="tableheader">Remove</th>
+                                </tr>
+                            </thead>
+
+                            <!-- table body starts here -->
+                            <tbody>
+                                <!-- The attribute 'designations' contains the list of designation -->
+                                <template for:each={allFixedPositionList} for:item="fixedPosition">
+                                    <tr class="table_Column" key={fixedPosition.Id}>
+                                        <td role="gridcell" class="td_content_style">
+                                            <div class="slds-truncate" title={fixedPosition.Fixed_Position_Name__c}>
+                                                {fixedPosition.Fixed_Position_Name__c}</div>
+                                        </td>
+                                        <td role="gridcell" class="td_content_style">
+                                            <template if:true={fixedPosition.Chair__c}>
+                                                <div class="slds-truncate" title={fixedPosition.Chair__r.Chair_Name__c}>
+                                                    {fixedPosition.Chair__r.Chair_Name__c}</div>
+                                            </template>
+
+
+                                        </td>
+                                        <td role="gridcell" class="td_content_style">
+                                            <div class="slds-truncate" title={fixedPosition.Level__c}>
+                                                {fixedPosition.Level__c}</div>
+                                        </td>
+
+                                        <td role="gridcell" class="td_content_style">
+                                            <lightning-button-icon value={fixedPosition} name={fixedPosition}
+                                                detail={fixedPosition} icon-name="utility:edit"
+                                                onclick={openAssignDesignationPopUp} size="small">
+                                            </lightning-button-icon>
+                                        </td>
+                                        <td role="gridcell" class="td_content_style">
+                                            <lightning-button-icon value={fixedPosition} name={fixedPosition}
+                                                detail={fixedPosition} icon-name="utility:clear" onclick={removeChair}
+                                                size="small">
+                                            </lightning-button-icon>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div>
+
+    <!-- to add the message of no designation is found -->
+
+    <template if:false={displayTable}>
+        <br />
+        <lightning-card class="message_text">
+            <p>Fixed position not found</p>
+        </lightning-card>
+    </template>
+
+    <!-- assignDesignation pop-up -->
+    <template if:true={openAssignDesignationModal}>
+        <c-copper-assign-designation-name-component get-fixed-position-details={selectedFixedPositionDetails}
+            label-name={labelName} onclosemodal={closeModal}></c-copper-assign-designation-name-component>
+    </template>
+</template>

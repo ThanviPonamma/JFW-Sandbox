@@ -1,0 +1,163 @@
+<!-- Authors:Vanditha,Thanvi    Date:06-01-2021
+     Aim : 1.To add search field for Address Book with all the functionality
+           2.To Show the Create Button, on click of the button open the child component(popUp modal) 
+           3.To display the table to the users -->
+<template>
+<!-- Add the search and create button -->
+<lightning-card>
+    <!-- Create Address button -->
+    <div>
+        <lightning-button variant="brand" label="Create Address" title="Create Address" onclick={openCreatePopUp}
+        class="slds-align_absolute-center"></lightning-button>
+    </div>
+   
+    <!-- Search field with search button -->
+
+    <div class="slds-align_absolute-center ">
+      <lightning-input type="search" label="Search" class="slds-m-around_xx-small search_width"
+        placeholder="Enter Destination Name,Ship To Name, Ship To Company, State, City to search" onchange={HandleChangeSearchAddressBook}
+        value={searchedKeyword}></lightning-input>
+
+      <!-- On click fo search button the user searched order is displayed to the users -->
+      <lightning-button variant="brand" type="search" title="Search" class="search_button_style" label="Search"
+        onclick={searchButtonEvent}></lightning-button>
+
+    </div>
+
+    <template if:true={isProfileDetailsExists}>
+      <div>
+        <lightning-button variant="brand" type="button" title="Synchronize address book with POD site" class="slds-align_absolute-center synchronize_button_style" label="Synchronize address book with POD site"
+        onclick={synchronizeAddressBook}></lightning-button>
+      </div>
+    </template>
+  
+
+
+  </lightning-card>
+
+
+    <!-- To displace the table only if the address is available -->
+    <template if:false={addressBookToBeDisplayed}>
+      <template if:true={adrressFound}>
+        <br />
+        <!-- Pagination for the address book -->
+        <div class="slds-box">
+          <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_2-of-12"></div>
+            <div class="slds-col slds-size_2-of-12 pagination_previous_button_style">
+              <!-- Pagination first button
+            Aim: On click of "First" button the address present in first page will be displayed to the users  -->
+              <lightning-button disabled={isItFirstNavigationItem} label="First" title="First"
+                onclick={firstNavigationButton} style="margin-right:10px"></lightning-button>
+              <lightning-button-icon disabled={isItFirstNavigationItem} icon-name="utility:chevronleft"
+                onclick={previousNavigationButton} alternative-text="Previous" title="Previous"></lightning-button-icon>
+            </div>
+            <!-- To get the index number to the front page and display to the users -->
+            <div class="slds-col slds-size_4-of-12"  style="margin-top:5px;">
+              <div class="slds-box pagination_index_no_padding_style">
+                <template for:each={navigationItems} for:item="eachItem">
+                  <template if:true={eachItem.isRecordExisted}>
+                    <span key={eachItem.index} class="slds-p-horizontal_x-small number_button_style">
+                      <template if:true={eachItem.isIndexSelected}>
+                        <lightning-button value={eachItem} label={eachItem.index} variant="brand" key={eachItem.index}
+                          onclick={getAddressListByIndex} data-id={eachItem.index}></lightning-button>
+                      </template>
+                      <template if:false={eachItem.isIndexSelected}>
+                        <lightning-button value={eachItem} label={eachItem.index} key={eachItem.index}
+                          onclick={getAddressListByIndex} data-id={eachItem.index}></lightning-button>
+                      </template>
+                    </span>
+  
+                  </template>
+                </template>
+              </div>
+              <br />
+            </div>
+  
+            <!-- To display the last addresses in the table -->
+            <div class="slds-col slds-size_2-of-12 pagination_last">
+              <lightning-button-icon disabled={isItLastNavigationItem} icon-name="utility:chevronright"
+                 alternative-text="Next" title="Next"
+                onclick={nextNavigationButton}></lightning-button-icon>
+              <lightning-button label="Last" title="Last" disabled={isItLastNavigationItem} onclick={lastNavigationButton}
+                style="margin-left:10px"></lightning-button>
+            </div>
+            <div class="slds-col slds-size_2-of-12"></div>
+          </div>
+          <!-- pagination ends -->
+          <!-- The address book Display table starts here -->
+  
+          <div class="header_div_style ">
+            <div class="table-responsive scroll-box">
+              <table class="table table-hover; table-fixed ;width:100% ">
+                <thead>
+                  <tr >
+                    <th class="header_th_style">Ship To Name</th>
+                    <th class="header_th_style">Ship To Company</th>
+                    <th class="header_th_style">Address</th>
+                    <th class="header_th_style table_header_align">City</th>
+                    <th class="header_th_style table_header_align">State</th>
+                    <th class="header_th_style table_header_align">Zip</th>
+                    <th class="header_th_style table_header_align">Active</th>
+                    <th class="header_th_style table_header_align">Edit</th>
+                    <th class="header_th_style">Deactivate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template for:each={addressList} for:item="address">
+                    <tr key={address.id} class="table_Column">
+                      <td class="table_content_left" title={address.Shipto_Name__c}>{address.Shipto_Name__c}
+                      </td>
+                      <td class="table_content_left" title={address.Shipto_Company__c}>
+                        {address.Shipto_Company__c}</td>
+                      <td class="table_content_left" title={address.Address__c}>{address.Address__c}</td>
+                      <td class="table_content_center" title={address.City__c}>{address.City__c}</td>
+                      <td class="table_content_center" title={address.State__r.State_Name__c}>
+                        {address.State__r.State_Name__c}</td>
+                      <td class="table_content_center" title={address.Zip__c}>{address.Zip__c}</td>
+                      <td class="table_content_left">
+                        <template if:false={address.Active__c}>
+                          <lightning-icon class="slds-align_absolute-center" size="x-small"></lightning-icon>
+                        </template>
+                        <template if:true={address.Active__c}>
+                          <lightning-icon icon-name="utility:check" class="slds-align_absolute-center" size="x-small">
+                          </lightning-icon>
+                        </template>
+                      </td>
+                      <td class="table_content_left">
+                        <lightning-icon value={address} name={address} detail={address} icon-name="utility:edit"
+                          onclick={openEditPopUp} class="slds-align_absolute-center" size="x-small"></lightning-icon>
+                      </td>
+                      <td class="table_content_left">
+                        <template if:false={address.Active__c}>
+                          <lightning-input type="toggle" disabled class="slds-align_absolute-center "
+                            checked={address.Active__c} name={address} detail={address} size="x-small"></lightning-input>
+                        </template>
+                        <template if:true={address.Active__c}>
+                          <lightning-input type="toggle" checked={address.Active__c} class="slds-align_absolute-center"
+                            value={address} name={address} detail={address} onclick={deactivateAddress} size="x-small">
+                          </lightning-input>
+                        </template>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </template>
+    </template>
+    <template if:false={adrressFound}>
+        <br />
+        <lightning-card class="message_text">
+          <p>No Address found</p>
+        </lightning-card>
+      </template>
+    <!-- To open the create and edit popup modal on click of create/edit button -->
+    <template if:true={isModalOpen}> 
+      <c-wilson-manage-address-book-create-edit-component get-state-names={stateListToDisplay} onclosemodal={closeModal}
+        address-book={selectAddressBook} is-edit-clicked={isEditClicked} label-name={labelName}>
+    </c-wilson-manage-address-book-create-edit-component>
+    </template>
+  </template>

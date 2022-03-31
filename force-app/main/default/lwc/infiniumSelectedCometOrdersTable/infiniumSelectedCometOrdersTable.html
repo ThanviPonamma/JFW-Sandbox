@@ -1,0 +1,78 @@
+<!-- Authors:Sanjana    Date:11-11-2021
+    Aim - To display selected Comet Order List-->
+
+    <template>
+        <div>
+            <p class="headerText">Selected Seasonal Order</p>
+        </div>
+    <!-- if "selectedOrderList" has data -->
+    <template if:true={selectedOrderList}>
+    <template if:true={isSelectedCometOrderHasData}>
+    
+    <lightning-card>
+           <div>
+                <!-- Submit to warehouse button -->
+               <div>
+                   <template if:true={toDisableSubmitButton}>
+                       <p class="errorMessage">Order limit exceeded - Only 60 orders can be submitted per wave.</p>
+                   </template>
+               </div>
+                <lightning-button class="submitToWarehouse slds-float_right" disabled={toDisableSubmitButton} variant="brand" onclick={onClickOfSubmitToWarehouse} label="Submit to warehouse" ></lightning-button>
+          </div>
+    
+          
+        <div class="table-responsive scroll-box table_Width">
+       
+         <!-- To disply the table if there is data in 'selectedOrderList'-->
+        <table class="table-fixed">
+        <thead>
+        <tr>
+        <th class="tableheaderfirst ">Program</th>
+        <th class="tableheader ">Ordered By</th>
+        <th class="tableheader ">Ordered Number</th>
+        <th class="tableheader ">Date</th>
+        <th class="tableheader ">Ship To Name</th>
+        <th class="tableheader ">Ship To Company</th>
+        <th class="tableheader ">City</th>
+        <th class="tableheader ">State</th>
+        <th class="tableheader ">Remove</th>
+        </tr>
+        </thead>
+    
+        <tbody>
+        <!-- To display the data for each 'selectedCometList' in 'selectedCometOrderListToBeDisplayed' List-->
+        <template for:each={selectedCometOrderListToBeDisplayed.data} for:item="selectedCometList">
+        <tr key={selectedCometList.Id} class="table_Column">
+        <td title={selectedCometList.Order__r.Program__r.Name__c}>{selectedCometList.Order__r.Program__r.Name__c}</td>
+        <td title={selectedCometList.Order__r.Owner.Name}>{selectedCometList.Order__r.Owner.Name}</td>
+        <td title={selectedCometList.OrderName__c}>{selectedCometList.OrderName__c}</td>
+        <td >
+            <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit" value={selectedCometList.Order__r.Order_Date__c}></lightning-formatted-date-time>
+        </td>
+        <td title={selectedCometList.AddressBook__r.Shipto_Name__c}>{selectedCometList.AddressBook__r.Shipto_Name__c}</td>
+        <td title={selectedCometList.AddressBook__r.Shipto_Company__c}>{selectedCometList.AddressBook__r.Shipto_Company__c}</td>
+        <td title={selectedCometList.AddressBook__r.City__c}>{selectedCometList.AddressBook__r.City__c}</td>
+        <td title={selectedCometList.AddressBook__r.State__r.State_Name__c}>{selectedCometList.AddressBook__r.State__r.State_Name__c}</td>
+        <td>
+        <lightning-button-icon icon-name="utility:dash" class="slds-align_absolute-center" onclick={removeOrdersFromSelectedCometOrders} data-id={selectedCometList.Id} size="x-small"></lightning-button-icon>
+        </td>
+        </tr>
+        </template>
+        </tbody>
+    
+        </table>
+        </div>
+    </lightning-card>
+    
+    </template>
+    </template>
+    
+    <!-- Message to user if selected comet order has no data  -->
+    <div>
+        <template if:false={isSelectedCometOrderHasData}>
+            <lightning-card>
+                <p class="message_Text slds-align_absolute-center">There are no orders for the selected combination of program and user.</p>
+            </lightning-card>
+        </template>
+    </div>    
+    </template>

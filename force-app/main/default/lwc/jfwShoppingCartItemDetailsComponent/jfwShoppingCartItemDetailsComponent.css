@@ -1,0 +1,65 @@
+.preview_button_style {
+  font-weight: 600;
+  margin-right: 15px;
+}
+
+.addAddress_button_style {
+  font-weight: 600;
+}
+
+.tableheader {
+  color: #534133;
+  background-color: #e2d9d5;
+  position: sticky !important;
+  top: 0;
+  z-index: 99;
+  height: 40px;
+  text-align: left;
+}
+
+
+/* scroll bar */
+.scroll-box {
+  width: 98%;
+  height: 380px;
+  overflow-y: auto;
+}
+
+.scroll-box::-webkit-scrollbar {
+  width: .4em;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #534133;
+}
+
+.table_Column {
+  border-bottom: 1px solid #dee2e6;
+  padding: 8px;
+  height: 45px;
+}
+
+.item_description_style{
+  width: 26%;
+  text-align: center;
+}
+
+.totalQuantity_field_style {
+  width: 70px;
+}
+
+.table_width {
+  width: 15% !important;
+  padding-left: 9px;
+}
+.quantity_field{
+  width: 63px;
+  position: sticky;
+   margin-top:-8px;
+}
+.error_message_for_exceed{
+  color:#d12424;
+  font-size: 12px;
+  font-family: sans-serif;
+}

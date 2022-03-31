@@ -1,0 +1,162 @@
+.THIS .table, td, th {
+    /* border: 1px solid black; */
+    padding : 9px;
+    text-align: -webkit-center;
+    font-size: small;
+    font-family: sans-serif;
+    font-weight: 400;
+  }
+  
+  .THIS .table {
+    width: auto;
+    text-align:center;
+  }
+
+  
+  .th {
+      display: inline;
+     
+  }
+  .tableheader {
+  
+    color: white;
+  background-color: #572a31;
+  position: sticky !important; 
+  top:0;
+ 
+  }
+     
+  
+.THIS .td{
+      display: flex;
+      padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .combobox {
+      width: fit-content;
+      text-align: left;
+      font-size: medium;
+      font-weight: 400;
+      font-family: sans-serif;
+      margin-top: -56px;
+
+      
+  } 
+  .table_label {
+    width: 145px !important;
+    
+  }
+  .table_data {
+    width: 90px !important;
+    
+  }
+
+  .button_color{
+    width: 124px;
+    color: #fff;
+    background-color: #572a31;
+    margin-right: 379px;
+    margin-top: -33px;
+  
+  }
+
+  /* Breadcrumbs */
+
+.breadcrumbContents {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.breadcrumb {
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+  background-color: white;
+}
+
+.breadcrumb li {
+  float: left;
+}
+.no_data_text_style {
+  color: #572a31;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.breadcrumb li a {
+  color: white;
+  text-decoration: none;
+  padding: 2px 0 3px 55px;
+  background: #572a31;
+  position: relative;
+  display: block;
+  float: left;
+}
+
+.breadcrumb li a:after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  /* Go big on the size, and let overflow hide */
+  border-bottom: 50px solid transparent;
+  border-left: 30px solid #572a31;
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  left: 100%;
+  z-index: 2;
+}
+
+.breadcrumb li a:before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  /* Go big on the size, and let overflow hide */
+  border-bottom: 50px solid transparent;
+  border-left: 30px solid white;
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 1;
+}
+
+.breadcrumb li:first-child a {
+  padding-left: 10px;
+}
+
+.breadcrumb li:last-child a {
+  background: #572a31 !important;
+  color: White;
+  pointer-events: none;
+  cursor: default;
+  border-radius: 14px;
+  padding-right: 25px;
+}
+
+.breadcrumb li:last-child a:after {
+  border: 0;
+}
+
+/* Table resolution */
+.table_Description{
+  width:280px !important;
+}
+
+/*For the message */
+.fontData{
+  font-weight: 700;
+  text-align: center;
+}
+
+.message_style{
+  text-align: center;
+  font-size: small;
+  font-weight: bold;
+}

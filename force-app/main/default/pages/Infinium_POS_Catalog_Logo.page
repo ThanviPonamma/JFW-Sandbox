@@ -1,0 +1,21 @@
+<!--Authors: Sanjana
+Date: 08/11/2021 -->
+<!--to set the size of the page,to display the logo and the header in the pos catalog pdf-->
+<apex:page standardController="Brand__c" sidebar="false" id="pg" contentType="application/x-pdf#Infinium Spirits Wines Emerge POS Catalog.pdf" cache="true">
+    
+    <head> 
+        <!--stying the page of the catalog-->
+        <style type="text/css">
+            @page{
+            size:A3 portrait;
+            }
+        </style>
+    </head> 
+    <apex:image id="theImage" value="{!$Resource.InfiniumPOSCatalogLogo}" style="margin-top: -1.0em;" height="100" /> 
+    <center> 
+        <h2 style="margin-top: -3em;">Infinium Spirits Emerge POS Catalog</h2>  
+    </center> 
+    <apex:include pageName="Wilson_POS_Catalog_Pdf"/>
+    
+    
+</apex:page>

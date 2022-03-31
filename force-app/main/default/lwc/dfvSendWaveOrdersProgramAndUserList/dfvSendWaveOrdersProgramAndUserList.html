@@ -1,0 +1,66 @@
+<!-- Author - VM,VP,JP
+     Date - June 30th 2020
+    Aim of this component - To get the program and user data from the apex class and display it to the user in the in the respective dropdown  -->
+<template>
+    <div class="slds-box">
+        <div class="slds-grid slds-wrap">
+            
+        <div class="slds-col slds-size_6-of-12">
+           <!-- Lable to display "Select Program" -->
+           <label class="programName_label" >Select Program</label>
+           <!-- Program Dropdown - Used lightning-combobox widget -->
+           <!-- The program data is binded to the 'options' attribute as 'programListToDisplay'
+           and the value is held in the 'value' attribute-->
+           <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option "
+           style ="font-size:small" dropdown-alignment="right" name="orderStatus"
+           placeholder="Select a Program" value={value} options={programListToDisplay} onchange={onSelectionOfProgram} ></lightning-combobox> 
+        </div>
+
+        <!--If the property 'selectedProgramId' has no selected program Id -->
+        <template if:false={selectedProgramId}>
+            <div class="slds-col slds-size_6-of-12">
+           <label class="user_Label">User</label>
+           <!--User Drop Down  -->
+           <!-- Drop down is disabled if there is no program Id using 'disabled' attribute -->
+           <lightning-combobox disabled="" class="combobox slds-align_absolute-center slds-listbox__option "
+           style ="font-size:small;" dropdown-alignment="right" name="orderStatus"
+           placeholder="Select a User" value={value} options={loadOrderUserList} onchange={onSelectionOfUser} ></lightning-combobox> 
+          </div>
+        </template>
+
+       <!--If the property 'selectedProgramId' has selected program Id -->
+       <template if:true={selectedProgramId}>
+          <div class="slds-col slds-size_6-of-12">
+           <label  class="user_Label">User</label>
+           <!--User Drop Down  -->
+           <lightning-combobox  disabled={disableIfNoUser} class="combobox slds-align_absolute-center slds-listbox__option"
+           style ="font-size:small;" dropdown-alignment="right" name="orderStatus"
+           placeholder="Select a User" value={value} options={loadOrderUserList} onchange={onSelectionOfUser} ></lightning-combobox> 
+          </div>
+       </template>
+        </div>
+
+      
+     <!-- serach functionality -->
+     <template if:true={selectedUserId}>
+        <template if:true={selectedProgramId}>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_4-of-12">
+                </div>
+                <!-- Search Input -->
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning-input type="search" class="slds-align_absolute-center" label="Search" value={searchedKeyword}  style="width:455px;" onchange={handleSearchEvent}
+                    placeholder="Enter ship to name or ship to company or city to search"></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-12">
+                </div>
+                <!-- Search Button  -->
+                <div class="slds-col slds-size_3-of-12 searchButtonStyle">
+                    <lightning-button variant="brand" label="Search" value={searchedKeyword} onclick={searchButtonEvent}></lightning-button>
+                </div>
+            </div>
+      </template>
+      </template>
+      
+     </div>
+</template>

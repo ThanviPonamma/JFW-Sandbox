@@ -1,0 +1,96 @@
+/* PopUp Modal css */
+.popUp_header{
+    margin-top: -6px;
+    margin-bottom: -9px;
+  
+  }
+  .popup_close{
+    margin-bottom: -40px;
+    margin-left: -24px;
+    background-color: #534133;
+    margin-top: 48px;
+  }
+
+  .slds-modal__container {
+    margin: 0 auto;
+    width: 50%;
+    max-width: 45rem;
+    min-width: 20rem;
+  }
+  .popUpHeader{
+    background-color: #534133;
+    color: white;
+  }
+  .modal_body_style {
+    border-right: 2px solid #534133!important;
+    border-left: 2px solid #534133!important;
+  }
+  .modal_footer_style {
+    border-right: 2px solid #534133!important;
+    border-left: 2px solid #534133!important;
+    border-bottom: 2px solid #534133!important;
+  }
+  .slds-modal__footer {
+    border-top: 0px solid #534133 !important;
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    padding: .75rem 1rem;
+    background-color: #ffffff;
+    text-align: right;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+  }
+.slds-modal__header {
+  position: relative;
+  border-top-right-radius: 0.25rem;
+  border-top-left-radius: 0.25rem;
+  text-align: center;
+  border-bottom: 0px solid rgb(212, 212, 212) !important;
+  padding: 1rem;
+}
+/* Search Button */
+  .search_button_style{
+    font-weight:800;
+    margin-top:22px;
+  }
+
+  /* Pagination Css */
+  .pagination_last{
+    margin-top: 15px;
+    margin-left: 10px;
+  }
+  .pagination_first{
+  margin-top:15px;
+  }
+  .pagination_index_no_padding_style
+  {
+    padding: 2px;
+  }
+  .icon_color_style{
+    background:#534133;
+    color: white;
+  }
+  .label_style{
+    font-weight: 700;
+    color: black;
+    font-family: sans-serif;
+  }
+ 
+  /* scroll bar */
+  .scroll-box {
+    width: 100%;
+    height: 340px;
+    overflow-y: auto;
+    }
+  
+  .scroll-box::-webkit-scrollbar {
+      width: .2em;
+  }
+  
+  .scroll-box::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background: #534133;
+  }
+  .slds-modal__close {
+    top: 0.5rem!important;
+    right: 0.5rem!important;
+}

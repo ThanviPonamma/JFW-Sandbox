@@ -1,0 +1,76 @@
+<!-- Author:Sanjana; Date: 13-08-2021
+     Aim: this component is responsible to display fixed positions, associated chairs and its users-->
+<template>
+    <!-- displaying a box -->
+    <div class="slds-box">
+        <template if:false={getChairList}>
+            <template if:true={displayTable}>
+                <br />
+                <div class="table-responsive scroll-box">
+                    <table class="table-fixed">
+                        <thead>
+                            <tr>
+                                <th class="tableheader">Fixed Position Name</th>
+                                <th class="tableheader">Designation Name</th>
+                                <th class="tableheader">Current User Name</th>
+                                <th class="tableheader">Edit</th>
+
+                            </tr>
+                        </thead>
+
+                        <!-- table body starts here -->
+                        <tbody>
+                            <template for:each={allChairs} for:item="chair">
+                                <tr class="table_Column" key={chair.Id}>
+                                    <td role="gridcell" class="td_content_style">
+                                        <div class="slds-truncate item_type_content_style"
+                                            title={chair.fixedPosition.Fixed_Position_Name__c}>
+                                            {chair.fixedPosition.Fixed_Position_Name__c}</div>
+                                    </td>
+                                    <td role="gridcell" class="td_content_style">
+                                        <div class="slds-truncate item_type_content_style"
+                                            title={chair.chair.Chair_Name__c}>{chair.chair.Chair_Name__c}</div>
+                                    </td>
+
+                                    <td role="gridcell" class="td_content_style">
+                                        <template if:true={chair.chair.User__c}>
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={chair.chair.User__r.Name}>{chair.chair.User__r.Name}</div>
+                                        </template>
+
+                                    </td>
+
+                                    <td>
+                                        <div class="slds-truncate item_type_content_style">
+
+                                            <lightning-button-icon class="icon_color" value={chair} name={chair}
+                                                detail={chair} icon-name="utility:edit" onclick={openEditModal}
+                                                size="small"></lightning-button-icon>
+
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+        </template>
+    </div>
+    <!-- to add the message of no designation is found -->
+
+    <template if:false={displayTable}>
+        <br />
+        <lightning-card class="message_text">
+            <p>Chair not found</p>
+        </lightning-card>
+    </template>
+
+    <!-- invoking edit/create pop-up  -->
+    <template if:true={openPopUpModal}>
+        <c-copper-manage-chair-user-edit-component get-chair-details={selectedChairDetails} label-name={labelName}
+            onclosemodal={closeModal}></c-copper-manage-chair-user-edit-component>
+    </template>
+</template>

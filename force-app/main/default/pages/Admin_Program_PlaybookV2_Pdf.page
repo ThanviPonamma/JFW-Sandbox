@@ -1,0 +1,53 @@
+<apex:page standardController="Program__c"  showHeader="false" sidebar="false" 
+           renderAs="PDF" extensions="Admin_Program_PlaybookController">
+    
+    <!--<head>
+<apex:image id="theImage" value="{!$Resource.DFVLogo}" style="margin-top: -1.0em;" height="100" alt="Description of image here"/>
+</head> -->          
+    <html>
+        <body >                     
+            <!--<center> 
+<h2 style="margin-top: -1.5em;">Program Playbook</h2>
+<h3>Program Name : {!Program__c.Name__c}</h3>  
+</center> -->
+            <font face="arial" size="2">                                                                      
+                <p style="display:none;">Program Items are :</p>
+                <table border="1" style="border: solid #CCCCCC; border-width: 1;width:100%;" >
+                    <tr style="font-size: 15px; font-face: arial;border-width: 1;  text-align: center;color:white;font-weight:bold;background:#4f4b2b;"> 
+                        <th >Preview</th>
+                        <th>Item No</th>
+                        <th>Item Name</th>
+                        <th>Item Description</th>
+                        <th width="100">Brand</th>
+                        <th>Item Type</th>
+                        <th>Pack Of</th>               
+                        <!-- <th>Dimension</th>-->
+                        <th>Price</th>
+                    </tr>
+                    <apex:repeat var="programItem" value="{!posItems}">
+                        <tr style="font-size: 11px; font-face: verdana ;text-align: center;">
+                            <td ><apex:image id="theImage" url="/servlet/servlet.FileDownload?file={!programItem.Attachment_Id__c}" style="padding-top:1%;padding-bottom:1%"/>
+                            </td>
+                            <td >{!programItem.Item_No__c}</td>
+                            <td >{!programItem.Item_Name__c}</td>
+                            <td >{!programItem.Item_Descrption__c}</td>
+                            <td >{!programItem.Brand__r.Brand_Name__c}</td>
+                            <td >{!programItem.Type_of_Item__r.Item_Type__c}</td>
+                            <td >{!programItem.Pack_Of__c}</td>
+                            <!-- <td >{!programItem.Dimension__c}</td>-->
+                            <td >{!programItem.Price__c}</td>                
+                        </tr>
+                    </apex:repeat>                 
+                </table>
+                <p />
+            </font>
+        </body>         
+    </html>
+    <style type="text/css">
+        TH {font-size: 11px; font-face: arial;background: #CCCCCC;
+        border-width: 1;  text-align: center;color:red; } 
+        TD  {font-size: 11px; font-face: verdana ;text-align: center; } 
+        TABLE {border: solid #CCCCCC; border-width: 1}
+        TR {border: solid #CCCCCC; border-width: 1;text-align :center}   
+    </style>
+</apex:page>

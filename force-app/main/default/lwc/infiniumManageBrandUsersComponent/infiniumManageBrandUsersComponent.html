@@ -1,0 +1,52 @@
+<!-- /*Author : Sanjana; Date : 20-09-2021*/ -->
+
+<template>
+    <!-- invoke the init method currentBrandUsers -->
+    <template if:false={currentBrandUsers}>
+        <div class="slds-m-around_xx-large">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <!-- displaying the modal container -->
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header modal_header_style">
+                        <!-- header of the pop-up modal -->
+                        <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close"
+                            variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                        <h2 id="modal-heading-01" class="slds-text-heading_small slds-hyphenate">Users Under the Brand
+                            "{labelName}"</h2>
+                    </header>
+                    <!-- displaying the dual list box with availablke users and assigned brand users-->
+                    <div class="exampleHolder">
+                        <div class="slds-modal__content modal_body_style" id="modal-content-id-1">
+                            <div class="slds-m-around_medium listitemClass">
+                                <lightning-dual-listbox name="territoryUsers" source-label="Available Users"
+                                    selected-label="Assigned Brand Users" options={availableUserList}
+                                    value={assignedUserList} disable-reordering="true"
+                                    onchange={theUserListToBeAssigned}>
+                                </lightning-dual-listbox>
+                            </div>
+                        </div>
+                        <!--###### MODAL BOX FOOTER Part Start ######-->
+                        <footer class="slds-modal__footer modal_footer_style">
+                            <div class="slds-align_absolute-center">
+                                <!-- save button -->
+                                <div style="padding-right: 3px;">
+                                    <lightning-button variant="brand" label="Save" title="Save" onclick={saveBrandUser}
+                                        disabled={isSaveDisabled}></lightning-button>
+                                </div>
+                                <!-- cancel button -->
+                                <div>
+                                    <lightning-button variant="brand" label="Cancel" title="Cancel"
+                                        onclick={closeModal}></lightning-button>
+                                </div>
+                            </div>
+                        </footer>
+
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+        </div>
+    </template>
+</template>

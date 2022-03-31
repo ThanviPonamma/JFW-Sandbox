@@ -1,0 +1,90 @@
+/* scroll bar */
+
+.scroll-box {
+    width: 92%;
+    height: 213px;
+    overflow-y: auto;
+    }
+  
+    .scroll-box::-webkit-scrollbar {
+        width: .4em;
+    }
+    
+    .scroll-box::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: #001137;
+    }
+  
+    /* Table */
+    .table_Column {
+      border-bottom: 1px solid #dee2e6;
+       padding:8px;
+       height: 45px;
+    }
+  
+  
+    .tableheader {
+    
+      color: white;
+    background-color:#001137;
+    position: sticky !important; 
+    top:0;
+    z-index: 99;
+    height: 30px;
+   text-align: center; 
+   
+    }
+  
+    .tableheaderfirst {
+    
+      color: white;
+    background-color:#001137;
+    position: sticky !important; 
+    top:0;
+    z-index: 99;
+    height: 30px;
+   text-align: left; 
+   
+    }
+    caption, th, td {
+      text-align: center !important;
+  }
+  .headerText{
+      font-size: small;
+      font-weight: bold;
+      margin-left: 20px;
+    }
+  
+    /* Combobox */
+    .combobox {
+      width: fit-content;
+      text-align: left;
+      font-size: medium;
+      font-weight: 600;
+      font-family: sans-serif;
+      margin-top: -53px;
+      font-size:small;
+      margin-left: 17px;
+  
+  }
+  /* Message style */
+  .message_style{
+    text-align: center;
+    font-size: small;
+    font-weight: bold;
+  }
+  
+  /* Button */
+  .button_style{
+    color: white;
+    background-color:#001137;
+  
+  }
+  /* Lable text style */
+  .labe_Text_Style{
+    font-size: inherit;
+    margin-left: -201px;
+  }
+  .table_Width {
+    width:100%
+  }

@@ -1,0 +1,323 @@
+<!-- Author:Thanvi;Date:20-SEP-2021
+Aim : To display POS item List along with add/remove item button and pagination-->
+<template>
+
+    <!-- POS ITEMS WITH PAGINATION -->
+    <div class="c-container card">
+        <!-- The "posItemsData" is the get method called as an init method when the page is loaded and it contains all the pos item table list -->
+        <template if:false={posItemsData}>
+            <!-- The "posItemsFound" is an boolean variable to display the data if its true or display the error message if no data found -->
+            <template if:true={posItemsFound}>
+                <template if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+                    </lightning-spinner>
+                </template>
+
+                <!-- Display POS ITEM details in grid view-->
+                <template if:false={isListView}>
+
+                    <!-- pagination -->
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_2-of-12"></div>
+                        <!-- Navigation button to reach first page in pagination -->
+                        <div class="slds-col slds-size_2-of-12" style="margin-top:15px;text-align:right">
+                            <lightning-button disabled={isItFirstNavigationItem} label="First" title="First"
+                                onclick={firstNavigationButton} style="margin-right:10px"></lightning-button>
+                            <!-- Navigation button for call previous page on clcik of this button in pagination -->
+                            <lightning-button-icon disabled={isItFirstNavigationItem} icon-name="utility:chevronleft"
+                                onclick={previousNavigationButton} alternative-text="Previous" title="Previous">
+                            </lightning-button-icon>
+                        </div>
+                        <div class="slds-col slds-size_4-of-12">
+                            <div class="slds-box pagination_index_no_padding_style">
+                                <!-- to get the number for each page in navigations -->
+                                <template for:each={navigationItems} for:item="eachItem">
+                                    <!-- to check navigation items contains records -->
+                                    <template if:true={eachItem.isRecordExisted}>
+                                        <!-- to check navigation items contains index selected -->
+                                        <template if:true={eachItem.isIndexSelected}>
+                                            <span key={eachItem.index}
+                                                class="slds-p-horizontal_x-small number_button_style">
+                                                <!-- lightning button to display the each page number for pos item details -->
+                                                <lightning-button variant="brand" label={eachItem.index}
+                                                    value={eachItem} onclick={getPosItemsByIndex}
+                                                    data-id={eachItem.index}>
+                                                </lightning-button>
+                                            </span>
+                                        </template>
+                                        <!-- lightning button to display the each page number for pos item details -->
+                                        <template if:false={eachItem.isIndexSelected}>
+                                            <span key={eachItem.index}
+                                                class="slds-p-horizontal_x-small number_button_style">
+                                                <lightning-button label={eachItem.index} value={eachItem}
+                                                    onclick={getPosItemsByIndex} data-id={eachItem.index}>
+                                                </lightning-button>
+                                            </span>
+                                        </template>
+                                    </template>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="slds-col slds-size_2-of-12 pagination_last">
+                            <!-- The last navigation button is showed and onclick of this button it will reach the next pos item details in paginations -->
+                            <lightning-button-icon disabled={isItLastNavigationItem} icon-name="utility:chevronright"
+                                alternative-text="Next" title="Next" onclick={nextNavigationButton}>
+                            </lightning-button-icon>
+                            <!-- The last navigation button is showed and onclick of this button it will reach the last pos item details in paginations -->
+                            <lightning-button label="Last" title="Last" disabled={isItLastNavigationItem}
+                                onclick={lastNavigationButton} style="margin-left:10px"></lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12"></div>
+                    </div>
+
+
+                    <!-- The lightning layout is heped to display the data in multiple rows  -->
+                    <lightning-layout multiple-rows="true">
+
+                        <!-- To get the pos item details of each item and display the the layout -->
+                        <template for:each={posItemDetails} for:item="pos">
+
+                            <!-- Lightning layout item is the html tag helps to display 3 items in a row -->
+                            <lightning-layout-item size="3" padding="around-small" key={pos.posItem.Id}>
+                                <div class="page_section_style page_right_style on_hover_card_style">
+
+                                    <!-- from the "posItemDetails" variable get the pos item name-->
+                                    <b class="slds-align_absolute-center" style="height:40px;"
+                                        title={pos.posItem.Item_Name__c}>{pos.posItem.Item_Name__c}</b><br />
+                                    <div style="text-align:center;">
+
+                                        <!-- from the "posItemDetails" variable get the pos item Item-->
+                                        <template if:true={pos.posItem.Attachment_Id__c}>
+                                            <img style="height: 155px;" src={pos.posItemImageURL} />
+                                        </template>
+                                        <template if:false={pos.posItem.Attachment_Id__c}>
+                                            <img style="height: 155px;" src={noImage} />
+                                        </template>
+                                    </div>
+                                    <br />
+
+                                    <div class="slds-truncate">
+                                        <div class="slds-p-left_small slds-text-body_small text_font_weight">
+
+                                            <!-- from the "posItemDetails" variable get the pos item Numebr-->
+                                            <span class="item_text_style" title={pos.posItem.Item_No__c}>Item Number:
+                                                {pos.posItem.Item_No__c}</span><br />
+
+                                            <!-- from the "posItemDetails" variable get the pos Brand name-->
+                                            <span class="item_text_style"
+                                                title={pos.posItem.Brand__r.Brand_Name__c}>Brand Name:
+                                                {pos.posItem.Brand__r.Brand_Name__c}</span><br />
+                                            <!-- from the "posItemDetails" variable get the pos Item Type-->
+                                            <span class="item_text_style"
+                                                title={pos.posItem.Type_of_Item__r.Item_Type__c}>Item Type:
+                                                {pos.posItem.Type_of_Item__r.Item_Type__c}</span><br />
+                                            <!-- from the "posItemDetails" variable get the pos Pack Of-->
+                                            <span class="item_text_style" title={pos.posItem.Pack_Of__c}> Pack Of:
+                                                {pos.posItem.Pack_Of__c}</span><br />
+                                            <!-- from the "posItemDetails" variable get the pos Price-->
+                                            <span class="item_text_style" title={pos.posItem.Price__c}> Price:
+                                                ${pos.posItem.Price__c}</span><br />
+
+                                            <!-- from the "posItemDetails" variable get the pos item descriptions-->
+                                            <span class="tooltip_style" title={pos.posItem.Item_Descrption__c}>
+                                                Description: Hover for Description.
+                                                <div class="tooltip_style_text">
+                                                    <p> {pos.posItem.Item_Descrption__c}</p>
+                                                </div>
+                                            </span><br /><br />
+
+                                            <!-- It the "isItemAddedToCart" is true then item is added to the cart and you will find the button in green color with the text "Remove item from cart"-->
+                                            <template if:true={pos.isItemAddedToCart}>
+                                                <div style="text-align: center;">
+
+                                                    <lightning-button onclick={removeItemToCartEvent}
+                                                        data-id={pos.posItem.Id} size="x-small"
+                                                        title="Remove item from cart" value={pos.posItem.Id} name={pos}
+                                                        label="Remove item from cart" icon-position="right"
+                                                        icon-name="utility:cart" variant="success">Remove item from cart
+                                                    </lightning-button>
+                                                </div>
+                                            </template>
+
+                                            <!-- It the "isItemAddedToCart" is false then item is removed from the cart and you will find the button in green color with the text "Add item to cart"-->
+                                            <template if:false={pos.isItemAddedToCart}>
+                                                <div style="text-align: center;width: -webkit-fill-available;">
+
+                                                    <lightning-button onclick={addItemToCartEvent}
+                                                        data-id={pos.posItem.Id} size="x-small" title="Add item to cart"
+                                                        value={pos.posItem.Id} label="Add item to cart" name={pos}
+                                                        icon-position="right" icon-name="utility:cart" variant="brand">
+                                                        Add item to cart</lightning-button>
+
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+
+                </template>
+            </template>
+
+            <!-- If no pos item data is present then the error message is shown to the users -->
+            <template if:false={posItemsFound}>
+                <br />
+                <lightning-card style="text-align:center; color:#534133; font-size:16px">
+                    <p>No POS Items found</p>
+                </lightning-card>
+            </template>
+
+
+            <!-- Display POS ITEM details in list view-->
+            <template if:true={posItemsFound}>
+                <!-- Display POS ITEM details in list view-->
+                <template if:true={isListView}>
+
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_2-of-12"></div>
+                        <div class="slds-col slds-size_2-of-12" style="margin-top:15px;text-align:right">
+                            <lightning-button disabled={isItFirstNavigationItem} label="First" title="First"
+                                onclick={firstNavigationButton} style="margin-right:10px"></lightning-button>
+                            <lightning-button-icon disabled={isItFirstNavigationItem} icon-name="utility:chevronleft"
+                                onclick={previousNavigationButton} alternative-text="Previous" title="Previous">
+                            </lightning-button-icon>
+                        </div>
+                        <div class="slds-col slds-size_4-of-12">
+                            <div class="slds-box pagination_index_no_padding_style">
+                                <template for:each={navigationItems} for:item="eachItem">
+                                    <template if:true={eachItem.isRecordExisted}>
+                                        <template if:true={eachItem.isIndexSelected}>
+                                            <span key={eachItem.index}
+                                                class="slds-p-horizontal_x-small number_button_style">
+                                                <lightning-button variant="brand" label={eachItem.index}
+                                                    value={eachItem} onclick={getPosItemsByIndex}
+                                                    data-id={eachItem.index}>
+                                                </lightning-button>
+                                            </span>
+                                        </template>
+                                        <template if:false={eachItem.isIndexSelected}>
+                                            <span key={eachItem.index}
+                                                class="slds-p-horizontal_x-small number_button_style">
+                                                <lightning-button label={eachItem.index} value={eachItem}
+                                                    onclick={getPosItemsByIndex} data-id={eachItem.index}>
+                                                </lightning-button>
+                                            </span>
+                                        </template>
+                                    </template>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 pagination_last">
+                            <lightning-button-icon disabled={isItLastNavigationItem} icon-name="utility:chevronright"
+                                alternative-text="Next" title="Next" onclick={nextNavigationButton}>
+                            </lightning-button-icon>
+                            <lightning-button label="Last" title="Last" disabled={isItLastNavigationItem}
+                                onclick={lastNavigationButton} style="margin-left:10px"></lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12"></div>
+                    </div>
+                    <!-- from the "posItemDetails" variable get the pos item name-->
+                    <template for:each={posItemDetails} for:item="pos">
+                        <lightning-layout-item size="12" padding="around-small" key={pos.posItem.Id}>
+                            <div class="page_section_style page_right_style_view on_hover_card_style">
+                                <div>
+                                    <div>
+                                        <div class="slds-align_absolute-center" title={pos.posItem.Item_Name__c}>
+                                            <b>{pos.posItem.Item_Name__c}</b>
+                                        </div>
+                                    </div>
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="around-small" size="4">
+
+                                            <div class="slds-align_absolute-center">
+                                                <template if:true={pos.posItem.Attachment_Id__c}>
+                                                    <img style="height: 155px;" src={pos.posItemImageURL} />
+                                                </template>
+                                                <template if:false={pos.posItem.Attachment_Id__c}>
+                                                    <img style="height: 155px;" src={wDWNoImageAvailable} />
+                                                </template>
+                                            </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small" size="8">
+                                            <div style="height:10rem;">
+                                                <div class="slds-truncate">
+                                                    <div
+                                                        class="slds-p-left_small slds-text-body_small text_font_weight">
+                                                        <span class="item_text_style"
+                                                            title={pos.posItem.Item_No__c}>Item Number:
+                                                            {pos.posItem.Item_No__c}</span><br />
+                                                        <span class="item_text_style"
+                                                            title={pos.posItem.Brand__r.Brand_Name__c}>Brand
+                                                            Name: {pos.posItem.Brand__r.Brand_Name__c}</span><br />
+                                                        <span class="item_text_style"
+                                                            title={pos.posItem.Type_of_Item__r.Item_Type__c}>Item
+                                                            Type:
+                                                            {pos.posItem.Type_of_Item__r.Item_Type__c}</span><br />
+                                                        <span class="item_text_style" title={pos.posItem.Pack_Of__c}>
+                                                            Pack Of:
+                                                            {pos.posItem.Pack_Of__c}</span><br />
+                                                        <span class="item_text_style" title={pos.posItem.Price__c}>
+                                                            Price:
+                                                            ${pos.posItem.Price__c}</span><br />
+
+                                                        <span class="tooltip_style">Descriptition: Hover for
+                                                            Descriptition.
+                                                            <div class="tooltip_style_text">
+                                                                <p>{pos.posItem.Item_Descrption__c}</p>
+                                                            </div>
+                                                        </span><br /> <br />
+
+                                                        <div style="float: left;">
+                                                            <template if:true={pos.isItemAddedToCart}>
+                                                                <div style="text-align: center;">
+
+                                                                    <lightning-button onclick={removeItemToCartEvent}
+                                                                        data-id={pos.posItem.Id} size="x-small"
+                                                                        title="Remove item from cart"
+                                                                        value={pos.posItem.Id}
+                                                                        label="Remove item from cart" name={pos}
+                                                                        icon-position="right" icon-name="utility:cart"
+                                                                        variant="success">Remove item from cart
+                                                                    </lightning-button>
+                                                                </div>
+                                                            </template>
+                                                            <template if:false={pos.isItemAddedToCart}>
+                                                                <div
+                                                                    style="text-align: center;width: -webkit-fill-available;">
+
+                                                                    <lightning-button onclick={addItemToCartEvent}
+                                                                        data-id={pos.posItem.Id} size="x-small"
+                                                                        title="Add item to cart" name={pos}
+                                                                        value={pos.posItem.Id} label="Add item to cart"
+                                                                        icon-position="right" icon-name="utility:cart"
+                                                                        variant="brand">Add
+                                                                        item to cart</lightning-button>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                </template>
+                <template if:false={posItemsFound}>
+                    <br />
+                    <lightning-card class="message_style">
+                        <p>No POS Items found</p>
+                    </lightning-card>
+                </template>
+            </template>
+            <br />
+        </template>
+    </div>
+    <!-- If no pos item data is present then the error message is shown to the users -->
+
+</template>

@@ -1,0 +1,93 @@
+.btn_style {
+   color: white;
+}
+
+.slds-table-fixed-layout {
+   table-layout: unset;
+}
+
+.slds-table thead th {
+   width: 10%;
+}
+
+.exampleHolder {
+   position: relative;
+}
+
+.order_number_heading_style {
+   margin-bottom: 10px;
+}
+
+.approval_text_style {
+   color: #534133;
+   float: right;
+   margin-right: 10px;
+}
+
+.header_th_style {
+   color: black;
+   background-color: #e2d9d5;
+   font-weight: 500;
+   height: 35px;
+   position: -webkit-sticky;
+   top: 0;
+   z-index: 1;
+   font-weight: 600 !important;
+}
+
+.item_type_header_style {
+   font-size: 14px;
+   color: black;
+   
+}
+@media only screen and (min-width:768px) and (max-width:1028px) {
+   .item_type_header_style{
+      font-size: 10px;
+      white-space: normal;
+   }
+   .item_approval_content_style{
+      font-size: 10px;
+   }
+   .shipping_approval_content_style{
+      font-size: 10px;
+   }
+}
+
+/* test */
+.fix-width {
+   width: 100%;
+   overflow-y: hidden;
+   overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
+}
+
+.scroll-inner::-webkit-scrollbar {
+   width: 0.4em;
+   height: 5px;
+}
+
+.scroll-inner::-webkit-scrollbar-track {
+   background-color: rgba(204, 204, 204, 0.3);
+}
+
+.scroll-inner::-webkit-scrollbar-thumb {
+   border-radius: 10px;
+   background: #534133;
+   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+
+.table {
+   width: 100%;
+}
+
+th td {
+   color: black;
+   font-weight: 500;
+}
+
+th {
+   color: #534133;
+   background-color: black;
+   font-weight: 500;
+}

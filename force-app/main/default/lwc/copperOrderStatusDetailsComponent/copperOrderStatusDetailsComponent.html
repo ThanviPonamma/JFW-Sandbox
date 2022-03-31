@@ -1,0 +1,517 @@
+<!-- Authors:Sanjana      Date:16-09-2021
+  Aim : This component is responsible for holding the Edit details and view details buttons ,the popup modal of view details, search filter and the table which displays contents of the order status page.  -->
+
+<template>
+    <lightning-card title="">
+        <lightning-layout vertical-align="end" multiple-rows="true">
+            <lightning-layout-item size="2" flexibility="grow">
+
+            </lightning-layout-item>
+            <lightning-layout-item size="4" flexibility="grow">
+                <lightning-combobox
+                    class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small"
+                    style="font-size:small; margin-right: 20px;" label="Select Buy Book" dropdown-alignment="right"
+                    placeholder="Select a Buy Book" value={value} options={buyBookListToDisplay}
+                    onchange={getSelectedBuyBookId}></lightning-combobox>
+
+
+
+            </lightning-layout-item>
+            <lightning-layout-item size="4" flexibility="grow">
+                <lightning-input label="Search" placeholder="Enter Order Number, Ship to Name, Ship to Company, City"
+                    value={searchUserWord} type="search" onchange={getSearchKeyword}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="2" flexibility="grow"></lightning-layout-item>
+        </lightning-layout>
+        <br />
+        <template if:true={isOrderDestinationDetailAvailable}>
+            <div class="slds-align_absolute-center">
+                <span>Buy Book Consumed Budget:
+                    <div
+                        class="slds-border_top slds-border_right slds-border_bottom slds-border_left display_currency_style">
+                        <lightning-formatted-number value={consumedBudget} format-style="currency" currency-code="USD">
+                        </lightning-formatted-number>
+                    </div>
+                </span>
+            </div>
+        </template>
+    </lightning-card>
+
+    <template if:false={isSeasonalOrderDetails}>
+        <template if:true={isOrderDestinationDetailAvailable}>
+
+            <div class="c-container">
+                <div class="table-responsive scroll-box">
+                    <table class="table-fixed">
+                        <thead>
+                            <tr>
+                                <th class="tableheader ">Order Number</th>
+                                <th class="tableheader ">Order Status</th>
+                                <th class="tableheader ">Ship To Name</th>
+                                <th class="tableheader ">Ship To Company</th>
+                                <th class="tableheader ">City</th>
+                                <th class="tableheader ">Order Date</th>
+                                <th class="tableheader ">Order Details</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <template for:each={orderDestinationDetail} for:item="orders">
+                                <tr class="table_Column" key={orders.Id}>
+
+                                    <td title={orders.cometOrder.OrderName__c}>
+                                        {orders.cometOrder.OrderName__c}</td>
+
+                                    <td title={orders.cometOrder.OrdStatus__c}>
+                                        {orders.cometOrder.OrdStatus__c}</td>
+                                    <td title={orders.cometOrder.AddressBook__r.Shipto_Name__c}>
+                                        {orders.cometOrder.AddressBook__r.Shipto_Name__c}</td>
+                                    <td title={orders.cometOrder.AddressBook__r.Shipto_Company__c}>
+                                        {orders.cometOrder.AddressBook__r.Shipto_Company__c}</td>
+                                    <td title={orders.cometOrder.AddressBook__r.City__c}>
+                                        {orders.cometOrder.AddressBook__r.City__c}</td>
+
+                                    <td>
+                                        <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                            value={orders.cometOrder.Order__r.Order_Date__c}>
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td>
+                                        <template if:true={orders.orderStatusButton}>
+                                            <template if:false={orders.programStatusButton}>
+                                                <lightning-button
+                                                    class="slds-align_absolute-center editButtonViewButton_style"
+                                                    title="Edit Details" variant="brand" label="Edit Order"
+                                                    value={orders} onclick={openShoppingCartDetails}></lightning-button>
+                                            </template>
+                                        </template>
+                                        <template if:false={orders.orderStatusButton}>
+                                            <template if:false={orders.programStatusButton}>
+                                                <lightning-button
+                                                    class=" slds-align_absolute-center editButtonViewButton_style "
+                                                    title="view Details" variant="brand" label="View Details"
+                                                    value={orders} onclick={getSelectedOrderDetails}>
+                                                </lightning-button>
+                                            </template>
+                                        </template>
+                                        <template if:true={orders.programStatusButton}>
+                                            <template if:false={orders.orderStatusButton}>
+                                                <lightning-button
+                                                    class="slds-align_absolute-center editButtonViewButton_style"
+                                                    title="Edit Details" variant="brand" label="Edit Details"
+                                                    value={orders} onclick={editSelectedOrder}></lightning-button>
+                                            </template>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </template>
+        <template if:false={isOrderDestinationDetailAvailable}>
+            <lightning-card class="message_text">
+                <p>No Orders found</p>
+            </lightning-card>
+        </template>
+    </template>
+    <!-- To display the table if the conditions matches -->
+
+    <!-- </template> -->
+
+
+
+    <!-- Pop-up modal for the view details -->
+
+    <template if:true={isModalOpen}>
+        <lightning-card>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- Box LWC header here -->
+                    <header class="slds-modal__header popUpHeader">
+
+                        <!-- the close button icon on click of which the button closes -->
+                        <lightning-button-icon icon-name="utility:close" alternative-text="Close" onclick={closeModal}
+                            variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate popUp_header">Order
+                            Details</h2>
+                    </header>
+
+                    <!-- Modal Body -->
+
+                    <div class="slds-modal__content slds-p-around_small modal_body_style scroll-box_modal">
+                        <h6 style="color:#a26a37">Shipping Address Details</h6>
+                        <div class="slds-box">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12">
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="around-small" size="6">
+                                            <div>
+                                                <b>Order Number
+                                                    : {selectedOrder.OrderName__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>Ship To Name :
+                                                    {selectedOrder.AddressBook__r.Shipto_Name__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>Ship To Company :
+                                                    {selectedOrder.AddressBook__r.Shipto_Company__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>City :
+                                                    {selectedOrder.AddressBook__r.City__c}</b>
+                                            </div>
+
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small" size="6">
+                                            <div>
+                                                <b>Address :
+                                                    {selectedOrder.AddressBook__r.Address__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>State :
+                                                    {selectedOrder.AddressBook__r.State__r.State_Name__c}</b>
+
+                                            </div>
+                                            <div>
+                                                <b>Zip :
+                                                    {selectedOrder.AddressBook__r.Zip__c}</b>
+                                            </div>
+
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                        </div>
+
+                        <h6 style="color:#a26a37">POS Item Details</h6>
+                        <div class="slds-box">
+
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={selectedOrderItem} for:item="orderPOSItem">
+
+                                    <lightning-layout-item padding="around-small" size="12" key={orderPOSItem.Id}>
+                                        <lightning-layout>
+                                            <lightning-layout-item padding="around-small" size="3">
+                                                <div>
+
+                                                    <template if:true={orderPOSItem.posItemImageURL}>
+                                                        <img style="height: 130px;"
+                                                            src={orderPOSItem.posItemImageURL} />
+                                                    </template>
+                                                    <template if:false={orderPOSItem.posItemImageURL}>
+                                                        <img style="height: 130px;" src={NoImageURL} />
+
+                                                    </template>
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item padding="around-small" size="6">
+                                                <div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Item Name
+                                                            : {orderPOSItem.cometOrderItem.POS_Item__r.Item_Name__c
+                                                            }</b>
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Item Number :
+                                                            {orderPOSItem.cometOrderItem.POS_Item__r.Item_No__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Brand Name :
+                                                            {orderPOSItem.cometOrderItem.POS_Item__r.Brand__r.Brand_Name__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Item Type
+                                                            :
+                                                            {orderPOSItem.cometOrderItem.POS_Item__r.Type_of_Item__r.Item_Type__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Pack Of :
+                                                            {orderPOSItem.cometOrderItem.POS_Item__r.Pack_Of__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_smal ordered_Details_Font_Weight">
+                                                        <b>Ordered Quantity :
+                                                            {orderPOSItem.cometOrderItem.Quantity__c}</b>
+                                                    </div>
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item padding="around-small" size="3">
+                                                <div>
+                                                    <div class="slds-text-body_smal ordered_Details_Font_Weight">
+                                                        <b>Carrier :
+                                                            {orderPOSItem.cometOrderItem.Carrier__c}
+                                                        </b>
+                                                    </div>
+                                                    <div class="slds-text-body_smal ordered_Details_Font_Weight">
+                                                        <template if:true={orderPOSItem.cometOrderItem.Carrier__c}>
+                                                            <b>Order Status : Shipped</b>
+                                                            <template for:each={orderPOSItem.trackingNumberList}
+                                                                for:item="trackingNo">
+                                                                <p key={trackingNo}
+                                                                    style="margin:10px">
+                                                                    <lightning-button variant="brand" label={trackingNo}
+                                                                        value={trackingNo} name={orderPOSItem.cometOrderItem.Carrier__c}
+                                                                        onclick={onClickOfTrackingNumberButton}>
+                                                                    </lightning-button>
+                                                                </p>
+                                                            </template>
+
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+
+                        </div>
+
+                        <!-- Author - Thanvi; Date - 10-Feb-2021; CR No Copper-10-Feb-1   -->
+                        <!-- <div class="slds-modal__content slds-p-around_small">
+                            <h6 style="color:#a26a37">Tracking Numbers Info</h6>
+                            <div class="slds-box">
+                                <div style="width:100%;">
+                                    <span class="slds-text-body_small ordered_Details_Font_Weight">Carrier : </span>
+                                    <span class="slds-text-align_left ordered_Details_Font_Weight">UPS</span>
+                                    <br />
+
+                                    <template for:each={trackNoList} for:item="trackingNo">
+                                        <lightning-layout-item key={trackingNo.Id} style="margin:10px">
+                                            <lightning-button variant="brand" label={trackingNo} value={trackingNo}
+                                                onclick={onClickOfTrackingNo}></lightning-button>
+                                        </lightning-layout-item>
+                                    </template>
+                                </div>
+                            </div>
+
+                        </div> -->
+                    </div>
+
+                    <!-- PopUp Footer -->
+                    <!-- Contains close button -->
+
+                    <footer class="slds-modal__footer  modal_footer_style">
+
+                        <lightning-button variant="brand" type="cancel" class="slds-align_absolute-center"
+                            title="cancel" label="Cancel" onclick={closeModal}></lightning-button>
+
+                    </footer>
+
+                </div>
+            </section>
+
+
+        </lightning-card>
+
+
+    </template>
+
+
+    <template if:true={isSeasonalOrderDetails}>
+        <div class="slds-box" style="background-color: #d0cece;padding:20px;">
+            <div class="slds-align_absolute-center">
+                <h4>Buy Book Name:
+                    {seasonalOrderDetails.programChairBudgetDetails.program_chairBudget.Program__r.Name__c}</h4>
+            </div>
+        </div>
+        <br />
+        <!-- Budget details for the selected buy book 
+       
+            <div class="slds-box" style="background-color: #d0cece;padding:0;">
+                <div class="slds-align_absolute-center">
+                        <h4>{seasonalOrderDetails.programChairBudgetDetails.program_chairBudget.Program__r.Name__c}</h4>
+                </div>
+                <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                    <lightning-layout-item class="slds-p-left_small" flexibility="grow" size="4">
+                        <p class="budget_header_style">
+                            Allocated Budget
+                        </p>
+                        <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                            <lightning-layout-item>
+                            </lightning-layout-item>
+                            <lightning-layout-item>
+                                <span>
+                                    <lightning-formatted-number value={seasonalOrderDetails.programChairBudgetDetails.program_chairBudget.Allocated_Budget__c}
+                                        format-style="currency" currency-code="USD">
+                                    </lightning-formatted-number>
+                                </span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+        
+                    <lightning-layout-item flexibility="grow" class="slds-p-left_xx-small" size="4">
+                        <p class="budget_header_style">
+                            Utilized Budget
+                        </p>
+                        <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                            <lightning-layout-item>
+                            </lightning-layout-item>
+                            <lightning-layout-item>
+                                <span>
+                                    <lightning-formatted-number value={seasonalOrderDetails.programChairBudgetDetails.program_chairBudget.Consumed_Budget__c}
+                                        format-style="currency" currency-code="USD">
+                                    </lightning-formatted-number>
+                                </span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="grow" class="slds-p-right_small slds-p-left_xx-small" size="4">
+                        <p class="budget_header_style">
+                            Available Budget
+                        </p>
+                        <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                            <lightning-layout-item>
+                            </lightning-layout-item>
+                            <lightning-layout-item>
+                                <span>
+                                    <lightning-formatted-number value={seasonalOrderDetails.programChairBudgetDetails.program_chairBudget.Available_Chair_Budget__c} format-style="currency"
+                                        currency-code="USD">
+                                    </lightning-formatted-number>
+                                </span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div><br/><br/>-->
+
+        <lightning-layout vertical-align="end" multiple-rows="true">
+            <lightning-layout-item size="1" flexibility="grow"></lightning-layout-item>
+            <lightning-layout-item size="2" flexibility="grow">
+                <lightning-button icon-position="left" onclick={goBackToPreviousPage} variant="Brand"
+                    label=" Back To Previous Page"></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" flexibility="grow">
+                <span class="slds-align_absolute-center" style="font-weight: 700;font-size: 15px;">
+                    Order Total
+                    <span class="order_total_style">
+                        <lightning-formatted-number value={seasonalOrderDetails.totalOrderValue} format-style="currency"
+                            currency-code="USD"></lightning-formatted-number>
+
+                    </span>
+                </span>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="2" flexibility="grow" class="save_btn_style">
+                <lightning-button icon-position="left" onclick={saveOrder} variant="Brand" label="Save Order"
+                    disabled={disableSaveButtonForExceedBudget}>
+                </lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item size="1" flexibility="grow"></lightning-layout-item>
+        </lightning-layout>
+        <br /><br />
+
+        <!-- Table details of selected order items -->
+
+        <div class="header_div_style">
+            <div class="table-responsive scroll-box">
+                <table class="table table-hover; table-fixed ;width:100% order_details_table">
+                    <thead>
+                        <tr class="table_header_style">
+                            <th class="header_th_style">Order Number</th>
+                            <th class="header_th_style">Order Destination</th>
+                            <th class="header_th_style">Item Image</th>
+                            <th class="header_th_style">Item Details</th>
+                            <th class="header_th_style">Ordered Quantity</th>
+                            <th class="header_th_style">Value</th>
+                            <th class="header_th_style">Edit Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={selectedOrderItem} for:item="seasonalOrderItem">
+                            <tr class="table_Column" key={seasonalOrderItem.cometOrderItem.Id}>
+                                <td role="gridcell">
+                                    <div class="slds-truncate item_type_content_style"
+                                        title={seasonalOrderDetails.cometOrder.OrderName__c}>
+                                        {seasonalOrderDetails.cometOrder.OrderName__c}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="item_type_content_style" title="Order Destination details">
+                                        Ship to name :
+                                        {seasonalOrderDetails.cometOrder.AddressBook__r.Shipto_Name__c}<br /> Ship to
+                                        company :
+                                        {seasonalOrderDetails.cometOrder.AddressBook__r.Shipto_Company__c}<br />
+                                        City: {seasonalOrderDetails.cometOrder.AddressBook__r.City__c}<br />
+                                        State: {seasonalOrderDetails.cometOrder.AddressBook__r.State__r.State_Name__c}
+                                        <br />
+                                        Zip Code: {seasonalOrderDetails.cometOrder.AddressBook__r.Zip__c}
+                                    </div>
+                                </td>
+                                <td>
+                                    <template if:true={seasonalOrderItem.cometOrderItem.posItemImageURL}>
+                                        <div>
+
+                                            <img style="height: 130px;"
+                                                src={seasonalOrderItem.cometOrderItem.posItemImageURL} />
+                                        </div>
+                                    </template>
+                                    <template if:false={seasonalOrderItem.cometOrderItem.posItemImageURL}>
+                                        <div>
+
+                                            <img style="height: 130px;" src={NoImageURL} />
+                                        </div>
+                                    </template>
+                                </td>
+
+                                <td>
+                                    <div class="item_type_content_style">
+                                        Item Name : {seasonalOrderItem.cometOrderItem.POS_Item__r.Item_Name__c} <br />
+                                        Item Number : {seasonalOrderItem.cometOrderItem.POS_Item__r.Item_No__c} <br />
+                                        Pack Of : {seasonalOrderItem.cometOrderItem.POS_Item__r.Pack_Of__c} <br />
+                                        Price: <lightning-formatted-number
+                                            value={seasonalOrderItem.cometOrderItem.POS_Item__r.Price__c}
+                                            format-style="currency" currency-code="USD"></lightning-formatted-number>
+                                        <br />
+                                        Brand:
+                                        {seasonalOrderItem.cometOrderItem.POS_Item__r.Brand__r.Brand_Name__c}<br />
+                                        Item Type:
+                                        {seasonalOrderItem.cometOrderItem.POS_Item__r.Type_of_Item__r.Item_Type__c}<br />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div onkeydown={validateNumber}>
+                                        <lightning-input style="width:107px" label="Enter some text"
+                                            variant="label-hidden" value={seasonalOrderItem.cometOrderItem.Quantity__c}
+                                            maxlength="5" data-id={seasonalOrderItem.cometOrderItem.Id}
+                                            onchange={onChangeOrderQuantity} disabled={seasonalOrderItem.isQtyEditable}>
+                                        </lightning-input>
+
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="slds-truncate item_type_content_style"
+                                        title={seasonalOrderItem.cometOrderItem.Total_Line_Amount__c}>
+                                        <lightning-formatted-number
+                                            value={seasonalOrderItem.cometOrderItem.Total_Line_Amount__c}
+                                            format-style="currency" currency-code="USD"></lightning-formatted-number>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <lightning-button-icon class="icon_color" onclick={onEditButtonSelected}
+                                        icon-name="utility:edit" size="small" alternative-text="Edit"
+                                        value={seasonalOrderItem} title="Edit"></lightning-button-icon>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+
+    <template if:true={isBudgetExceeded}>
+        <c-copper-shopping-cart-budget-exceeded-component onexceedclosemodal={exceedCloseModal}>
+        </c-copper-shopping-cart-budget-exceeded-component>
+    </template>
+</template>

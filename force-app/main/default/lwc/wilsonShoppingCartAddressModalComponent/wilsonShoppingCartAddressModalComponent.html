@@ -1,0 +1,252 @@
+<!-- Authors:Vanditha,Thanvi    Date:07-01-2021
+Aim: to display the list of addresses and shipping menthods along with search filter and pagination in the popup modal-->
+
+<!-- shipping address pop_up -->
+<template>
+  <!-- If this porperty is true then we can open the popup modal -->
+  <template if:true={isModalOpen}>
+    <!-- To obtain result and display the data to the pop-up modal  -->
+    <template if:false={userAddressBookData}>
+
+      <!-- lightning card for the  popup modal -->
+      <lightning-card>
+        <div class="slds-m-around_medium">
+          <!-- modal section  -->
+          <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+
+            <!-- modal container -->
+            <div class="slds-modal__container">
+              <!-- Box LWC header here -->
+              <!-- To display the modal heading in the header -->
+              <header class="slds-modal__header popUpHeader">
+
+                <!-- the close button icon on click of which the button closes -->
+
+                <lightning-button-icon icon-name="utility:close" alternative-text="Close" onclick={closeModal}
+                  variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+
+                <!-- To make the popup header 'shipping Address for all Items' -->
+                <template if:true={isAddAllAddresses}>
+                  <h3 class="slds-text-heading_medium slds-hyphenate popUp_header">Shipping Address
+                    for all Items</h3>
+                </template>
+
+                <!-- To make the popup header 'shipping Address' -->
+                <template if:false={isAddAllAddresses}>
+                  <h3 class="slds-text-heading_medium slds-hyphenate popUp_header">Shipping Address
+                    for {particularPosItemDetails.posItem.Item_Name__c}</h3>
+                </template>
+              </header>
+
+
+              <!-- Modal Body -->
+              <lightning-card style="margin-bottom: -21px;" class="modal_body_style">
+                <div class="slds-grid slds-wrap">
+                  <div class="slds-col slds-size_2-of-12">
+                  </div>
+                  <div class="slds-col slds-size_6-of-12">
+                    <!-- Lightning input field displayed to the users to add the keyword to search the address -->
+                    <lightning-input onchange={searchAddress} value={searchedKeyword} type="search" label="Search "
+                      placeholder="Search based on ship to name,ship to company and city"></lightning-input>
+                  </div>
+                  &nbsp; &nbsp;
+                  <!-- Search button to search the keyword -->
+                  <div class="slds-col slds-size_3-of-12" style="margin-top:25px;">
+                    <lightning-button variant="brand" onclick={searchOnClickOfButton} disabled={isSearchkey}
+                      label="Search" title="Search"></lightning-button>
+                  </div>
+                </div>
+                <br />
+
+
+                <!-- paginations -->
+                <div class="slds-grid slds-wrap">
+                  <div class="slds-col slds-size_2-of-12"></div>
+                  <div class="slds-col slds-size_2-of-12 pagination_first">
+
+                    <!-- The button to show the addresses to the users in first page-->
+                    <lightning-button disabled={isItFirstNavigationItem} label="First" title="First"
+                      onclick={firstNavigationButton} style="margin-right:10px"></lightning-button>
+
+                    <!-- The button to show the addresses to the users in previous page-->
+                    <lightning-button-icon disabled={isItFirstNavigationItem} icon-name="utility:chevronleft"
+                      onclick={previousNavigationButton} alternative-text="Previous" title="Previous">
+                    </lightning-button-icon>
+                  </div>
+
+                  <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-box pagination_index_no_padding_style">
+                      <!-- To get the index value to the pagination -->
+                      <template for:each={navigationItems} for:item="eachItem">
+
+                        <!-- The numbers to be displayed only if this condition matches -->
+                        <template if:true={eachItem.isRecordExisted}>
+
+                          <!-- The numbers to be displayed only if this condition matches -->
+                          <template if:true={eachItem.isIndexSelected}>
+
+                            <!-- The numbers to be displayed only if this condition matches -->
+                            <lightning-button value={eachItem} label={eachItem.index} key={eachItem.index}
+                              onclick={getAddressListByIndex} variant="brand" data-id={eachItem.index}
+                              style="margin-right:5px"></lightning-button>
+                          </template>
+
+                          <!-- The numbers to be displayed only if this condition matches -->
+                          <template if:false={eachItem.isIndexSelected}>
+                            <lightning-button style="margin-right:5px" value={eachItem} label={eachItem.index}
+                              key={eachItem.index} onclick={getAddressListByIndex} data-id={eachItem.index}>
+                            </lightning-button>
+                          </template>
+                        </template>
+                      </template>
+                    </div>
+                    <br />
+                  </div>
+
+
+                  <div class="slds-col slds-size_2-of-12 pagination_last">
+                    <lightning-button-icon disabled={isItLastNavigationItem} icon-name="utility:chevronright"
+                      class="pagination_background_style_right" alternative-text="Next" title="Next"
+                      onclick={nextNavigationButton}></lightning-button-icon>
+                    <lightning-button label="Last" title="Last" disabled={isItLastNavigationItem}
+                      onclick={lastNavigationButton} style="margin-left:10px"></lightning-button>
+                  </div>
+                  <div class="slds-col slds-size_2-of-12"></div>
+                </div>
+                <!-- pagination ends -->
+
+                <!-- radio button -->
+                <template if:true={user.International_Address_Accessible__c}>
+                  <div style="margin-left:3%;">
+                    <template for:each={options} for:item="item">
+                      <fieldset key={item.value} style="display: block; float: left;">
+                        <div class="slds-form-element__control">
+                          <span class="slds-radio">
+                            <input name="radiogroup" id={item.value} type="radio" value={item.value}
+                              onchange={handleChangeRadioButton} />
+                            <label class="slds-radio__label" for={item.value}>
+                              <span class="slds-radio_faux"></span>
+                              <span class="slds-form-element__label">{item.label}</span>
+                            </label>
+                          </span>
+                        </div>
+                      </fieldset>
+                    </template><br /><br />
+                  </div>
+                </template>
+
+                <!-- radio button ends -->
+                <div class="c-container">
+
+                  <div class="table-responsive scroll-box">
+                    <div class="c-container">
+                      <p style="background-color:#610c04;color:white;padding:2px;">Selected Addresses</p>
+                    </div>
+                    <table>
+                      <tbody>
+                        <template for:each={selectedAddressList} for:item="selectedList">
+                          <tr key={selectedList.id}>
+                            <td>
+                              <lightning-icon icon-name="utility:dash" size="x-small" name={selectedList}
+                                onclick={removeAddressFromSelectedListEvent} class="icon_color_style"
+                                data-id={selectedList.selectedAddress.Id}></lightning-icon>
+                            </td>
+                            <td style="width:75%;padding:7px">
+                              <b>{selectedList.selectedAddress.Shipto_Name__c},
+                                {selectedList.selectedAddress.Shipto_Company__c},
+                                {selectedList.selectedAddress.Address__c},
+                                {selectedList.selectedAddress.City__c},{selectedList.selectedAddress.State__r.State_Name__c}</b>
+                            </td>
+                            <td>
+                              <template if:true={selectedList.selectedShippingMethodId}>
+                                <lightning-combobox name={selectedList} value={selectedList.selectedShippingMethodId}
+                                  data-id={selectedList.selectedAddress.Id} options={shippingMethodList}
+                                  onchange={shippingMethodHandleChange}></lightning-combobox>
+                              </template>
+                              <template if:false={selectedList.selectedShippingMethodId}>
+                                <lightning-combobox name={selectedList} value={defaultValue}
+                                  data-id={selectedList.selectedAddress.Id} options={shippingMethodList}
+                                  onchange={shippingMethodHandleChange}></lightning-combobox>
+                              </template>
+                            </td>
+                          </tr>
+                        </template>
+                      </tbody>
+                    </table>
+                    <div class="c-container">
+                      <p style="background-color:#d0cece;color:black;padding:2px;">Available Addresses</p>
+                    </div>
+                    <table>
+                      <template if:true={isavailableaddresses}>
+                        <b class="slds-align_absolute-center" style="color:#610c04;"> No results found</b>
+                      </template>
+                      <template if:false={isavailableaddresses}>
+                        <tbody>
+
+                          <template for:each={avaialbleAddressList} for:item="address">
+                            <tr key={address.id}>
+                              <td>
+                                <div>
+                                  <lightning-icon icon-name="utility:add" size="x-small" class="icon_color_style"
+                                    data-id={address.selectedAddress.Id} name={address} onclick={addAddressToListEvent}>
+                                  </lightning-icon>
+                                </div>
+                              </td>
+                              <td style="width:75%;padding:7px">
+                                <div>
+                                  <b>{address.selectedAddress.Shipto_Name__c},
+                                    {address.selectedAddress.Shipto_Company__c}, {address.selectedAddress.Address__c},
+                                    {address.selectedAddress.City__c},
+                                    {address.selectedAddress.State__r.State_Name__c}</b>
+                                </div>
+                              </td>
+                              <td>
+                                <div>
+
+                                  <lightning-combobox name="progress" value={defaultValue}
+                                    data-id={address.selectedAddress.Id} options={shippingMethodList} disabled>
+                                  </lightning-combobox>
+                                </div>
+                              </td>
+                            </tr>
+                          </template>
+                        </tbody>
+                      </template>
+                    </table>
+                  </div>
+                </div>
+              </lightning-card>
+
+
+              <!-- PopUp Footer -->
+              <footer class="slds-modal__footer modal_footer_style">
+                <!-- To get the footer button att center we use the slds class -->
+                <div class="slds-align_absolute-center ">
+
+                  <!-- To enable the save button if all the required field is satisfied -->
+                  <template if:false={isdisableSave}>
+                    <lightning-button class="slds-m-around_xx-small" variant="brand" type="submit" title="save"
+                      label="Save" onclick={saveSelectedAddress}></lightning-button>
+                  </template>
+
+                  <!-- To disable the save button if the required field are not satisfied-->
+                  <template if:true={isdisableSave}>
+                    <lightning-button class="slds-m-around_xx-small" variant="brand" type="submit" title="save"
+                      label="Save" disabled>
+                    </lightning-button>
+                  </template>
+
+                  <!-- On click fo cancel button the popup is closed and no changes will be saved -->
+                  <lightning-button variant="brand" type="cancel" title="cancel" label="Cancel" onclick={closeModal}>
+                  </lightning-button>
+                </div>
+              </footer>
+              <!-- PopUp Footer Ends -->
+            </div>
+          </section>
+        </div>
+      </lightning-card>
+    </template>
+  </template>
+</template>

@@ -1,0 +1,48 @@
+<!-- Author : Sanjana; Date : 21-09-2021
+ 
+Aim: To assign user to the chair-->
+
+<template>
+    <!-- Modal/Popup Box LWC starts here -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container modal_container_style">
+
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header popUpHeader modal_header_style">
+                <lightning-button-icon icon-name="utility:close" onclick={closeModal} variant="bare-inverse"
+                    class="slds-modal__close modal_close_style"></lightning-button-icon>
+
+                <h2 id="modal-heading-01"
+                    class="slds-text-heading_medium slds-hyphenate slds-text-heading_small popUp_header">Assign user for
+                    designation
+                    "{labelName}"</h2>
+
+            </header>
+            <!-- modal body -->
+            <div>
+                <div class="slds-modal__content modal_body_style" id="modal-content-id-1">
+                    <div class="slds-m-around_large ">
+                        <div>
+                            <lightning-combobox class="combobox slds-listbox__option slds-media_center slds-media_small"
+                                style="font-size:small;width:100%" label="Designation Name" dropdown-alignment="right"
+                                placeholder="--Select--" value={value} options={userListToDisplay}
+                                onchange={getSelectedUser}></lightning-combobox>
+                        </div>
+
+                    </div>
+                </div>
+
+                <footer class="slds-modal__footer modal_footer_style">
+                    <div class="slds-align_absolute-center">
+                        <div style="padding-right:3px">
+                            <lightning-button variant="brand" type="submit" title="save" label="Save"
+                                onclick={assignUserToChair} disabled={showErrorMessage}></lightning-button>
+                        </div>
+
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,57 @@
+<!--Authors: Thanvi;Date: 20-SEP-2021 -->
+<apex:page standardController="Program__c"  showHeader="false" sidebar="false" 
+           renderAs="PDF" extensions="Infinium_Program_PlayBook_Controller"> 
+      <html>
+        <body >                     
+            <font face="arial" size="2">                                                                      
+          <table border="1" style="border: solid #CCCCCC; border-width: 1;width:100%;table-layout: fixed;" >
+          <thead>
+            <tr style="font-size: 15px;border-width: 1;font-face: arial;  text-align:center;color: #001137;font-weight:bold; background-color: #d2d4d8"> 
+               <th style="width: 22%;">Preview</th>
+               <th style="width: 18%;">Item No</th>
+               <th style="width: 10%;">Item Name</th>
+               <th style="width: 10%;">Brand</th>
+               <th style="width: 10%;">Item Type</th>
+               <th style="width: 10%;">Pack Of</th>               
+               <th style="width: 10%;">Descrption</th>
+               <th style="width: 10%;">Price</th>
+            </tr>
+            </thead>
+            <apex:repeat var="programItem" value="{!posItemList}">
+              <tr style="text-align: center;">
+                  <td>
+                    <apex:image id="theImage"  rendered="{! If(programItem.Attachment_Id__c !=''||programItem.Attachment_Id__c != null ,true,false) }" url="/servlet/servlet.FileDownload?file={!programItem.Attachment_Id__c}" style="padding-top:1%;padding-bottom:1%;max-height:70%;max-width:90%"/>
+
+                    <apex:image id="theNoImage" rendered="{! If(programItem.Attachment_Id__c ==''||programItem.Attachment_Id__c == null ,true,false)}" value="{!$Resource.noimageavailable}" style="padding-top:1%;padding-bottom:1% ;height:65px;max-width:100%"/> 
+
+                </td>
+                <td class="cell-hyphens">{!programItem.Item_No__c}</td>
+                <td>{!programItem.Item_Name__c}</td>
+                <td>{!programItem.Brand__r.Brand_Name__c}</td>
+                <td>{!programItem.Type_of_Item__r.Item_Type__c}</td>
+                <td>{!programItem.Pack_Of__c}</td>
+                <td>{!programItem.Item_Descrption__c}</td>
+                <td>{!programItem.Price__c}</td>                
+              </tr>
+            </apex:repeat>                 
+          </table>
+          <p />
+        </font>
+      </body>         
+    </html>
+    <style type="text/css">
+        TH {font-size: 11px; font-face: arial;background: #CCCCCC;
+        border-width: 1;  text-align: center;color:red; } 
+        TD  {font-size: 10px; font-face: verdana ;text-align: center;border: 1px solid; } 
+        TABLE {border: solid #CCCCCC; border-width: 1}
+        TR {border: solid #CCCCCC; border-width: 1;text-align :center;} 
+        .cell-hyphens {
+   word-wrap: break-word;
+   max-width: 1px;
+   -webkit-hyphens: auto; /* iOS 4.2+ */
+   -moz-hyphens: auto; /* Firefox 5+ */
+   -ms-hyphens: auto; /* IE 10+ */
+   hyphens: auto;
+}
+    </style>
+</apex:page>

@@ -1,0 +1,341 @@
+<template>
+    <lightning-card title="">
+
+        <lightning-layout vertical-align="end" multiple-rows="true">
+            <lightning-layout-item size="2" flexibility="grow"></lightning-layout-item>
+            <lightning-layout-item size="4" flexibility="grow">
+                <lightning-combobox
+                    class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small"
+                    style="font-size:small; margin-right: 20px;" label="Select Buy Book" dropdown-alignment="right"
+                    placeholder="Select a Buy Book" value={value} options={buyBookListToDisplay}
+                    onchange={handleChangeForBuyBook}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" flexibility="grow">
+                <!-- <lightning-input label="Search" placeholder="Enter User Name" value={searchUserWord} type="search"
+                    onchange={handleSearchKeyword}></lightning-input> -->
+                    <lightning-combobox class="combobox slds-listbox__option slds-media_center slds-media_small"
+                    style="font-size:small;width:100%" dropdown-alignment="right" label="Users" placeholder="Users"
+                    value={value} options={usersToDisplay} onchange={getSelectedUser}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="2" flexibility="grow"></lightning-layout-item>
+        </lightning-layout>
+        <br/>
+        <div class="slds-align_absolute-center">
+            <span>Buy Book Consumed Budget:
+                <div
+                    class="slds-border_top slds-border_right slds-border_bottom slds-border_left display_currency_style">
+                    <lightning-formatted-number value={totalProgramBudget} format-style="currency"
+                        currency-code="USD"></lightning-formatted-number>
+                </div>
+            </span>
+        </div>
+    </lightning-card>
+    <br /><br />
+        <template if:true={displayOrders}>
+            <lightning-card title="">
+            <template if:true={isSeasonalOrder}>
+                <div class="header_div_style">
+                    <div class="table-responsive scroll-box">
+                        <table class="table table-hover; table-fixed ;width:100% order_table">
+                            <thead>
+                                <tr  class="table_header_style">
+                                    <th class="header_th_style">Order Number</th>
+                                    <th class="header_th_style">Ordered By</th>
+                                    <th class="header_th_style">Ship To Name</th>
+                                    <th class="header_th_style">Ship To Company</th>
+                                    <th class="header_th_style">Ship To City</th>
+                                    <th class="header_th_style">Ship To Zip</th>
+                                    <th class="header_th_style">Ship To State</th>
+                                    <th class="header_th_style">Number Of Items</th>
+                                    <th class="header_th_style">Total Value</th>
+                                    <th class="header_th_style">Order Status</th>
+                                    <th class="header_th_style">Order Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={seasonalOrderList} for:item="seasonalOrder">
+                                    <tr class="table_Column" key={seasonalOrder.cometOrder.Id}>
+                                        <td role="gridcell">
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={seasonalOrder.cometOrder.OrderName__c}>
+                                                <lightning-button value={seasonalOrder} variant="brand"
+                                                    label={seasonalOrder.cometOrder.OrderName__c}
+                                                    title={seasonalOrder.cometOrder.OrderName__c}
+                                                    onclick={editSeasonalOrder}></lightning-button>
+                                            </div>
+                                        </td>
+                                        <td role="gridcell">
+                                            <div class="slds-truncate item_type_content_style text_wrap_style"
+                                                title={seasonalOrder.cometOrder.Order__r.Owner.Name}>
+                                                {seasonalOrder.cometOrder.Order__r.Owner.Name}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style text_wrap_style"
+                                                title={seasonalOrder.cometOrder.AddressBook__r.Shipto_Name__c}>
+                                                {seasonalOrder.cometOrder.AddressBook__r.Shipto_Name__c}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style text_wrap_style" 
+                                                title={seasonalOrder.cometOrder.AddressBook__r.Shipto_Company__c}>
+                                                {seasonalOrder.cometOrder.AddressBook__r.Shipto_Company__c}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={seasonalOrder.cometOrder.AddressBook__r.City__c}>
+                                                {seasonalOrder.cometOrder.AddressBook__r.City__c}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={seasonalOrder.cometOrder.AddressBook__r.Zip__c}>
+                                                {seasonalOrder.cometOrder.AddressBook__r.Zip__c}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={seasonalOrder.cometOrder.AddressBook__r.State__r.State_Name__c}>
+                                                {seasonalOrder.cometOrder.AddressBook__r.State__r.State_Name__c}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={seasonalOrder.cometOrder.OrderDestinationItems__r.length}>
+                                                {seasonalOrder.cometOrder.OrderDestinationItems__r.length}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={seasonalOrder.totalOrderValue}>
+                                                <lightning-formatted-number value={seasonalOrder.totalOrderValue}
+                                                    format-style="currency" currency-code="USD">
+                                                </lightning-formatted-number>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={seasonalOrder.cometOrder.OrdStatus__c}>
+                                                {seasonalOrder.cometOrder.OrdStatus__c}</div>
+                                        </td>
+                                        <td>
+                                            <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                                value={seasonalOrder.cometOrder.Order__r.Order_Date__c}>
+                                            </lightning-formatted-date-time>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </template>
+            <template if:true={isSeasonalOrderDetails}>
+                <!-- Budget details for the selected buy book -->
+                <div class="slds-box" style="background-color: #d0cece;padding:20px;">
+                    <div class="slds-align_absolute-center">
+                            <h4>Buy Book Name: {seasonalOrderDetails.chairBudget.Program__r.Name__c}</h4>
+                    </div>
+                    </div><br/><br/>
+                    <!-- <div class="slds-box" style="background-color: #d0cece;padding:0;">
+                        <div class="slds-align_absolute-center">
+                                <h4>{seasonalOrderDetails.chairBudget.Program__r.Name__c}</h4>
+                        </div>
+                        <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                            <lightning-layout-item class="slds-p-left_small" flexibility="grow" size="4">
+                                <p class="budget_header_style">
+                                    Allocated Budget
+                                </p>
+                                <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                                    <lightning-layout-item>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <span>
+                                            <lightning-formatted-number value={seasonalOrderDetails.chairBudget.Allocated_Budget__c}
+                                                format-style="currency" currency-code="USD">
+                                            </lightning-formatted-number>
+                                        </span>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                
+                            <lightning-layout-item flexibility="grow" class="slds-p-left_xx-small" size="4">
+                                <p class="budget_header_style">
+                                    Utilized Budget
+                                </p>
+                                <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                                    <lightning-layout-item>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <span>
+                
+                                            <lightning-formatted-number value={seasonalOrderDetails.chairBudget.Consumed_Budget__c}
+                                                format-style="currency" currency-code="USD">
+                                            </lightning-formatted-number>
+                                        </span>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="grow" class="slds-p-right_small slds-p-left_xx-small" size="4">
+                                <p class="budget_header_style">
+                                    Available Budget
+                                </p>
+                                <lightning-layout class="slds-align_absolute-center" vertical-align="end" multiple-rows="true">
+                                    <lightning-layout-item>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <span>
+                                            <lightning-formatted-number value={seasonalOrderDetails.chairBudget.Available_Chair_Budget__c} format-style="currency"
+                                                currency-code="USD">
+                                            </lightning-formatted-number>
+                                        </span>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div><br/><br/> -->
+
+                <lightning-layout vertical-align="end" multiple-rows="true">
+                    <lightning-layout-item size="1" flexibility="grow"></lightning-layout-item>
+                    <lightning-layout-item size="2" flexibility="grow">
+                        <lightning-button icon-position="left" onclick={goBackToPreviousPage} variant="Brand" label=" Back To Previous Page"></lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" flexibility="grow" >
+                        <span class="slds-align_absolute-center" style="font-weight: 700;font-size: 15px;">
+                            Order Total 
+                            <span class="order_total_style">
+                                <lightning-formatted-number value={seasonalOrderDetails.totalOrderValue}
+                                    format-style="currency" currency-code="USD"></lightning-formatted-number>
+
+                            </span>
+                        </span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2" flexibility="grow" class="save_btn_style">
+                        <lightning-button 
+                        icon-position="left" onclick={saveOrder}
+                        variant="Brand" label="Save Order"
+                        disabled={disableSaveButtonForExceedBudget}>   
+                    </lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="1" flexibility="grow"></lightning-layout-item>
+                </lightning-layout>
+                <br/><br/>
+                <!-- Table details of selected order items -->
+               
+                <div class="header_div_style">
+                    <div class="table-responsive scroll-box">  
+                        <table class="table table-hover; table-fixed ;width:100% order_details_table">
+                            <thead>
+                                <tr class="table_header_style">
+                                    <th class="header_th_style">Order Number</th>
+                                    <th class="header_th_style">Order Destination</th>
+                                    <th class="header_th_style">Item Image</th>
+                                    <th class="header_th_style">Item Details</th>
+                                    <th class="header_th_style">Ordered Quantity</th>
+                                    <th class="header_th_style">Value</th>
+                                    <th class="header_th_style">Edit Quantity</th>   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={seasonalOrderItems} for:item="seasonalOrderItem">
+                                    <tr class="table_Column" key={seasonalOrderItem.cometOrderItem.Id}>
+                                        <td role="gridcell">
+                                            <div class="slds-truncate item_type_content_style" 
+                                                 title={seasonalOrderDetails.cometOrder.OrderName__c}>
+                                                {seasonalOrderDetails.cometOrder.OrderName__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="item_type_content_style" title="Order Destination details">
+                                                Ship to name : {seasonalOrderDetails.cometOrder.AddressBook__r.Shipto_Name__c}<br/> Ship to company : {seasonalOrderDetails.cometOrder.AddressBook__r.Shipto_Company__c}<br/>
+                                                City: {seasonalOrderDetails.cometOrder.AddressBook__r.City__c}<br/>
+                                                State: {seasonalOrderDetails.cometOrder.AddressBook__r.State__r.State_Name__c} <br/>
+                                                Zip Code: {seasonalOrderDetails.cometOrder.AddressBook__r.Zip__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <template if:true={seasonalOrderItem.posItemImage}>
+                                                <div>
+
+                                                    <img style="height: 130px;" src={seasonalOrderItem.posItemImage} />
+                                                </div>
+                                            </template>
+                                            <template if:false={seasonalOrderItem.posItemImage}>
+                                                <div>
+
+                                                    <img style="height: 130px;" src={NoImageURL} />
+                                                </div>
+                                            </template>
+                                        </td>
+                                        
+                                        <td>
+                                            <div class="item_type_content_style">
+                                                Item Name : {seasonalOrderItem.cometOrderItem.POS_Item__r.Item_Name__c} <br/> 
+                                                Item Number : {seasonalOrderItem.cometOrderItem.POS_Item__r.Item_No__c} <br/> 
+                                                Pack Of : {seasonalOrderItem.cometOrderItem.POS_Item__r.Pack_Of__c} <br/> 
+                                                Price:  <lightning-formatted-number value={seasonalOrderItem.cometOrderItem.POS_Item__r.Price__c} format-style="currency" currency-code="USD"></lightning-formatted-number>
+                                                <br/>
+                                                Brand: {seasonalOrderItem.cometOrderItem.POS_Item__r.Brand__r.Brand_Name__c}<br/>  
+                                                Item Type: {seasonalOrderItem.cometOrderItem.POS_Item__r.Type_of_Item__r.Item_Type__c}<br/>  
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div onkeydown={validateNumber}>
+                                                <lightning-input style="width:107px" label="Enter some text" variant="label-hidden" value={seasonalOrderItem.cometOrderItem.Quantity__c} maxlength="5" data-id={seasonalOrderItem.cometOrderItem.Id} onchange={onChangeOrderQuantity} disabled={seasonalOrderItem.isQtyEditable}></lightning-input>
+                                                
+                                            </div>
+                                            
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate item_type_content_style" title={seasonalOrderItem.cometOrderItem.Total_Line_Amount__c}>
+                                                <lightning-formatted-number value={seasonalOrderItem.cometOrderItem.Total_Line_Amount__c} format-style="currency"
+                                                currency-code="USD"></lightning-formatted-number>
+                                             
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <lightning-button-icon class="icon_color" onclick={onEditButtonSelected} icon-name="utility:edit" size="small" alternative-text="Edit" value={seasonalOrderItem} title="Edit"></lightning-button-icon>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </template>
+        </lightning-card>
+        </template>
+        <template if:false={seasonalOrderList}>
+            <template if:false={selectedUser}>
+            <template if:true={selectedBuyBookId}>
+                <p class="message_Style">Please select a user</p>
+            </template>
+            </template>
+        </template>
+
+        <template if:false={seasonalOrderList}>
+            <template if:false={selectedBuyBookId}>
+                <template if:true={selectedUser}>
+                   <p class="message_Style">Please select a buy book</p> 
+                </template>
+            </template>
+        </template>
+
+       
+            <template if:false={displayOrders}>
+                <template if:true={selectedBuyBookId}>
+                    <template if:true={selectedUser}>
+                   <p class="message_Style">No orders to display</p>
+               </template>
+               </template>
+        </template>
+
+        <template if:false={displayOrders}>
+            <template if:false={selectedBuyBookId}>
+                <template if:false={selectedUser}>
+               <p class="message_Style">Please select a buy book and an user</p>
+           </template>
+           </template>
+    </template>
+
+            <!-- to invoke budget exceeded modal component -->
+    <template if:true={isBudgetExceeded}>
+        <c-copper-shopping-cart-budget-exceeded-component onexceedclosemodal={exceedCloseModal}></c-copper-shopping-cart-budget-exceeded-component>
+    </template>
+</template>

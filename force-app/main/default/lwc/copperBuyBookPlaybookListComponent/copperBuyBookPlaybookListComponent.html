@@ -1,0 +1,93 @@
+<!-- Author:Thanvi
+Date: 17-08-2021
+Aim: to display Buy Book playbook component -->
+
+<template>
+    <lightning-card title="">
+        <div class="slds-align_absolute-center">
+            <div style="width:30%;">
+                <lightning-combobox
+                    class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small"
+                    style="font-size:small; margin-right: 20px;" label="Select Buy Book" dropdown-alignment="right"
+                    placeholder="Select a Buy Book" value={value} options={buyBookListToDisplay}
+                    onchange={handleChangeForBuyBook}></lightning-combobox>
+            </div>
+        </div>
+        <div class="slds-align_absolute-center" style="padding-top:1%;">
+            <lightning-button class="slds-align_absolute-center" variant="brand" title="Download PDF"
+                label="Download PDF" onclick={downloadPlayBook}></lightning-button>
+        </div>
+    </lightning-card>
+    <template if:true={buyBookItemList}>
+        <lightning-card>
+            <div class="header_div_style">
+                <div class="table-responsive scroll-box">
+                    <table class="table table-hover; table-fixed ;width:100%; ">
+                        <thead>
+                            <tr class="table_header_style">
+                                <th class="tableheader" style="width: 15%;">Item Preview</th>
+                                <th class="tableheader" style="width: 15%;">Item No</th>
+                                <th class="tableheader" style="width: 17%;">Item Name</th>
+                                <th class="tableheader" style="width: 15%;">Brand</th>
+                                <th class="tableheader" style="width: 15%;">Item Type</th>
+                                <th class="tableheader" style="width: 10%;">Pack Of</th>
+                                <th class="tableheader" style="width: 110%;">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={buyBookItemList} for:item="posItem">
+                                <tr class="table_Column" key={posItem.Id}>
+                                    <td role="gridcell">
+                                        <div class="td_content_style">
+                                            <template if:true={posItem.buyBookImageURL}>
+                                                <div>
+                                                    <img style="height: 130px;" src={posItem.buyBookImageURL} />
+                                                </div>
+                                            </template>
+                                            <template if:false={posItem.buyBookImageURL}>
+                                                <div>
+
+                                                    <img style="height: 130px;" src={NoImageURL} />
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="item_type_content_style" title={posItem.buyBookItem.Item_No__c}>
+                                            {posItem.buyBookItem.Item_No__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="item_type_content_style" title={posItem.buyBookItem.Item_Name__c}>
+                                            {posItem.buyBookItem.Item_Name__c}</div>
+                                    </td>
+
+                                    <td role="gridcell">
+                                        <div class="item_type_content_style"
+                                            title=posItem.buyBookItem.Brand__r.Brand_Name__c}>
+                                            {posItem.buyBookItem.Brand__r.Brand_Name__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="item_type_content_style"
+                                            title=posItem.buyBookItem.Type_of_Item__r.Item_Type__c}>
+                                            {posItem.buyBookItem.Type_of_Item__r.Item_Type__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div title=posItem.buyBookItem.Pack_Of__c}>{posItem.buyBookItem.Pack_Of__c}
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div>
+                                            <lightning-formatted-number value={posItem.buyBookItem.Price__c}
+                                                format-style="currency" title={posItem.buyBookItem.Price__c}
+                                                currency-code="USD"></lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+</template>

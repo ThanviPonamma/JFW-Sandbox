@@ -1,0 +1,123 @@
+<!-- Author : Sanjana; Date : 20-09-2021
+     Aim: This component is responsible to display the list of brands that belongs to copper cane -->
+
+
+
+     <template>
+        <!-- displaying a box -->
+        <div class="slds-box">
+            <div>
+                <!-- displaying a button to open a create pop-up modal -->
+                <lightning-button class="slds-align_absolute-center" variant="brand" title="Create Brand"
+                    label="Create Brand" onclick={onCreatebrand}></lightning-button>
+            </div>
+    
+            <div>
+                <template if:false={getAllBrands}>
+                    <template if:true={brandNotFound}>
+                        <br />
+                        <!-- displaying a table of brand list and its details -->
+                        <div class="table-responsive scroll-box">
+                            <!-- table starts here -->
+                            <table class="table-fixed">
+                                <thead>
+                                    <tr>
+                                        <!-- brand name -->
+                                        <th class="tableheaderfirst ">Brand Name</th>
+                                        <!-- brand manager pop-up -->
+                                        <th class="tableheader ">Brand Manager</th>
+                                        <!-- brand active status -->
+                                        <th class="tableheader ">Active</th>
+                                        <!-- brand edit pop-up -->
+                                        <th class="tableheader ">Edit</th>
+                                        <!-- toggle button to deactivate the brand -->
+                                        <th class="tableheader ">Deactivate</th>
+    
+                                    </tr>
+                                </thead>
+    
+                                <!-- table body starts here -->
+                                <tbody>
+                                    <!-- The attribute 'brands' contains entire Brand Name and Brand Active -->
+                                    <template for:each={brands} for:item="brand">
+                                        <tr class="table_Column" key={brand.Id}>
+                                            <!-- brand name -->
+                                            <td role="gridcell" class="td_content_style">
+                                                <div class="slds-truncate" title={brand.Brand_Name__c}>{brand.Brand_Name__c}
+                                                </div>
+                                            </td>
+                                            <!-- brand manager pop-up -->
+                                            <td role="gridcell" class="td_content_style">
+                                                <lightning-button-icon icon-name="utility:people"
+                                                    onclick={addOrRemoveUserToBrand} size="medium" value={brand}
+                                                    alternative-text="addOrRemoveUserToBrand" title="Add Or Remove Users">
+                                                </lightning-button-icon>
+                                            </td>
+    
+                                            <!-- brand active status -->
+                                            <td role="gridcell" class="td_content_style">
+                                                <div class="slds-truncate">
+                                                    <template if:true={brand.Active__c}>
+                                                        <lightning-icon icon-name="utility:check" alternative-text="Active"
+                                                            size="x-small" title="Active"></lightning-icon>
+                                                    </template>
+                                                </div>
+                                            </td>
+                                            <!-- brand edit pop-up -->
+                                            <td role="gridcell" class="td_content_style">
+    
+                                                <lightning-button-icon class="icon_color" value={brand} name={brand}
+                                                    detail={brand} icon-name="utility:edit" onclick={openEditPopUp}
+                                                    size="small"></lightning-button-icon>
+    
+    
+    
+                                            </td>
+                                            <!-- toggle button to deactivate the brand -->
+                                            <td role="gridcell">
+                                                <template if:false={brand.Active__c}>
+                                                    <lightning-input type="toggle" disabled
+                                                        class="slds-align_absolute-center toggle_Style"
+                                                        checked={brand.Active__c} name={brand} detail={brand}
+                                                        size="x-small"></lightning-input>
+                                                </template>
+                                                <template if:true={brand.Active__c}>
+                                                    <lightning-input type="toggle" checked={brand.Active__c}
+                                                        class="slds-align_absolute-center toggle_Style" value={brand}
+                                                        name={brand} detail={brand} onclick={deactivateBrand}
+                                                        size="x-small"></lightning-input>
+                                                </template>
+    
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </div>
+    
+        <!-- to add the message of no brand is found -->
+    
+        <template if:false={brandNotFound}>
+            <br />
+            <lightning-card class="message_text">
+                <p>Brands not found</p>
+            </lightning-card>
+        </template>
+    
+        <!-- invoking edit/create pop-up  -->
+        <template if:true={openEditModal}>
+            <c-infinium-manage-brand-create-or-edit-component get-brand-details={selectedBrandDetails}
+                is-edit-clicked={isEditClicked} label-name={labelName} brand-name-for-validation={brandNameForValidation}
+                onclosemodal={closeModal}></c-infinium-manage-brand-create-or-edit-component>
+        </template>
+    
+        <!-- invoking add/remove user modal -->
+        <template if:true={isAddOrRemoveUserListModalOpen}>
+            <c-infinium-manage-brand-users-component brand={brand} label-name={labelName}
+                oncloseuserpopupmodal={closeUserPopUpModal}></c-infinium-manage-brand-users-component>
+        </template>
+    </template>

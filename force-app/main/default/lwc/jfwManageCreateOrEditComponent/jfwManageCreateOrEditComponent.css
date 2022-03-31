@@ -1,0 +1,52 @@
+.exampleHolder{
+    position:relative;
+}
+
+@media only screen and (min-width:768px) and (max-width:1281px) {
+  .slds-modal .slds-modal__container {
+        width: 25%;
+        
+    }
+}
+@media only screen and (min-width:1282px) and (max-width:4000px) {
+  .slds-modal .slds-modal__container {
+        width: 20%;  
+    }
+}
+@media only screen and (min-width:100px) and (max-width: 366px) {
+    
+  .slds-button {
+        padding: 6px;
+    }
+  .slds-modal__footer {
+        padding: 0px;
+    }
+}
+ .slds-text-heading_small {
+    margin-bottom: 0;
+} .slds-modal__close {
+    top: 0.5rem!important;
+    right: 0.5rem!important;
+}
+ .buttonHover:hover{  
+    background-color:rgb(201, 199, 197); 
+    border-color:rgb(201, 199, 197);
+} .slds-form-element__label{
+    padding-bottom: 10px;
+    color: black;
+} .slds-checkbox__label{
+    padding-top: 10px;
+}
+ .modal_header_style{
+    background-color: #534133;
+    border-bottom: #534133;
+    color: white;
+} .modal_body_style{
+    border-right: 2px solid #534133!important;
+    border-left: 2px solid #534133!important;
+}
+ .modal_footer_style{
+    border-right: 2px solid #534133!important;
+    border-left: 2px solid #534133!important;
+    border-bottom: 2px solid #534133!important;
+}

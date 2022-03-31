@@ -1,0 +1,127 @@
+<template>
+    <!-- <template if:true={isModalOpen}> -->
+        <!-- lightning button for open modal window -->
+        <!--Use template if:true to display/hide popup based on isModalOpen value--> 
+        
+    
+            <!-- Modal/Popup Box LWC starts here -->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container ">
+    
+    
+    
+             <!-- Modal/Popup Box LWC header here -->
+              <header class="slds-modal__header popUpHeader modal_header_style">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                                 alternative-text="close"
+                                 variant="inverse"
+                                 size="small" class="slds-modal__close" >
+                      </lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                </button>
+                <template if:true={isEditClicked}>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate slds-text-heading_small popUp_header">Edit Brand for {labelName}</h2>     
+                </template>
+                <template if:false={isEditClicked}>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate popUp_header">Create Brand</h2>     
+                </template>
+                        
+             </header>
+    
+    
+    
+             
+              <!-- Modal/Popup Box LWC body starts here -->
+                <div >                    
+                    <div class="slds-modal__content modal_body_style" id="modal-content-id-1">
+                     <div class="slds-m-around_large ">
+                        <!-- <div class="slds-grid slds-wrap"> -->
+                            <!-- <div class="slds-col slds-size_6-of-12 slds-p-right_small"> -->
+                                 <!-- <lightning-input required name="brandName" value={brandDetails.Brand_Name__c} class="addressBookDestinationName" onchange={validateBrandname} data-id="brandNameInputField" 
+                                 class="brandNameValidation" label="Brand Name" maxlength="60"
+                                 ></lightning-input> -->
+                                 <div>
+                                     <lightning-input name="brandName" required="true" value={brandDetails.Brand_Name__c} label="Brand Name" minlength="4" maxlength="40" class="brandNameValidation" onchange={validateBrandName}>  
+                                    </lightning-input> 
+                                 </div>
+                                <div>
+                                    <lightning-input type="checkbox" label="Active" checked={brandDetails.Active__c} onchange={handleChangeActive} name="brandActive" >
+                                      </lightning-input>
+                                 </div>
+                             <!-- </div>  -->
+                            </div>
+                        </div>
+ 
+                                <!-- <div class="slds-grid slds-wrap">
+                                    <template if:true={brandDetails.Active__c}>
+                                   
+                                    </template>
+                                     <template if:false={brandDetails.Active__c}>
+                                        <div class="slds-col slds-size_12-of-12 slds-p-right_xx-small">
+                                           <lightning-input type="checkbox" class="label_style" label="Active" value={brandDetails.Active__c} onchange={handleChangeActive} name="brandActive" >
+                                           </lightning-input>
+                                        </div>
+                                   </template>
+                                </div> -->
+    
+                            <!-- </div> -->
+                       
+                   
+                <!-- Modal Body closes here -->
+    
+    
+    
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer modal_footer_style">
+                    <div class="slds-align_absolute-center">
+                        <!-- <div class="slds-col slds-size_2-of-12">
+                            
+                            <lightning-button variant="brand" type="submit" title="save" label="Save" onclick={saveBrand} disabled={showErrorMessage}></lightning-button>
+                            </div>
+                            <div class="slds-col slds-size_1-of-12">
+
+                            </div>
+                            <div class="slds-col slds-size_7-of-12" >
+                                <lightning-button variant="brand" label="Save And New"
+                            title="Save And New"  onclick={saveAndNewBrand}></lightning-button> 
+                            </div>
+                            <div class="slds-col slds-size_1-of-12">
+
+                            </div>
+                         <div class="slds-col slds-size_2-of-12">
+                             <lightning-button variant="brand" type="cancel" title="cancel" label="Cancel" onclick={closeModal}></lightning-button>
+                           </div> -->
+                           <div style="padding-right:3px">
+                            <lightning-button variant="brand" type="submit" title="save" label="Save" onclick={saveBrand} disabled={showErrorMessage}></lightning-button>
+                           </div>
+                           <div style="padding-right:3px">
+                            <lightning-button variant="brand" label="Save And New"
+                            title="Save And New"  onclick={saveAndNewBrand}></lightning-button>
+                           </div>
+                            <div>
+                                <lightning-button variant="brand" type="cancel" title="cancel" label="Cancel" onclick={closeModal}></lightning-button>
+                            </div>
+                        <!-- </div> -->
+                        
+                    </div>
+                                    
+                </footer>
+
+                <!-- <footer class="slds-modal__footer modal_footer_style">
+                    <div class="slds-align_absolute-center">
+                        <lightning:button class="{!(v.showSpinner || empty(v.selectedBrand.Brand_Name__c) || (empty(v.selectedBrand.Brand_Name__c)?true:lessthanorequal(v.selectedBrand.Brand_Name__c.length,2)) || v.showErrorMessage)?'buttonHover':'button_color_style'}" variant="brand"
+                                          label="Save" title="Save" onclick="{! c.saveBrand}" disabled="{!(v.showSpinner || empty(v.selectedBrand.Brand_Name__c) || (empty(v.selectedBrand.Brand_Name__c)?true:lessthanorequal(v.selectedBrand.Brand_Name__c.length,2)) || v.showErrorMessage)}"
+                                          />
+                        <lightning:button variant="brand" class="{!(v.showSpinner || empty(v.selectedBrand.Brand_Name__c) || (empty(v.selectedBrand.Brand_Name__c)?true:lessthanorequal(v.selectedBrand.Brand_Name__c.length,2)) || v.showErrorMessage)?'buttonHover':'button_color_style'}"
+                                          label="Save And New" title="Save And New" onclick="{! c.saveAndNewBrand}" disabled="{!(v.showSpinner || empty(v.selectedBrand.Brand_Name__c) || (empty(v.selectedBrand.Brand_Name__c)?true:lessthanorequal(v.selectedBrand.Brand_Name__c.length,2)) || v.showErrorMessage)}"
+                                          />
+                        <lightning:button class="button_color_style" variant="brand" label="Cancel" title="Cancel" onclick="{! c.closeModel}" />
+                    </div>
+                </footer> -->
+
+                </div>
+                </div>>
+            </section>
+        <!-- </template> -->
+</template>

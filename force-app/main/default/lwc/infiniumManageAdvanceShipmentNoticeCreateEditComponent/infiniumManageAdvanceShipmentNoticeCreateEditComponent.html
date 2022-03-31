@@ -1,0 +1,299 @@
+<!-- Authors:Sanjana    Date:07-11-2021
+Aim: pop-up modal to create new ASN on click of "create new ASN" button and the pop-up modal to edit ASN on clcik of "edit" icon-->
+
+
+<template>
+    <!-- To display the form and the pos items that are unselected and selected -->
+    <template if:false={allPosItemsList}>
+        <div class="slds-m-around_xx-large">
+            <section role="dialog" tabindex="0" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header modal_header_style">
+                        <lightning-button-icon icon-name="utility:close" onclick={closeModal} variant="bare-inverse"
+                            class="slds-modal__close"></lightning-button-icon>
+                        <!-- To display the header for edit pop-up -->
+                        <template if:true={isEditClicked}>
+                            <h2 class="slds-text-heading_medium slds-hyphenate slds-text-heading_small">
+                                Edit Shipment Notice
+                            </h2>
+                        </template>
+                        <!-- To display the header for create pop-up -->
+                        <template if:false={isEditClicked}>
+                            <h2 class="slds-text-heading_medium slds-hyphenate slds-text-heading_small">
+                                Create New ASN </h2>
+                        </template>
+                    </header>
+
+                    <div class="scrollbar modal_body_style" style="height:25rem;">
+                        <div class="slds-modal__content ">
+                            <!-- To display the form -->
+                            <div class="slds-m-around_x-large modal_margin_style">
+                                <div class="slds-grid slds-wrap slds-p-top_x-small">
+                                    <!-- Vendor Name -->
+                                    <div class="slds-col slds-size_4-of-12 slds-p-right_small">
+                                        <lightning-input name="asnVendor" value={asnDetails.Vendor__c} type="text"
+                                            maxlength="40" label="Vendor" onchange={onChangeVendor}>
+                                        </lightning-input>
+                                    </div>
+                                    <!-- Purchase Number-->
+                                    <div class="slds-col slds-size_4-of-12 slds-p-right_small">
+                                        <lightning-input name="asnpurchaseOrderNumber"
+                                            value={asnDetails.Purchase_Order_Number__c} type="text" maxlength="40"
+                                            label="Purchase Order Number" onchange={onChangePurchaseNumber}>
+                                        </lightning-input>
+                                    </div>
+                                    <!-- Pallet Count -->
+                                    <div class="slds-col slds-size_4-of-12 slds-p-right_small">
+                                        <lightning-input name="asnPalletCount" value={asnDetails.Pallet_Count__c}
+                                            onchange={onChangePalletCount} type="text" maxlength="40"
+                                            label="Pallet Count">
+                                        </lightning-input>
+                                    </div>
+
+                                </div>
+                                <div class="slds-grid slds-wrap slds-p-top_x-small">
+                                    <!-- Carrier -->
+                                    <div class="slds-col slds-size_4-of-12 slds-p-right_small">
+                                        <lightning-input name="asnCarrier" value={asnDetails.Carrier__c}
+                                            onchange={onChangeCarrier} type="text" maxlength="40" label="Carrier">
+                                        </lightning-input>
+                                    </div>
+                                    <!-- Tracking Number -->
+                                    <div class="slds-col slds-size_4-of-12 slds-p-right_small">
+                                        <lightning-input name="asnTrackingNumber" onchange={onChangeTrackingNumber}
+                                            value={asnDetails.Tracking_Number__c} type="text" maxlength="40"
+                                            label="Tracking Number"></lightning-input>
+                                    </div>
+                                    <!-- Package Count -->
+                                    <div class="slds-col slds-size_4-of-12 slds-p-right_small">
+                                        <lightning-input name="asnPackageCount" onchange={onChangePackageCount}
+                                            value={asnDetails.Package_Count__c} type="text" maxlength="40"
+                                            label="Package Count"></lightning-input>
+                                    </div>
+
+                                </div>
+                                <div class="slds-grid slds-wrap slds-p-top_x-small">
+                                    <!-- Expected Date -->
+                                    <div class="slds-col slds-size_7-of-12 slds-p-right_small">
+                                        <lightning-input type="datetime" data-id={expectedDateInputField}
+                                            onchange={onChangeExpectedDate} value={asnDetails.Expected_Date__c}
+                                            class="dateValidityField" min={today} required label="Expected Date">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_5-of-12 slds-p-right_small">
+
+                                </div>
+                            </div>
+                            <!-- To display selected item associated with the ASN -->
+                            <div class="slds-p-top_xxx-small">
+                                <lightning-card title="Selected Items">
+                                    <template if:true={displayErrorMessageForQTY}>
+                                        <span class="display_notification_style">Please enter a value of 1 or more to
+                                            save the data. If you do not want an item in this ASN click remove.</span>
+                                    </template>
+                                    <table class="slds-table slds-table_bordered slds-table_fixed-layout" role="grid">
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th scope="col">
+                                                    <b title="Item Name">Item Name
+                                                    </b>
+                                                </th>
+                                                <th scope="col">
+                                                    <b title="Item Number">Item
+                                                        Number</b>
+                                                </th>
+                                                <th scope="col">
+                                                    <b title="Pack Of">Pack Of</b>
+                                                </th>
+                                                <th style="width: 24%;" scope="col">
+                                                    <b title="Quantity">Quantity</b>
+                                                </th>
+                                                <th scope="col">
+                                                    <b title="Remove">Remove</b>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={selectedPosItems} for:item="selectedPosItem">
+                                                <tr key={selectedPosItem.posItemList.Id}>
+                                                    <td role="gridcell">
+                                                        <div class="slds-truncate display_selected_style"
+                                                            title="Item Name">
+                                                            {selectedPosItem.posItemList.POS_Item__r.Item_Name__c}</div>
+                                                    </td>
+                                                    <td role="gridcell">
+                                                        <div class="slds-truncate" title="Item Number">
+                                                            {selectedPosItem.posItemList.POS_Item__r.Item_No__c}</div>
+                                                    </td>
+                                                    <td role="gridcell">
+                                                        <div class="slds-truncate" title="Item Number">
+                                                            {selectedPosItem.posItemList.POS_Item__r.Pack_Of__c}</div>
+                                                    </td>
+                                                    <td role="gridcell">
+                                                        <div class="slds-truncate" title="View Details">
+                                                            <div onkeydown={removeSpecialCharactersForQuantity}>
+                                                                <lightning-input style="width:50%;"
+                                                                    onchange={addToTotalQty}
+                                                                    name={selectedPosItem.posItemList}
+                                                                    value={selectedPosItem.posItemList.Quantity__c}
+                                                                    class="quantityValidityField" maxlength="4">
+                                                                </lightning-input>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td role="gridcell">
+                                                        <lightning-button-icon icon-name="utility:dash" size="small"
+                                                            title="Remove" onclick={removePosItemsFromList}
+                                                            name={selectedPosItem.posItemList}></lightning-button-icon>
+                                                    </td>
+                                                </tr>
+                                            </template>
+
+
+                                        </tbody>
+                                    </table>
+                                </lightning-card>
+
+                            </div>
+                            <!-- To display Available item associated with the ASN -->
+                            <lightning-card title="POS Items">
+                                <div class="slds-align_absolute-center" style="height:2rem;">
+                                    <div style="width:50%;">
+
+                                        <div>
+                                            <lightning-input name="enter-search" label="Search" type="search"
+                                                onchange={handleSearchFilter}></lightning-input>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <br />
+                                <!-- unselected pos items list starts here -->
+                                <div class="slds-m-around_medium modal_margin_style">
+                                    <div class="scrollbar" style="height:15rem;">
+                                        <table class="slds-table slds-table_bordered slds-table_fixed-layout"
+                                            role="grid">
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <th scope="col">
+                                                        <b title="Item Name">Item
+                                                            Name</b>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <b title="Item Number">Item
+                                                            Number</b>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <b title="Add">Add</b>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template for:each={unselectedPosItems} for:item="unselectedPosItem">
+                                                    <tr class="table_Column" key={unselectedPosItem.posItemList.id}>
+
+                                                        <td role="gridcell">
+                                                            <div class="slds-truncate display_unselected_style"
+                                                                title="Item Name">
+                                                                {unselectedPosItem.posItemList.Item_Name__c}</div>
+                                                        </td>
+                                                        <td role="gridcell">
+                                                            <div class="slds-truncate" title="Item Number">
+                                                                {unselectedPosItem.posItemList.Item_No__c}</div>
+                                                        </td>
+                                                        <td role="gridcell">
+                                                            <lightning-icon icon-name="utility:add" size="x-small"
+                                                                class="icon_style" name={unselectedPosItem.posItemList}
+                                                                onclick={addPosItemsToList}></lightning-icon>
+
+                                                        </td>
+
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                            </lightning-card>
+
+                        </div>
+
+
+                    </div>
+                    <footer class="slds-modal__footer modal_footer_style">
+                        <div class="slds-align_absolute-center">
+                            <!-- If  isButtonDisable and displayErrorMessageForQTY both are false then eneable the save button-->
+                            <template if:true={isButtonDisable}>
+                                <template if:true={displayErrorMessageForQTY}>
+                                    <div style="padding-right:3px">
+                                        <lightning-button variant="brand" type="submit" title="Save" label="Save" disabled>
+                                        </lightning-button>
+                                    </div>
+                                    <!-- Save and Submit To Warehouse Button-->
+                                    <div style="padding-right:3px">
+                                        <lightning-button variant="brand" label="Save And Submit To Warehouse"
+                                            title="Save And Submit To Warehouse" disabled></lightning-button>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={isButtonDisable}>
+                                <template if:true={displayErrorMessageForQTY}>
+                                    <div style="padding-right:3px">
+                                        <lightning-button variant="brand" type="submit" title="Save" label="Save"
+                                            disabled></lightning-button>
+                                    </div>
+                                    <!-- Save and Submit To Warehouse Button-->
+                                    <div style="padding-right:3px">
+                                        <lightning-button variant="brand" disabled label="Save And Submit To Warehouse"
+                                            title="Save And Submit To Warehouse"></lightning-button>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:true={isButtonDisable}>
+                                <template if:false={displayErrorMessageForQTY}>
+                                    <!-- Save Button -->
+                                    <div style="padding-right:3px">
+                                        <lightning-button variant="brand" type="submit" disabled title="Save" label="Save">
+                                        </lightning-button>
+                                    </div>
+                                    <!-- Save and Submit To Warehouse Button-->
+                                    <div style="padding-right:3px">
+                                        <lightning-button variant="brand" disabled label="Save And Submit To Warehouse"
+                                            title="Save And Submit To Warehouse"></lightning-button>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={isButtonDisable}>
+                                <template if:false={displayErrorMessageForQTY}>
+                                    <!-- Save Button -->
+                                    <div style="padding-right:3px">
+                                        <lightning-button variant="brand" type="submit" title="Save" label="Save"
+                                            onclick={saveASN}></lightning-button>
+                                    </div>
+                                    <!-- Save and Submit To Warehouse Button-->
+                                    <div style="padding-right:3px">
+                                        <lightning-button variant="brand" label="Save And Submit To Warehouse"
+                                            title="Save And Submit To Warehouse" onclick={saveAndSubmit}>
+                                        </lightning-button>
+                                    </div>
+                                </template>
+                            </template>
+
+                            <div>
+                                <!-- Cancel button -->
+                                <lightning-button variant="brand" type="cancel" title="Cancel" label="Cancel"
+                                    onclick={closeModal}></lightning-button>
+                            </div>
+
+                        </div>
+                    </footer>
+
+                </div>
+            </section>
+
+        </div>
+    </template>
+</template>

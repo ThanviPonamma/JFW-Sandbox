@@ -1,0 +1,86 @@
+<!-- Author : Sanjana Date: 10-11-2021
+Aim : The Manage order withheld table holds the items in the withheld table -->
+
+<template>
+    <!-- Grid class to display the table header and combobox in right order -->
+      <div class="slds-grid slds-wrap">
+
+          <!-- To display the header above the table -->
+        <div class="slds-col slds-size_9-of-12">
+            <span class="headerText" style="margin-left: 50px;">Withheld Items</span>
+          </div>
+         
+          <!-- To display the combobox only if the item is present in the table -->
+          <template if:true={withHeldItemsToBeDisplayed}>
+
+            <!-- If withheldListHasData has data -->
+            <!-- <template if:true ={withheldListHasData}> -->
+
+          <div class="slds-col slds-size_3-of-12">
+            <label class="labe_Text_Style">Select a Brand for Withheld Items  </label>  
+
+            <!-- The brand data is binded to the 'options' attribute as 'brandListToDisplay'
+            and the value is held in the 'value' attribute-->
+            <lightning-combobox class="combobox"
+                dropdown-alignment="right" name="orderStatus"
+          placeholder="Select a Brand" value={value} options={brandListToDisplay} onchange={onSelectionOfBrand} ></lightning-combobox> 
+      
+        </div>
+        <!-- </template> -->
+        </template>
+
+    </div>
+    <br/>
+
+
+    <!-- If withHeldItemsToBeDisplayed has data -->
+    <template if:true={withHeldItemsToBeDisplayed}>
+        <!-- If withheldListHasData has data -->
+        <template if:true ={withheldListHasData}>
+
+        <div class="table-responsive scroll-box table_Width">
+          <!-- To disply the table if there is data in 'withHeldItemsDetails'-->
+      
+             <!-- Table to hold Withheld items data -->
+             <table class="table-fixed">
+                 <thead>
+                     <tr >
+                         <th class="tableheaderfirst ">Item Number</th>
+                         <th class="tableheader ">Item Name</th>
+                         <th class="tableheader ">Brand</th>
+                         <th class="tableheader ">Pack of</th>
+                         <th class="tableheader ">Price</th>
+                         <th class="tableheader ">Remove</th>
+                     </tr>
+                 </thead>
+
+                 <tbody>
+                    <!-- To display the data for each 'withheldItems' in 'getWithHeldItemsList' List-->
+                    <template for:each={getWithHeldItemsList.data} for:item="withheldItem">
+                        <tr  key={withheldItem.id} class="table_Column" >
+                            <td title={withheldItem.Item_No__c}>{withheldItem.Item_No__c}</td>
+                            <td title={withheldItem.Item_Name__c}>{withheldItem.Item_Name__c}</td>
+                            <td title={withheldItem.Brand__r.Brand_Name__c}>{withheldItem.Brand__r.Brand_Name__c}</td>
+                            <td title={withheldItem.Pack_Of__c}>{withheldItem.Pack_Of__c}</td>
+                            <td title={withheldItem.Price__c}>${withheldItem.Price__c}</td>
+                            <td> 
+                                <lightning-button-icon icon-class="slds-m-around_medium" icon-name="utility:dash" class="slds-align_absolute-center" onclick={removeItemFromWithheldEvent} data-id={withheldItem.Id} size="x-small"></lightning-button-icon>
+                            </td>
+                        </tr>
+                        </template>
+                    </tbody>
+                </table>
+        
+        </div>
+    </template> 
+</template>
+            <!-- To display the message to the user if no data is present in the table -->
+           <div>
+            <template if:false ={withheldListHasData}>
+                <lightning-card>
+                    <p class="message_style">The selected program does not have any items withheld for the selected Brand.</p>
+                </lightning-card>
+            </template>
+        </div>
+  
+</template>

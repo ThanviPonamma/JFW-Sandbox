@@ -1,0 +1,65 @@
+/* css */
+
+
+/* scroll bar */
+.scroll-box {
+    width: 100%;
+    height: 390px;
+    overflow-y: auto;
+  }
+  
+  .scroll-box::-webkit-scrollbar {
+    width: .4em;
+  }
+  
+  .scroll-box::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #a26737;
+  }
+  
+  .table_Column {
+    border-bottom: 1px solid #dee2e6;
+    padding: 8px;
+    height: 55px;
+  }
+  
+  .tableheader {
+    background-color: #231F20;
+    position: sticky !important;
+    top: 0;
+    z-index: 99;
+    height: 40px;
+    text-align: left;
+    
+    color: #808080 !important;
+  }
+  
+  
+  
+  @media screen and (-webkit-min-device-pixel-ratio:0) {
+  
+    /* Safari only override */
+    .tableheader {
+      background-color: #231F20;
+      position: -webkit-sticky;
+      top: 0;
+      z-index: 99;
+      height: 40px;
+      text-align: left;
+      color: #808080 !important;
+    }
+
+  }
+
+  
+  .table_header_style {
+    background-color: #231F20;
+    position: sticky !important;
+  
+    top: 0;
+  }
+  
+  .td_content_style {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }

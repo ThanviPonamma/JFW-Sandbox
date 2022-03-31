@@ -1,0 +1,16 @@
+<!-- Author:VM ,VB
+     Date:October 19th 2020
+     Aim:To display the breadcrumb of manage item type page -->
+
+<template>
+<!-- Breadcrumb with on click of home it will navigate to home page -->
+<div class="breadcrumbContents">
+    <ul class="breadcrumb">
+        <li><a onclick={navigateToHomePage}>Home</a></li>
+        <li><a>Manage Item Types</a></li>
+    </ul>
+ </div>
+<br/>
+<!-- To call child component for displaying table of manage item type system -->
+<c-jfw-manage-item-types-list-component></c-jfw-manage-item-types-list-component>
+</template>

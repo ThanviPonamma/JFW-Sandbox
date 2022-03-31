@@ -1,0 +1,42 @@
+@isTest
+public class CopperManageTerritories_ApexTest {
+    @isTest
+    private static void testController ()
+    {
+        Account acct = new Account(Name='Copper Cane');
+        insert acct ;
+        Contact contact=new Contact(LastName='Testing',AccountId=acct.Id);
+        insert contact;
+        Country__c country=new Country__c(Active__c=true , Country_Code__c='countryCode' , Country_Name__c='countryName');
+        insert country;
+        State__c state = new State__c(State_Name__c='testState', Active__c = true, Country__c=country.id ,State_Code__c='stateCode');
+        insert state ;
+        Profile profile=[SELECT Name FROM Profile WHERE Name='Customer Community Plus User' LIMIT 1];
+        User communityUser = new User(Alias = 'standt', Email='standarduser@testorg.com', 
+                                      EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+                                      LocaleSidKey='en_US', ProfileId = profile.Id, 
+                                      TimeZoneSidKey='America/Los_Angeles', UserName='standarduser@testorg.com',ContactId=contact.Id);
+        insert communityUser;
+        Copper_Cane_Email_Notifications__c CopperCaneCustomSetting=new Copper_Cane_Email_Notifications__c(Name='CopperCane',Cc_Addresses_List__c='thanvi@uxltechnologies.net');
+        insert CopperCaneCustomSetting;
+        Test.startTest();
+        CopperManageTerritories_Apex.saveTerritory_Apex(new Territory__c(Territory_Name__c='territoryName' , Active__c=true , Account__c = acct.Id));
+        CopperManageTerritories_Apex.deactivateTerritoryApex(CopperManageTerritories_Apex.getTerritoryList(). territoryList[0]);
+        CopperManageTerritories_Apex.territoryListWithNames territoryList = CopperManageTerritories_Apex.getTerritoryList();
+        //CopperMangeTerritoryUsers_Apex - Manage Users
+        CopperMangeTerritoryUsers_Apex.getCurrentTerritoryUserList(territoryList.territoryList[0].Id);
+        CopperMangeTerritoryUsers_Apex.addUserToTerritory(new List<String> {communityUser.Id},territoryList.territoryList[0].Id);
+        
+        //CopperMangeTerritoryStates_Apex - Manage States
+        
+        CopperManageTerritoriesStates_Apex.getCurrentTerritoryStateList(territoryList.territoryList[0].Id);  
+        CopperManageTerritoriesStates_Apex.addStateToTerritory(new List<String> {state.Id} ,territoryList.territoryList[0].Id);
+        
+        //Exception cases
+        CopperManageTerritories_Apex.saveTerritory_Apex(new Territory__c( Active__c=true , Account__c = acct.Id));
+        CopperManageTerritories_Apex.deactivateTerritoryApex(new Territory__c( Active__c=true , Account__c = acct.Id));
+        CopperMangeTerritoryUsers_Apex.addUserToTerritory(new List<String> {communityUser.Id},null);
+        CopperManageTerritoriesStates_Apex.addStateToTerritory(new List<String> {state.Id} , null);
+        Test.stopTest();
+    }
+}

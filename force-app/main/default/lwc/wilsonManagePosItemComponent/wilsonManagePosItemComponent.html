@@ -1,0 +1,16 @@
+<!-- Authors:Vanditha,Thanvi
+     Date:05-01-2021
+     Aim: To hold the bread crumb and the c-wilson-manage-pos-item-list-component child component -->
+
+<template>
+    <!--To disaply breadcrumbs, where on click of navigates to home page -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Manage POS Items</a></li>
+        </ul>
+    </div>
+    <br />
+    <!-- To invoke the child component to display table details -->
+    <c-wilson-manage-pos-item-list-component></c-wilson-manage-pos-item-list-component>
+</template>

@@ -1,0 +1,148 @@
+<!-- Author - VM,VP,JP Date - June 30th 2020 
+    Aim - To display available Comet Order List-->
+
+
+<template>
+    <!-- To disply the table if there is data in 'availableCometOrderList'-->
+  <template if:true={availableCometOrderList}>
+    <template if:true ={isAvailableCometOrderHasData}>
+    <lightning-card  >
+        <div class="table-responsive scroll-box table_Width">
+        <!-- Table -->
+            <table class="table-fixed">
+              <thead>
+                  <tr >
+                     <!-- <th class="tableheaderfirst ">Program</th>
+                     <th class="tableheader ">Ordered By</th> -->
+                     <th class="tableheader ">Order Number</th>
+                     <th class="tableheader ">Date</th>
+                     <th class="tableheader ">Ship to Name</th>
+                     <th class="tableheader ">Ship to Company</th>
+                     <th class="tableheader ">City</th>
+                     <th class="tableheader ">State</th>
+                     <th class="tableheader ">View Item Details</th>
+                     <th class="tableheader ">Add</th>
+                  </tr>
+              </thead>
+              
+
+              <tbody>
+                 <!-- To display the data for each 'availableCometList' in 'availableCometOrderListToBeDisplayed' List-->
+                <template for:each={availableCometOrderListToBeDisplayed.data} for:item="availableCometList">
+                  <tr key={availableCometList.Id} class="table_Column" >
+                    <!-- <td title={availableCometList.Order__r.Program__r.Name__c}  style="word-break: break-word;text-overflow: clip;">{availableCometList.Order__r.Program__r.Name__c}</td>
+                    <td title={availableCometList.Order__r.Owner.Name}>{availableCometList.Order__r.Owner.Name}</td> -->
+                    <td title={availableCometList.OrderName__c}>{availableCometList.OrderName__c}</td>
+                    <td >
+                      <!-- {availableCometList.Order__r.Order_Date__c} -->
+                      <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit" value={availableCometList.Order__r.Order_Date__c}></lightning-formatted-date-time>
+                    </td>
+                    <td title={availableCometList.AddressBook__r.Shipto_Name__c}>{availableCometList.AddressBook__r.Shipto_Name__c}</td>
+                    <td title={availableCometList.AddressBook__r.Shipto_Company__c}>{availableCometList.AddressBook__r.Shipto_Company__c}</td>
+                    <td title={availableCometList.AddressBook__r.City__c}>{availableCometList.AddressBook__r.City__c}</td>
+                    <td title={availableCometList.AddressBook__r.State__r.State_Name__c}>{availableCometList.AddressBook__r.State__r.State_Name__c}</td>
+                    <td><lightning-button variant="brand" label="View Items" onclick={openModal} data-id={availableCometList.Id}></lightning-button></td>
+                    <td> 
+                      <lightning-button-icon icon-name="utility:add" class="slds-align_absolute-center" onclick={getPosItemsForCometOrders} data-id={availableCometList.Id} size="x-small"></lightning-button-icon>
+                    </td>
+                  </tr>
+                 </template>
+                 </tbody>
+
+             </table>
+         </div>
+          </lightning-card>
+        </template>
+      </template>
+      
+          <!-- To hide the table if no data is present in the 'isAvailableCometOrderHasData' -->
+          <div>
+            <template if:true={getProgramId}>
+              <template if:true={getUserId}>
+                <template if:false={getSearchValue}>
+                  <template if:false={isAvailableCometOrderHasData}>
+                  <lightning-card>
+                    <p class="message_style slds-align_absolute-center">The user does not have any orders available for the selected program.</p>
+                   </lightning-card>
+                  </template>
+                </template>
+              </template>
+            </template>
+          </div>
+          <!-- condition for the Error message if there is no search result -->
+          <div>
+            <template if:true={getProgramId}>
+              <template if:true={getUserId}>
+                <template if:true={getSearchValue}>
+                  <template if:false={isAvailableCometOrderHasData}>
+                  <lightning-card>
+                    <p class="message_style slds-align_absolute-center">No results found.</p>
+                   </lightning-card>
+                  </template>
+                </template>
+              </template>
+            </template>
+          </div>
+     
+
+      <!-- PopUp modal for the view items -->
+      <template if:true={isModalOpen}>
+        <lightning-card>
+          <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container"> 
+
+                    <!-- Box LWC header here -->
+                    <header class="slds-modal__header popUpHeader">
+                      <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                       <lightning-icon icon-name="utility:close"
+                         alternative-text="close"
+                         variant="inverse"
+                         size="small" class="popup_close" ></lightning-icon>
+                       <span class="slds-assistive-text">Close</span>
+                     </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate popUp_header">Item Details</h2>
+                   </header>
+     
+                   <!-- Modal Body -->
+                   <lightning-card  >
+                    <div class="table-responsive scroll-box_Modal popUpTable modal_body_style" >
+                        <table class="table-fixed ">
+                          <thead>
+                              <tr >
+                                 <th class="popUp_Table_Header ">Item Name</th>
+                                 <th class="popUp_Table_Header ">Item Number</th>
+                                 <th class="popUp_Table_Header ">Pack of</th>
+                                 <th class="popUp_Table_Header ">Quantity</th>
+                                 <th class="popUp_Table_Header ">Brand Name</th>
+                                 <th class="popUp_Table_Header ">Item Type</th>
+                              </tr>
+                          </thead>
+          
+                          <tbody>
+                             <!-- To loop through all the order Destination Items List and show data for each order destination item -->
+                               <template for:each={orderDestinationItemsList} for:item="orderDestinationList">
+                                <tr key={orderDestinationList.Id} class="table_Column" >
+                                <td title={orderDestinationList.POS_Item__r.Item_Name__c}>{orderDestinationList.POS_Item__r.Item_Name__c}</td>
+                                <td title={orderDestinationList.POS_Item__r.Item_No__c}>{orderDestinationList.POS_Item__r.Item_No__c}</td>
+                                <td title={orderDestinationList.POS_Item__r.Pack_Of__c}>{orderDestinationList.POS_Item__r.Pack_Of__c}</td>
+                                <td title={orderDestinationList.Quantity__c}>{orderDestinationList.Quantity__c}</td>
+                                <td title={orderDestinationList.POS_Item__r.Brand__r.Brand_Name__c}>{orderDestinationList.POS_Item__r.Brand__r.Brand_Name__c}</td>
+                                <td title={orderDestinationList.POS_Item__r.Type_of_Item__r.Item_Type__c}>{orderDestinationList.POS_Item__r.Type_of_Item__r.Item_Type__c}</td>
+                                 </tr>
+                                 </template>
+                                 </tbody>
+                             </table>
+                       </div>
+                      </lightning-card>
+
+                        <!-- PopUp Footer -->
+                        <!-- Contains close button -->
+                        <footer class="slds-modal__footer modal_footer_style">
+                          <lightning-button variant="brand" label="Close"  class="slds-align_absolute-center" onclick={closeModal}></lightning-button>
+                        </footer>
+                </div>
+               </section>
+                      <div class="slds-backdrop slds-backdrop_open"></div>
+        </lightning-card>
+      </template>
+</template>

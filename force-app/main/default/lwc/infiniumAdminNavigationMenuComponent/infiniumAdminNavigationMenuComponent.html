@@ -1,0 +1,139 @@
+<!-- Author : Sanjana; Date : 20-09-2021
+Aim : responsible to handle the navigation menu -->
+
+<template>
+    <template if:false={accountDetailsForInfiniumSpirits}>
+    <!-- Header logo with log out  -->
+
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_2-of-12 ">
+                <img style="margin-bottom: 20px;" src={InfiniumHeaderLogo} />
+            </div>
+            <div class="slds-col slds-size_8-of-12 "></div>
+            <div class="slds-col slds-size_2-of-12 " style="text-align: right;margin-top:25px">
+                <lightning-button-icon size="large" icon-name="utility:logout" variant="bare" alternative-text="Log Out" icon-class="dark" onclick={logoutApplication}></lightning-button-icon>
+            </div>
+        </div>
+
+    <!-- The menu list for ADMIN/ ADMIN RPT -->
+
+    <div class="topnav hover_header_display_style">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light no-padding hover_header_display_style">
+            <div class="navbar-collapse" style="background-color: #001137;border-radius: 5px;">
+                <ul class="navbar-nav mr-auto navigation-menu" style="flex-direction: initial;">
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" onclick={navigateToHomeComponent}><i class="mdi mdi-view-dashboard "></i>Home</a>
+                    </li>
+                    <!--Desktop view-->
+                    <template if:true={isDesktopView}>
+                    <li class="has-submenu" >
+                        <a class="menu_item_style nav-link">Admin</a>
+                        <ul class="submenu megamenu">
+                            <li>
+                                <a class="subMenuDecoration" onclick={navigateManageBrandComponent}>Manage Brands</a>
+                                <a class="subMenuDecoration" onclick={navigateManageItemTypeComponent}>Manage Item Types</a>  
+                                <a class="subMenuDecoration" onclick={navigateManagePosItemComponent}>Manage POS Items</a>
+                                <a class="subMenuDecoration" onclick={navigateManageTerritoriesComponent}>Manage Territories</a>
+                                <a class="subMenuDecoration" onclick={navigateManageShippingMethodComponent}>Manage Shipping Methods</a>
+                                <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Manage Address Book</a>
+                                <a class="subMenuDecoration" onclick={navigateManageASNComponent}>Manage Advance Shipment <br/>Notice</a>
+                                <a class="subMenuDecoration" onclick={navigateManageProgramComponent}>Manage Programs</a>
+                            </li>
+                            <li>
+                                
+                                <a class="subMenuDecoration" onclick={navigateManageProgramBudgetComponent}>Manage Program Budget</a>
+                                <a class="subMenuDecoration" onclick={navigateManageOrderedItems}>Manage Ordered Items</a>
+                                <a class="subMenuDecoration" onclick={navigateSendWaveOrders}>Send Wave Orders</a>
+                                <a class="subMenuDecoration" onclick={navigateManageDesignationComponent}>Manage Designation</a>
+                                <a class="subMenuDecoration" onclick={navigateManageAssignDesignationComponent}>Assign Designation</a>
+                                <a class="subMenuDecoration" onclick={navigateManageChairUserComponent}>Manage Chair User</a>
+                                <a class="subMenuDecoration" onclick={navigateManageApprovalsComponent}>Manage Approvals</a>
+                                <a class="subMenuDecoration" onclick={navigateEditOrderComponent}>Edit Order</a>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Inventory odering menu -->
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link"><i class="mdi mdi-view-dashboard"></i>Inventory Order</a>
+                        <ul class="submenu megamenu">
+                            <li>
+                                <a class="subMenuDecoration" onclick={navigateToPOSCatalog}>POS Catalog</a>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryPlaceOrderComponent}>Place Orders</a>
+                                <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Address Book</a>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryShoppingCartComponent}>Shopping Cart Details</a>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryOrderStatusComponent}>Order Status</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Program ordering menu 
+                    Author: Sanjana
+                    Date: 16-08-2021-->
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link"><i class="mdi mdi-view-dashboard"></i>Program Ordering</a>
+                        <ul class="submenu megamenu">
+                            <li>
+                                <a class="subMenuDecoration" onclick={navigateToPlaybook}>Playbook</a>
+                                <a class="subMenuDecoration" onclick={navigateToOpenProgramComponent}>Place Orders</a>
+                                <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Address Book</a>
+                                <a class="subMenuDecoration" onclick={navigateToOrderStatusComponent}>Order Status</a>
+
+                                <!-- <a class="subMenuDecoration" onclick={navigateToInventoryShoppingCartComponent}>Shopping Cart Details</a>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryOrderStatusComponent}>Order Status</a> -->
+                            </li>
+                        </ul>
+                    </li>
+                    
+                </template>
+                <!--Tablet View 
+                Authors : Thanvi Ponamma;Date : 06/Aug/2020-->
+                <template if:false={isDesktopView}>
+                    <li class="has-submenu" >
+                        <a class="menu_item_style nav-link" name="adminsubmenu" onclick={displaySubMenu}>Admin</a>
+                        <template if:true={showAdminSubMenu}>
+                            <ul class="submenu megamenu" id="display_Sub_Menu">
+                                <li>
+                                    <a class="subMenuDecoration" onclick={navigateManageBrandComponent}>Manage Brands</a><br/>
+                                    <a class="subMenuDecoration" onclick={navigateManageItemTypeComponent}>Manage Item Types</a>  <br/>
+                                    <a class="subMenuDecoration" onclick={navigateManagePosItemComponent}>Manage POS Items</a><br/>
+                                    <a class="subMenuDecoration" onclick={navigateManageTerritoriesComponent}>Manage Territories</a><br/>
+                                </li>
+                                <li>
+                                    <a class="subMenuDecoration" onclick={navigateManageApprovalsComponent}>Manage Approvals</a><br/>
+                                    <a class="subMenuDecoration" onclick={navigateManageShippingMethodComponent}>Manage Shipping Methods</a><br/>
+                                    <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Manage Address Book</a><br/>
+                                    <a class="subMenuDecoration" onclick={navigateManageASNComponent}>Manage Advance Shipment <br/>Notice</a><br/>
+                                </li>
+                            </ul>
+                        </template>
+                       
+                    </li>
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" name="inventorysubmenu" onclick={displaySubMenu}></i>Buy Book</a>
+                        <template if:true={showSeasonalSubMenu}>
+                        <ul class="submenu megamenu">
+                            <li>
+                                <a class="subMenuDecoration" onclick={navigateToPOSCatalog}>Program Playbook</a><br/>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryPlaceOrderComponent}>Place Orders</a><br/>
+                                <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Address Book</a><br/>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryShoppingCartComponent}>Shopping Cart Details</a><br/>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryOrderStatusComponent}>Order Status</a><br/>
+                            </li>
+                        </ul>
+                    </template>
+                    </li>
+                </template>
+
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" onclick={navigateToReportsPage}><i class="mdi mdi-view-dashboard"></i>Report</a>
+                    </li>
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" onclick={openHelpDesk}><i class="mdi mdi-view-dashboard"></i>Help Desk</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    </template>
+</template>

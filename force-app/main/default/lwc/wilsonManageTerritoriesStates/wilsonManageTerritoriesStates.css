@@ -1,0 +1,78 @@
+.exampleHolder {
+    position: relative;
+}
+
+.buttonHover:hover {
+    background-color: rgb(201, 199, 197);
+    border-color: rgb(201, 199, 197);
+}
+
+.slds-modal .slds-modal__container {
+    width: 30%
+}
+
+.modal_header_style {
+    background-color:#610c04;
+    border-bottom:#610c04;
+    color: white;
+}
+
+.modal_body_style {
+    border-right: 2px solid#610c04!important;
+    border-left: 2px solid#610c04!important;
+}
+
+.modal_footer_style {
+    border-right: 2px solid#610c04!important;
+    border-left: 2px solid#610c04!important;
+    border-bottom: 2px solid#610c04!important;
+}
+
+.slds-form-element__label {
+    padding-bottom: 7px;
+    font-weight: 700;
+    color: black;
+}
+
+.slds-dueling-list__column {
+    padding-left: 4px;
+}
+
+.slds-dueling-list__options [aria-selected="true"] {
+    background-color:#610c04;
+    color: white;
+}
+
+.slds-button:focus {
+    color:#610c04;
+    box-shadow:#610c04 0px 0px 3px;
+}
+
+.slds-button:hover {
+    color: grey;
+}
+
+.slds-modal__close {
+    top: 0.5rem!important;
+    right: 0.5rem!important;
+}
+
+.slds-text-heading_small {
+    margin-bottom: 0;
+}
+
+.modal_margin_style {
+    margin-top: 0;
+}
+
+@media only screen and (min-width:1281px) and (max-width:1700px) {
+    .slds-modal .slds-modal__container {
+        width: 36%;
+    }
+}
+
+@media only screen and (min-width:1200px) and (max-width:1280px) {
+    .slds-modal .slds-modal__container {
+        width: 36%;
+    }
+}

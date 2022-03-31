@@ -1,0 +1,66 @@
+<!-- Authors: Varsha, Sanjana
+Date: 14-10-2020
+Aim: this is the child component of jfwInventoryPosCatalogComponent which is responsible to display the filter inputs and download button and to send brand Id and search keyword to the parent-->
+
+<template>
+  <div class="c-container">
+    <div class="slds-grid slds-wrap">
+      <div class="slds-col slds-size_3-of-12">
+
+      </div>
+      <div class="slds-col slds-size_6-of-12">
+        <lightning-input type="search" label="Search" class="slds-align_absolute-center search_input_style"
+          placeholder="Search based on Item Name and Item Number" onchange={searchPosItem} value={searchedKeyword}>
+        </lightning-input>
+      </div>
+      <div class="slds-col slds-size_1-of-12" style="margin-top:auto;">
+        <lightning-button variant="brand" type="search" title="Search" class="search_button_style" label="Search"
+          onclick={searchEvent}></lightning-button>
+      </div>
+    </div>
+
+
+    <br />
+    <!-- div to hold the brand and download pdf button  -->
+    <div class="slds-grid slds-wrap">
+      <div class="slds-col slds-size_3-of-12">
+
+      </div>
+      <div class="slds-col slds-size_3-of-12">
+        <!-- to display the brand dropdown for the user to filter the items based on brand -->
+        <lightning-combobox
+          class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small"
+          style="font-size:small;margin-right:20px;" label="Brand" dropdown-alignment="right"
+          placeholder="All Brands" value={value} options={brandListToDisplay} onchange={handleChangeForBrand}>
+        </lightning-combobox>
+      </div>
+
+
+      <!-- displaying the item type list -->
+      <div class="slds-col slds-size_3-of-12">
+        <!-- to display the brand dropdown for the user to filter the items based on brand -->
+        <lightning-combobox
+          class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small"
+          style="font-size:small;margin-left:2vw; margin-right:27px;" label="Item Type" dropdown-alignment="right"
+          placeholder="All Item Types" value={value} options={itemTypesListToDisplay}
+          onchange={handleChangeForItemType}></lightning-combobox>
+      </div>
+
+
+      <!-- to display the button for the user to download pos catalog -->
+      <div class="slds-col slds-size_3-of-12">
+        <lightning-button class="slds-button slds-button_neutral slds-align_absolute-center download_button"
+          icon-name="utility:download" variant="brand" label="Download PDF" title="Download" onclick={getPOSCatalog}>
+        </lightning-button>
+
+
+      </div>
+      <div class="slds-col slds-size_3-of-12">
+
+      </div>
+
+    </div>
+    <br />
+  </div>
+
+</template>

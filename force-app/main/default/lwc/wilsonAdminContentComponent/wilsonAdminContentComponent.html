@@ -1,0 +1,80 @@
+<!-- Author : Thanvi, Vanditha
+Date : 04/01/2021
+Aim : To display the contents on the site -->
+
+
+<template>
+    <template if:false={accountDetailsForWilsonDaniel}>
+
+    <!-- To navigate to home page -->
+    <template if:true ={isHome}>
+      <c-wilson-home-component></c-wilson-home-component>
+    </template>
+
+    <!-- To navigate to Pos catalog page -->
+    <template if:true ={isPosCatalog}>
+       <c-wilson-inventory-pos-catalog-component></c-wilson-inventory-pos-catalog-component>
+    </template>
+
+    <!-- To navigate to place order - pos item list page -->
+    <template if:true={isPosItemMenuPage}>
+      <c-wilson-pos-item-menu-component></c-wilson-pos-item-menu-component>
+      </template>
+
+      <!-- To navigate to shopping cart page -->
+      <template if:true={isShoppingCart}>
+        <c-wilson-shopping-cart-component></c-wilson-shopping-cart-component> 
+    </template>
+
+    <!--  To navigate to Preview  page -->
+    <template if:true={isPreviewOrder}>
+    <c-wilson-preview-order-component emerge-order-id = {orderId}></c-wilson-preview-order-component>
+    </template>
+
+     <!-- To navigate to Order Status page -->
+    <template if:true ={isOrderStatusPage}>
+      <c-wilson-order-status-component></c-wilson-order-status-component>
+    </template>
+
+     <!-- To navigate to  Address book page -->
+    <template if:true ={isAddressBook}>
+      <c-wilson-manage-address-book-component></c-wilson-manage-address-book-component>
+    </template>
+
+      <!-- To navigate to Manage Brand page -->
+    <template if:true ={isManageBrand}>
+        <c-wilson-manage-brand-component></c-wilson-manage-brand-component>
+    </template>
+
+    <!-- To navigate to Manage Item Type page -->
+    <template if:true ={isManageItemType}>
+    <c-wilson-manage-item-type-component></c-wilson-manage-item-type-component>
+    </template>
+
+      <!-- To navigate to Manage Territories page -->
+    <template if:true ={isManageTerrioties}>
+       <c-wilson-manage-territories-component></c-wilson-manage-territories-component>
+    </template>
+
+    <!-- To navigate to Manage Shipping Methods page -->
+    <template if:true={isManageShippingMethods}>
+     <c-wilson-manage-shipping-method-component></c-wilson-manage-shipping-method-component>
+    </template>
+
+    <!-- To navigate to Manage Pos Items  page -->
+    <template if:true={isManagePosItem}>
+       <c-wilson-manage-pos-item-component></c-wilson-manage-pos-item-component>
+    </template>
+    
+    <!-- To navigate to Manage ASN page -->
+    <template if:true={isManageASN}>
+        <c-wilson-manage-advance-shipment-notice-component></c-wilson-manage-advance-shipment-notice-component>
+    </template>
+
+    <!-- To navigate to Manage Approval-->
+    <template if:true={isManageApproval}>
+    <c-wilson-manage-approvals-component></c-wilson-manage-approvals-component> 
+    </template>
+    
+</template>
+</template>

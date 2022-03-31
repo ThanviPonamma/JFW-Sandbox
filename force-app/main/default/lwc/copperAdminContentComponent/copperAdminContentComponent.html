@@ -1,0 +1,111 @@
+<!-- Author : Thanvi: Date :06/Aug/2021
+Aim : To display the contents on the site -->
+
+
+<template>
+    <template if:false={accountDetailsForCopperCane}>
+        <!-- To navigate to home page -->
+        <template if:true={isHome}>
+            <c-copper-home-component></c-copper-home-component>
+        </template>
+        <!-- To navigate to Pos catalog page -->
+        <template if:true={isPosCatalog}>
+            <c-jfw-inventory-pos-catalog-component></c-jfw-inventory-pos-catalog-component>
+        </template>
+        <!-- To navigate to place order - pos item list page -->
+        <template if:true={isPosItemMenuPage}>
+            <c-jfw-pos-item-menu-component></c-jfw-pos-item-menu-component>
+        </template>
+        <!-- To navigate to shopping cart page -->
+        <template if:true={isShoppingCart}>
+            <c-jfw-shopping-cart-component selected-buy-book-detail={selectedBuyBookDetails}></c-jfw-shopping-cart-component>
+        </template>
+      
+        <!-- To navigate to Order Status page -->
+        <template if:true={isOrderStatus}>
+            <c-copper-order-status-component></c-copper-order-status-component>
+        </template>
+        <!-- To navigate to  Address book page -->
+        <template if:true={isAddressBook}>
+            <c-copper-manage-address-book-component></c-copper-manage-address-book-component>
+        </template>
+        <!-- To navigate to Manage Brand page -->
+        <template if:true={isManageBrand}>
+            <c-copper-manage-brand-component></c-copper-manage-brand-component>
+        </template>
+        <!-- To navigate to Manage Item Type page -->
+        <template if:true={isManageItemType}>
+            <c-copper-manage-item-type-component></c-copper-manage-item-type-component>
+        </template>
+        <!-- To navigate to Manage Territories page -->
+        <template if:true={isManageTerrioties}>
+            <c-copper-manage-territories-component></c-copper-manage-territories-component>
+        </template>
+        <!-- To navigate to Manage Shipping Methods page -->
+        <template if:true={isManageShippingMethods}>
+            <c-copper-manage-shipping-method-component></c-copper-manage-shipping-method-component>
+        </template>
+        <!-- To navigate to Manage Pos Items  page -->
+        <template if:true={isManagePosItem}>
+            <c-copper-manage-pos-item-component></c-copper-manage-pos-item-component>
+        </template>
+        <!-- To navigate to Manage ASN page -->
+        <!-- <template if:true={isManageASN}>
+            <c-copper-manage-advance-shipment-notice-component></c-copper-manage-advance-shipment-notice-component>
+        </template> -->
+        <!-- To navigate to Manage Approval-->
+        <template if:true={isManageApproval}>
+            <c-jfw-manage-approvals-component></c-jfw-manage-approvals-component>
+        </template>
+        <!-- To navigate to Manage Buy Book-->
+        <template if:true={isManageBuyBook}>
+            <c-copper-manage-buy-book-component></c-copper-manage-buy-book-component>
+        </template>
+         <!-- To navigate to Manage Buy Book Budget-->
+         <template if:true={isManageBuyBookBudget}>
+            <c-copper-manage-buy-book-budget-component></c-copper-manage-buy-book-budget-component>
+        </template>
+        <!-- To navigate to Manage Designation-->
+        <template if:true={isManageDesignation}>
+            <c-copper-manage-desgination-component></c-copper-manage-desgination-component>
+        </template>
+        <!-- To navigate to Assign Designation-->
+        <template if:true={isAssignDesignation}>
+            <c-copper-assign-designation-component></c-copper-assign-designation-component>
+        </template>
+        <!-- To navigate to Manage chair user-->
+        <template if:true={isManageChairUser}>
+            <c-copper-manage-chair-user-component></c-copper-manage-chair-user-component>
+        </template>
+        <!-- To navigate to Edit Order-->
+        <template if:true={isEditOrder}>
+            <c-copper-edit-order-component></c-copper-edit-order-component>
+        </template>
+         <!-- To navigate to Edit Order-->
+         <template if:true={isTrackingNumber}>
+            <c-coppper-tracking-number-component></c-coppper-tracking-number-component>
+        </template>
+        <!-- To navigate to Manage Playbook-->
+        <template if:true={isManagePlaybook}>
+            <c-copper-buy-book-playbook-component></c-copper-buy-book-playbook-component>
+        </template>
+         <!-- To navigate to Open Buy Book List-->
+         <template if:true={isOpenBuyBookList}>
+           <c-copper-open-buy-book-component></c-copper-open-buy-book-component>
+        </template>
+         <!-- To navigate to Add/remove POS Items for a Buy book-->
+         <template if:true={isBuyBookPOSItemToCart}>
+            <c-copper-pos-item-menu-component selected-buy-book-detail={selectedBuyBookDetail} 
+            buy-book-id={selectedBuyBookId}></c-copper-pos-item-menu-component>
+         </template>
+          <!-- To navigate to shopping cart for a Buy book-->
+          <template if:true={isBuyBookShoppingCart}>
+            <c-copper-shopping-cart-component selected-buy-book-detail={selectedBuyBookDetail} 
+            buy-book-id={selectedBuyBookId}></c-copper-shopping-cart-component>
+         </template>
+           <!--  To navigate to Preview  page -->
+        <template if:true={isPreviewOrder}>
+            <c-copper-preview-order-component emerge-order-id={orderId} buy-book-id={selectedBuyBookId}></c-copper-preview-order-component>
+        </template>
+    </template>
+</template>

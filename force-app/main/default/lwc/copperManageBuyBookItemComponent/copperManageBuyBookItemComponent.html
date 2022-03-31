@@ -1,0 +1,223 @@
+<!-- Author: Thanvi  Date:10/Aug/2021
+     Aim:To show add/remove item modal -->
+
+<template>
+    <template if:false={getAllBuyBookItems}>
+        <!--MODAL POPUP  -->
+        <div>
+
+            <section role="dialog" tabindex="0" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header modal_header_style">
+                        <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close"
+                            variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Buy Book items for
+                            "{labelName}"</h2>
+                    </header>
+                    <div>
+                        <div class="slds-modal__content ">
+                            <div class="slds-p-top_xxx-small">
+                                <lightning-card title="Items in Buy Book" class="my-card">
+                                    <div class="modal_body_style scroll-box">
+                                        <table aria-multiselectable="true"
+                                            class="slds-table slds-table_bordered slds-table_fixed-layout" role="grid">
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <th scope="col">
+                                                        <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span class="slds-truncate" title="Item Name">Item
+                                                                Name</span>
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span class="slds-truncate" title="Item Name">Item
+                                                                No</span>
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="slds-grid slds-has-flexi-truncate">
+                                                            <span class="slds-truncate" title="Brand">Brand</span>
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="slds-grid  slds-has-flexi-truncate">
+                                                            <span class="slds-truncate" title="Pack Of">Pack Of</span>
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="slds-grid  slds-has-flexi-truncate">
+                                                            <span class="slds-truncate" title="Price">Price</span>
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="slds-grid  slds-has-flexi-truncate">
+                                                            <span class="slds-truncate" title="Remove">Remove</span>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template for:each={associatedBuyBookItems}
+                                                    for:item="associatedBuyBookItem">
+
+                                                    <tr key={associatedBuyBookItem.Id}>
+                                                        <td role="gridcell">
+                                                            <div style="white-space: normal;"
+                                                                title={associatedBuyBookItem.Item_No__c}>
+                                                                {associatedBuyBookItem.Item_No__c}</div>
+                                                        </td>
+                                                        <td role="gridcell">
+                                                            <div style="white-space: normal;"
+                                                                title={associatedBuyBookItem.Item_Name__c}>
+                                                                {associatedBuyBookItem.Item_Name__c}</div>
+                                                        </td>
+                                                        <td role="gridcell">
+                                                            <div style="white-space: normal;"
+                                                                title={associatedBuyBookItem.Brand__r.Brand_Name__c}>
+                                                                {associatedBuyBookItem.Brand__r.Brand_Name__c}</div>
+                                                        </td>
+                                                        <td role="gridcell">
+                                                            <div class="slds-truncate"
+                                                                title={associatedBuyBookItem.Pack_Of__c}>
+                                                                {associatedBuyBookItem.Pack_Of__c}</div>
+                                                        </td>
+                                                        <td role="gridcell">
+                                                            <div class="slds-truncate"
+                                                                title={associatedBuyBookItem.Price__c}>
+                                                                ${associatedBuyBookItem.Price__c}
+                                                            </div>
+                                                        </td>
+                                                        <td role="gridcell">
+                                                            <lightning-button-icon icon-name="utility:dash" size="small"
+                                                                alternative-text="Remove" title="Remove"
+                                                                value={associatedBuyBookItem} onclick={removeItem}>
+                                                            </lightning-button-icon>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </lightning-card>
+
+                            </div>
+
+                            <!-- START OF THE LIST OF POS ITEM LIST-->
+                            <lightning-card title="Buy Book Items Available" class="my-card">
+                                <div>
+                                    <div>
+                                        <div class="exampleHolder">
+
+                                            <div class="scroll-box modal_body_style">
+                                                <table aria-multiselectable="true"
+                                                    class="slds-table slds-table_bordered slds-table_fixed-layout"
+                                                    role="grid">
+                                                    <thead>
+                                                        <tr class="slds-line-height_reset">
+                                                            <th scope="col">
+                                                                <div class="slds-has-flexi-truncate">
+                                                                    <span class="slds-truncate" title="Item Name">Item
+                                                                        No</span>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-has-flexi-truncate">
+                                                                    <span class="slds-truncate" title="Item Name">Item
+                                                                        Name</span>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-has-flexi-truncate">
+                                                                    <span class="slds-truncate" title="Brand">Brand
+                                                                    </span>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-has-flexi-truncate">
+                                                                    <span class="slds-truncate" title="Pack Of">Pack Of
+                                                                    </span>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-has-flexi-truncate">
+                                                                    <span class="slds-truncate" title="Price">Price
+                                                                    </span>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-has-flexi-truncate">
+                                                                    <span class="slds-truncate" title="Add">Add</span>
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <template for:each={availableBuyBookItems}
+                                                            for:item="availableBuyBookItem">
+
+                                                            <tr key={availableBuyBookItem.Id}>
+                                                                <td role="gridcell">
+                                                                    <div style="white-space: normal;"
+                                                                        title={availableBuyBookItem.Item_No__c}>
+                                                                        {availableBuyBookItem.Item_No__c}</div>
+                                                                </td>
+                                                                <td role="gridcell">
+                                                                    <div style="white-space: normal;"
+                                                                        title={availableBuyBookItem.Item_Name__c}>
+                                                                        {availableBuyBookItem.Item_Name__c}</div>
+                                                                </td>
+                                                                <td role="gridcell">
+                                                                    <div style="white-space: normal;"
+                                                                        title={availableBuyBookItem.Brand__r.Brand_Name__c}>
+                                                                        {availableBuyBookItem.Brand__r.Brand_Name__c}
+                                                                    </div>
+                                                                </td>
+                                                                <td role="gridcell">
+                                                                    <div class="slds-truncate"
+                                                                        title={availableBuyBookItem.Pack_Of__c}>
+                                                                        {availableBuyBookItem.Pack_Of__c}</div>
+                                                                </td>
+                                                                <td role="gridcell">
+                                                                    <div class="slds-truncate"
+                                                                        title={availableBuyBookItem.Price__c}>
+                                                                        {availableBuyBookItem.Price__c}</div>
+                                                                </td>
+                                                                <td role="gridcell">
+                                                                    <lightning-button-icon icon-name="utility:add"
+                                                                        size="small" value={availableBuyBookItem}
+                                                                        alternative-text="Add Item" title="Add"
+                                                                        onclick={addItem}>
+                                                                    </lightning-button-icon>
+                                                                </td>
+
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </lightning-card>
+                        </div>
+                    </div>
+
+                    <footer class="slds-modal__footer modal_footer_style">
+                        <div class="slds-align_absolute-center">
+
+                            <lightning-button variant="brand" label="Cancel" title="Cancel" onclick={closeModal}>
+                            </lightning-button>
+                        </div>
+                    </footer>
+
+                </div>
+            </section>
+        </div>
+    </template>
+</template>

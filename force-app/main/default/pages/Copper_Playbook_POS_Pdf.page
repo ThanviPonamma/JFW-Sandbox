@@ -1,0 +1,49 @@
+<apex:page standardController="Program__c"  showHeader="false" sidebar="false" 
+           renderAs="PDF" extensions="Copper_Program_PlaybookController">
+
+        
+      <html>
+        <body >                     
+            <font face="arial" size="2">                                                                      
+          <p style="display:none;">Buy Book Items are :</p>
+          <table border="1" style="border: solid #CCCCCC; border-width: 1;width:100%;" >
+            <tr style="font-size: 15px;border-width: 1;font-face: arial;  text-align:center;color:white;font-weight:bold;background:#001137"> 
+               <th >Preview</th>
+               <th>Item No</th>
+               <th>Item Name</th>
+               <th width="100">Brand</th>
+               <th>Item Type</th>
+               <th>Pack Of</th>               
+               <th>Descrption</th>
+               <th>Price</th>
+            </tr>
+            <apex:repeat var="buyBookItem" value="{!posItemList}">
+              <tr style="font-size: 11px; font-face: verdana;text-align: center;">
+                  <td>
+                    <apex:image id="theImage"  rendered="{! If(buyBookItem.Attachment_Id__c !=''||buyBookItem.Attachment_Id__c != null ,true,false) }" url="/servlet/servlet.FileDownload?file={!buyBookItem.Attachment_Id__c}" style="padding-top:1%;padding-bottom:1%"/>
+
+                    <apex:image id="theNoImage" rendered="{! If(buyBookItem.Attachment_Id__c ==''||buyBookItem.Attachment_Id__c == null ,true,false)}" value="{!$Resource.noimageavailable}" style="padding-top:1%;padding-bottom:1% ;height:65px;" /> 
+
+                </td>
+                <td >{!buyBookItem.Item_No__c}</td>
+                <td >{!buyBookItem.Item_Name__c}</td>
+                <td >{!buyBookItem.Brand__r.Brand_Name__c}</td>
+                <td >{!buyBookItem.Type_of_Item__r.Item_Type__c}</td>
+                <td >{!buyBookItem.Pack_Of__c}</td>
+                <td >{!buyBookItem.Item_Descrption__c}</td>
+                <td >{!buyBookItem.Price__c}</td>                
+              </tr>
+            </apex:repeat>                 
+          </table>
+          <p />
+        </font>
+      </body>         
+    </html>
+    <style type="text/css">
+        TH {font-size: 11px; font-face: arial;background: #CCCCCC;
+        border-width: 1;  text-align: center;color:red; } 
+        TD  {font-size: 11px; font-face: verdana ;text-align: center; } 
+        TABLE {border: solid #CCCCCC; border-width: 1}
+        TR {border: solid #CCCCCC; border-width: 1;text-align :center}   
+    </style>
+</apex:page>

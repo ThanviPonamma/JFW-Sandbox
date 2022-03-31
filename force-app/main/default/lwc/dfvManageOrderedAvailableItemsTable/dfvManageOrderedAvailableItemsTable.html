@@ -1,0 +1,77 @@
+<!-- Author - VM,VP,JP
+     Date - June 22th 2020
+    Aim of this component - To get the Manage order available list and display in the table  -->
+    
+<template>
+    <!-- To display the header message -->
+    <p class="headerText" style="margin-left: 50px;">Available Items</p>
+
+    <!-- To display the table only if the items are present in the 'availableItemsToBeDisplayed' property-->
+    <template if:true ={availableItemsToBeDisplayed}>
+        <template if:true ={availableListHasData}>
+
+            <!-- Class to make the table responsive -->
+            <div class="table-responsive scroll-box table_Width">
+           
+                     <!-- Table to hold available items data -->
+                     <table class="table-fixed">
+                         <!-- Table header -->
+                         <thead>
+                             <tr >
+                                 <th class="tableheaderfirst ">Item Number</th>
+                                 <th class="tableheader" style="width: 200px;">Item Name</th>
+                                 <th class="tableheader ">Brand</th>
+                                 <th class="tableheader ">Pack Of</th>
+                                 <th class="tableheader ">Price</th>
+                                 <th class="tableheader ">Sent Order</th>
+                                 <th class="tableheader ">Remaining Order</th>
+                                 <th class="tableheader ">Add</th>
+         
+                             </tr>
+                         </thead>
+
+                         <!-- Table body  -->
+                         <tbody>
+                             <!-- To display the data for each 'availableItems' in 'getAvailableProgramList' List-->
+                            <template for:each={getAvailableItemList.data} for:item="availableItems">
+                               <tr  key={availableItems.id} class="table_Column" >
+                                <td title={availableItems.posItem.Item_No__c}>{availableItems.posItem.Item_No__c}</td>
+                                <td title={availableItems.posItem.Item_Name__c} style="word-break: break-word;text-overflow: clip;">
+                                    {availableItems.posItem.Item_Name__c}</td>
+                                <td title={availableItems.posItem.Brand__r.Brand_Name__c}>{availableItems.posItem.Brand__r.Brand_Name__c}</td>
+                                <td title={availableItems.posItem.Pack_Of__c}>{availableItems.posItem.Pack_Of__c}</td>
+                                <td title={availableItems.posItem.Price__c}>${availableItems.posItem.Price__c}</td>
+                                <td title={availableItems.sentOrdersItemSize}>{availableItems.sentOrdersItemSize}</td>
+                                <td title={availableItems.remainingOrdersItemSize}>{availableItems.remainingOrdersItemSize}</td>
+                               
+                                <!-- Disable the add icon if the value of the remaining order is 0 -->
+                                <template if:false={availableItems.remainingOrdersItemSize}>  
+                                <td> 
+                                    <lightning-button-icon disabled="" icon-name="utility:add" class="slds-align_absolute-center"  data-id={availableItems.posItem.Id} size="x-small" ></lightning-button-icon>
+                                </td>
+                                </template>
+
+                                <!-- Enable the add icon if the value of the remaining order is greater than 0 -->
+                                 <template if:true={availableItems.remainingOrdersItemSize}>
+                                 <td> 
+                                     <lightning-button-icon icon-name="utility:add"  class="slds-align_absolute-center" onclick={addItemToWithheldEvent} data-id={availableItems.posItem.Id} size="x-small" ></lightning-button-icon>
+                                 </td>
+                                 </template>
+                                 </tr>
+                             </template>
+                           </tbody>
+                        </table>
+            </div>
+    </template>
+    </template>
+    
+    <!-- To show the message if their is no data in the available order table -->
+      <div>
+        <template if:false ={availableListHasData}>
+            <lightning-card>
+                <p class="message_style">The selected program does not have any items available for the selected Brand.</p>
+            </lightning-card>
+        </template>
+      </div>
+
+</template>

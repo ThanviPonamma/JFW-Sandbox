@@ -1,0 +1,31 @@
+<!-- Author: Vighnesh and Jaya
+     Date:13 October 2020
+     Aim : 1.To Show the Create Button, on click of the button open the child component for popUp modal 
+          2.To add search field for Address Book with all the functionality -->
+<template>
+  <lightning-card>
+    <!-- Create Address button -->
+    <lightning-button variant="brand" label="Create Address" title="Create Address" onclick={openCreatePopUp}
+      class="slds-align_absolute-center"></lightning-button>
+
+
+    <!-- Search field with search button -->
+
+    <div class="slds-align_absolute-center ">
+      <lightning-input type="search" label="Search" class="slds-m-around_xx-small search_width"
+        placeholder="Enter Destination Name,Ship To Name, Ship To Company, State, City to search" onchange={searchAddressBook}
+        value={searchedKeyword}></lightning-input>
+
+      <!-- On click fo search button the user searched order is displayed to the users -->
+      <lightning-button variant="brand" type="search" title="Search" class="search_button_style" label="Search"
+        onclick={searchEvent}></lightning-button>
+    </div>
+
+  </lightning-card>
+
+  <!-- To call the child component on click of Create address Button -->
+  <template if:true={isModalOpen}>
+    <c-jfw-inventory-edit-address-modal-component get-state-names={stateListToDisplay} onclosemodal={closeModal}
+      address-book={selectAddressBook} is-edit-clicked={isEditClicked}></c-jfw-inventory-edit-address-modal-component>
+  </template>
+</template>

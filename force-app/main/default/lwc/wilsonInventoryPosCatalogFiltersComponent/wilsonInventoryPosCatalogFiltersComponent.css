@@ -1,0 +1,43 @@
+.combobox {
+    width: fit-content;
+    text-align: left;
+    font-size: medium;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+.c-container {
+    border: 1px solid #d8dde6;
+    /* margin: 10px 0 20px 0; */
+}
+
+.search_button_style{
+    background-color:black;
+    color:white;
+    font-weight:800;
+    margin-top: -32px;
+    margin-left: 625px;
+   
+  }
+
+.search_Text_Style{
+    font-size: small;
+    font-weight: 800;
+    color: #610c04;
+}
+
+.download_button{
+    color:white!important;
+    width:60%; 
+    margin-left:-1vw;
+    margin-top:24px;
+    border-style:none;
+}
+.searchInputField_Style{
+    padding-right:5px;
+    width:80%;
+    margin-left: -125px;
+}
+.search_input_div_style{
+    width:50%;
+    margin-top: 20px;
+}

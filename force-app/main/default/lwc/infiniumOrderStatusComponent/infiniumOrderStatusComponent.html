@@ -1,0 +1,21 @@
+<!-- Author:Thanvi;Date:20-SEP-2021 
+Aim : To display breadcrumb ,search and call the child component responsible for showing table data-->
+
+<template>
+    <!-- Breadcrumbs forthe order status page -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <!-- to navigate to the home page -->
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Program Ordering</a></li>
+            <li><a>Order Status</a></li>
+        </ul>
+     </div>
+     <br/>
+     
+
+        
+<!-- To call the child component -->
+       <c-infinium-order-status-details-component></c-infinium-order-status-details-component>
+
+</template>

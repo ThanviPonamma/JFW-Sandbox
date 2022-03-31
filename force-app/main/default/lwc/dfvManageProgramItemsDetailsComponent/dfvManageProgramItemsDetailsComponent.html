@@ -1,0 +1,255 @@
+<template>
+    <div class="c-container">
+        <lightning-card>
+
+            <div class="slds-grid  slds-align_absolute-center">
+                <lightning-input type="search" label="Search " style="width: 40vw;
+                " 
+                  class="slds-align_absolute-center slds-media_center"
+                  placeholder="Enter item number, item name to search"></lightning-input>
+                </div>
+          
+
+                <div class="slds-grid  slds-align_absolute-center">
+
+                    <div class="slds-size_3-of-12 button_style">
+            
+                    
+                    </div>
+                    <!-- lightning combobox to hold the list of brand when the page loads -->
+                    <div class="slds-size_3-of-12 slds-p-right_small slds-p-left_xx-small">
+                     
+
+                        <lightning-combobox
+                        name="Program"   
+                        label="Program"          
+                        placeholder="All programs"
+                        
+                       ></lightning-combobox>
+                    </div>
+            
+                    <!-- lightning combobox to hold the list of item types when the page loads -->
+                    <div class="slds-size_3-of-12 slds-p-right_small slds-p-left_xx-small">
+                        <lightning-combobox
+                        name="Item Type" 
+                        label="Item Type"
+                        placeholder="All Item Types"
+                        
+                        ></lightning-combobox>
+                    </div>
+                    <div class="slds-size_3-of-12 slds-p-right_small slds-p-left_xx-small">
+                                 
+                    </div>
+
+                  
+                  </div>
+
+                  <!-- Pagination starts -->
+
+                  <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_2-of-12"></div>
+                    <!-- Navigation button to reach first page in pagination -->
+                    <div class="slds-col slds-size_2-of-12" style="margin-top:15px;text-align:right">
+                        <lightning-button disabled={isItFirstNavigationItem} label="First" title="First"
+                            onclick={firstNavigationButton} style="margin-right:10px"></lightning-button>
+                        <!-- Navigation button for call previous page on clcik of this button in pagination -->
+                        <lightning-button-icon disabled={isItFirstNavigationItem} icon-name="utility:chevronleft"
+                            onclick={previousNavigationButton} alternative-text="Previous" title="Previous">
+                        </lightning-button-icon>
+                    </div>
+                    <div class="slds-col slds-size_4-of-12">
+                        <div class="slds-box pagination_index_no_padding_style">
+                          
+                                            <span class="slds-p-horizontal_x-small ">
+                                                <lightning-button variant="brand" style="border-radius: 90%!important;" label="1">
+                                             
+                                             </lightning-button>
+                                            </span>
+                        </div>
+                    </div>
+
+                    <div class="slds-col slds-size_2-of-12 pagination_last">
+                        <!-- The last navigation button is showed and onclick of this button it will reach the next pos item details in paginations -->
+                        <lightning-button-icon disabled={isItLastNavigationItem} icon-name="utility:chevronright"
+                            alternative-text="Next" title="Next" onclick={nextNavigationButton}>
+                        </lightning-button-icon>
+                        <!-- The last navigation button is showed and onclick of this button it will reach the last pos item details in paginations -->
+                        <lightning-button label="Last" title="Last" disabled={isItLastNavigationItem}
+                            onclick={lastNavigationButton} style="margin-left:10px"></lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12"></div>
+                </div>
+
+            </br>
+                  <!-- Pagination ends -->
+
+                  <lightning-button variant="brand" label="Add Item" title="Add Item"
+                  class="slds-align_absolute-center"></lightning-button>
+        </lightning-card>
+<!-- 
+        <div class="table-responsive scroll-box">
+            <table class="table-fixed">
+                <thead>
+                    <tr>
+                        <th class="tableheader" style="width:10%">Item Preview</th>
+                        <th class="tableheader">Item No</th>
+                        <th class="tableheader">Item Name</th>
+                        <th class="tableheader" style="width:10%">Item Description</th>
+                        <th class="tableheader">Program Name</th>
+                        <th class="tableheader">Allowed States</th>
+                        <th class="tableheader">Program/Coupon Exp Date</th>    
+                        <th class="tableheader">Time Period</th>    
+                        <th class="tableheader">Brand</th>
+                        <th class="tableheader">Item Type</th>
+                        <th class="tableheader">Pack Of</th>
+                        <th class="tableheader">Vendor</th>
+                        <th class="tableheader">Price</th>
+                        <th class="tableheader">Image File Name</th>
+                        <th class="tableheader">Item Specs</th>
+                        <th class="tableheader">Active</th>
+                        <th class="tableheader">Edit</th>  
+                    </tr>
+                </thead>
+
+                <tbody>
+                  
+                </tbody>
+
+            </table>
+        </div> -->
+
+        <div class="fix-width scroll-inner scroll-box table-responsive" style="height: 317px;">
+                <table style="width:200%"
+                class="slds-table_bordered table table-striped"
+                role="grid">
+                <!-- <div class="scrollbar" id="createASN"> -->
+                <thead>
+                    <tr>
+                        <th class="tableheader">Item Preview</th>
+                        <th class="tableheader">Item No</th>
+                        <th class="tableheader">Item Name</th>
+                        <th class="tableheader">Item Description</th>
+                        <th class="tableheader">Program Name</th>
+                        <th class="tableheader">Allowed States</th>
+                        <th class="tableheader">Program/Coupon Exp Date</th>    
+                        <th class="tableheader">Time Period</th>    
+                        <th class="tableheader">Brand</th>
+                        <th class="tableheader">Item Type</th>
+                        <th class="tableheader">Pack Of</th>
+                        <th class="tableheader">Vendor</th>
+                        <th class="tableheader">Price</th>
+                        <th class="tableheader">Image File Name</th>
+                        <th class="tableheader">Item Specs</th>
+                        <th class="tableheader">Active</th>
+                        <th class="tableheader">Edit</th>  
+                    </tr>
+               </thead>
+                <!-- </div> -->
+            </table>
+          
+
+            <table style="width:200%;height:332px;" cellspacing="15px">
+                <tr>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="file uploader"
+                         accept="image/png,image/jpg,image/jpeg" type="file" multiple="false">
+                         </lightning-input>
+                    </td>
+                    <td class="tableDataInput"> 
+                        <lightning-input class="td_Width" name="Item No"        
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Item Name"        
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Item Description"        
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-combobox class="td_Width" name="Program Name"         
+                          maxlength="5" placeholder="All Programs">
+                        </lightning-combobox>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Allowed States"        
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Program/Coupon Exp Date"        
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Time Period"        
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-combobox class="td_Width" name="Brands"         
+                          maxlength="5" placeholder="All brands">
+                        </lightning-combobox>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-combobox class="td_Width" name="Item Types"         
+                          maxlength="5" placeholder="All Item types">
+                        </lightning-combobox>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Pack Of"         
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Vendor"         
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Price"         
+                          maxlength="5">
+                        </lightning-input>
+                    </td>
+                  
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Image File Name"         
+    >
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-input class="td_Width" name="Item Specs"         
+    >
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput" style="text-align: center;margin: top 15px !important;;">
+                        <lightning-input class="td_Width" name="availableInventory" type="checkbox"         
+                          >
+                        </lightning-input>
+                    </td>
+                    <td class="tableDataInput">
+                        <lightning-button variant="brand" label="Save" title="Save"
+                        ></lightning-button>
+                    </br>
+                    </br>
+                        <lightning-button variant="brand" label="Cancel" title="Cancel"
+                        ></lightning-button>
+                    </td>
+                </tr>
+            </table>
+
+
+
+        </div>
+
+        <!-- <div class="table_Style scroll-inner scroll-box_Style table-responsive"> -->
+           
+        <!-- </div> -->
+     
+
+    </div>
+</template>

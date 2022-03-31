@@ -1,0 +1,21 @@
+<!--Authors: VB, SN
+Date: 15-10-2020 -->
+<!--to set the size of the page,to display the logo and the header in the pos catalog pdf-->
+<apex:page standardController="Brand__c" sidebar="false" id="pg" contentType="application/x-pdf#JFW Wines Emerge POS Catalog.pdf" cache="true">
+    
+    <head> 
+        <!--stying the page of the catalog-->
+        <style type="text/css">
+            @page{
+            size:A3 portrait;
+            }
+        </style>
+    </head> 
+    <apex:image id="theImage" value="{!$Resource.JFWlogo}" style="margin-top: -1.0em;" height="100" /> 
+    <center> 
+        <h2 style="margin-top: -3em;">JFW Emerge POS Catalog</h2>  
+    </center> 
+    <apex:include pageName="JFW_POS_Catalog_Pdf"/>
+    
+    
+</apex:page>

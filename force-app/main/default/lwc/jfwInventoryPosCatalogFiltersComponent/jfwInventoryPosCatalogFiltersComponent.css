@@ -1,0 +1,51 @@
+.combobox {
+    width: fit-content;
+    text-align: left;
+    font-size: medium;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+
+.c-container {
+    border: 1px solid #d8dde6;
+}
+
+.search_button_style {
+    background-color: #534133;
+    color: white;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.search_Text_Style {
+    font-size: small;
+    font-weight: 800;
+    color: #534133;
+}
+
+.download_button {
+    color: white !important;
+    width: 60%;
+    margin-left: -1vw;
+    margin-top: 24px;
+    border-style: none;
+}
+
+.searchInputField_Style {
+    padding-right: 5px;
+    width: 80%;
+    margin-left: -125px;
+}
+.search_input_style{
+    width: 78%;
+}
+
+@media (min-width:768px) and (max-width:1028px) {
+    .download_button {
+        width: 100%;
+
+    }
+    .search_input_style{
+        width: 100%;
+    }
+}

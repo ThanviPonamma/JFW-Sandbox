@@ -1,0 +1,117 @@
+<!-- Author: ThanviDate: 12-Aug-2021
+     Aim: This component is responsible to display the list of designation that belongs to copper cane
+        To call the child component to create/edit the designation -->
+<template>
+    <!-- displaying a box -->
+    <div class="slds-box">
+        <div>
+            <!-- displaying a button to open a create pop-up modal -->
+            <lightning-button class="slds-align_absolute-center" variant="brand" title="Create Designation"
+                label="Create Designation" onclick={onCreateDesignation}></lightning-button>
+        </div>
+        <!-- search -->
+        <div class="slds-align_absolute-center" style="height:2rem;">
+            <div style="width:50%;">
+                <lightning-input name="enter-search" label="Search" placeholder="Enter Designation Name to search"
+                    type="search" value={searchedKeyword} onchange={handleDesignationSearchFilter}></lightning-input>
+            </div>
+        </div>
+        <div>
+            <template if:false={getAllDesignations}>
+                <template if:true={designationNotFound}>
+                    <br />
+                    <!-- displaying a table of Designation list and its details -->
+                    <div class="table-responsive scroll-box">
+                        <!-- table starts here -->
+                        <table class="table-fixed">
+                            <thead>
+                                <tr>
+                                    <!-- Designation name -->
+                                    <th class="tableheader">Designation Name</th>
+                                    <!-- Level Of Designation -->
+                                    <th class="tableheader">Level Of Designation</th>
+                                    <!-- Designation active status -->
+                                    <th class="tableheader">Active</th>
+                                    <!-- Designation edit pop-up -->
+                                    <th class="tableheader">Edit</th>
+                                    <!-- toggle button to deactivate the Designation -->
+                                    <th class="tableheader">Deactivate</th>
+
+                                </tr>
+                            </thead>
+
+                            <!-- table body starts here -->
+                            <tbody>
+                                <!-- The attribute 'designations' contains the list of designation -->
+                                <template for:each={designations} for:item="designation">
+                                    <tr class="table_Column" key={designation.Id}>
+                                        <!-- designation name -->
+                                        <td role="gridcell" class="td_content_style">
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={designation.Chair_Name__c}>{designation.Chair_Name__c}</div>
+                                        </td>
+                                        <!-- Level Of Designation -->
+                                        <td role="gridcell" class="td_content_style">
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={designation.Level__c}>{designation.Level__c}</div>
+                                        </td>
+
+                                        <!-- designation active status -->
+                                        <td role="gridcell" class="td_content_style">
+                                            <div class="slds-truncate">
+                                                <template if:true={designation.Active__c}>
+                                                    <lightning-icon icon-name="utility:check" alternative-text="Active"
+                                                        size="x-small" title="Active"></lightning-icon>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <!-- designation edit pop-up -->
+                                        <td role="gridcell" class="td_content_style">
+                                            <lightning-button-icon value={designation} name={designation}
+                                                detail={designation} icon-name="utility:edit" onclick={openEditPopUp}
+                                                size="small"></lightning-button-icon>
+
+                                        </td>
+                                        <!-- toggle button to deactivate the designation -->
+                                        <td role="gridcell">
+                                            <template if:false={designation.Active__c}>
+                                                <lightning-input type="toggle" disabled
+                                                    class="slds-align_absolute-center toggle_Style"
+                                                    checked={designation.Active__c} name={designation}
+                                                    detail={designation} size="x-small"></lightning-input>
+                                            </template>
+                                            <template if:true={designation.Active__c}>
+                                                <lightning-input type="toggle" checked={designation.Active__c}
+                                                    class="slds-align_absolute-center toggle_Style" value={designation}
+                                                    name={designation} detail={designation}
+                                                    onclick={deactivateDesignation} size="x-small"></lightning-input>
+                                            </template>
+
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div>
+
+    <!-- to add the message of no designation is found -->
+
+    <template if:false={designationNotFound}>
+        <br />
+        <lightning-card class="message_text">
+            <p>Designation not found</p>
+        </lightning-card>
+    </template>
+
+    <!-- invoking edit/create pop-up  -->
+    <template if:true={openEditModal}>
+        <c-copper-manage-designation-create-edit-component get-designation-details={selectedDesignationDetails}
+            is-edit-clicked={isEditClicked} label-name={labelName}
+            designation-names-for-validation={designationNamesForValidation} onclosemodal={closeModal}>
+        </c-copper-manage-designation-create-edit-component>
+    </template>
+</template>

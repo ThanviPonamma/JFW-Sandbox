@@ -1,0 +1,64 @@
+<template>
+    <template if:false={getAllOpenBuyBook}>
+        <lightning-card>
+            <div style="width:100%;" class="slds-align_absolute-center">
+                <div class="scroll-box">
+                    <table class="table-fixed" role="grid" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th class="tableheader" style="width: 25%;">Buy Book Image</th>
+                                <th class="tableheader" style="width: 25%;">Buy Book Name</th>
+                                <th class="tableheader" style="width: 20%;">Close Date</th>
+                                <th class="tableheader" style="width: 20%;">In Market Date</th>
+                                <th class="tableheader" style="width: 100%;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={buyBookList} for:item="buyBook">
+                                <tr class="table_Column" key={buyBook.buyBook_chairBudget.id}>
+                                    <td role="gridcell">
+                                        <template if:true={buyBook.buyBookImageURL}>
+                                            <div>
+                                                <img style="height: 130px;" src={buyBook.buyBookImageURL} />
+                                            </div>
+                                        </template>
+                                        <template if:false={buyBook.buyBookImageURL}>
+                                            <div>
+                                                <img style="height: 130px;" src={NoImageURL} />
+                                            </div>
+                                        </template>
+
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate item_type_content_style"
+                                            title={buyBook.buyBook_chairBudget.Program__r.Name__c}>
+                                            {buyBook.buyBook_chairBudget.Program__r.Name__c}
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                            value={buyBook.buyBook_chairBudget.Program__r.Closing_Date__c}>
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td role="gridcell">
+
+                                        <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                            value={buyBook.buyBook_chairBudget.Program__r.In_Market_Date__c}>
+                                        </lightning-formatted-date-time>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                            <lightning-button variant="brand" class="slds-align_absolute-center" title="Enter Order" value={buyBook}
+                                            label="Enter Order" onclick={goToCartItemsComponent}></lightning-button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </lightning-card>
+    </template>
+
+</template>

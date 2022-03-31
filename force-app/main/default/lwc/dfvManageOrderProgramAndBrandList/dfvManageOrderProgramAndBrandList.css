@@ -1,0 +1,24 @@
+.combobox {
+      width: fit-content;
+      text-align: left;
+      font-size: medium;
+      font-weight: 600;
+      font-family: sans-serif;
+      margin-top: -53px;
+
+      
+  } 
+
+.itemLabelStyle{
+  font-size: inherit;
+  ;margin-top:20px;
+  margin-left: 113px; 
+}
+
+.program_Label{
+font-size: inherit;  
+  margin-left: 91px;
+}
+.brand_Label{
+ margin-top: -17px;
+}

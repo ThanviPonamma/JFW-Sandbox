@@ -1,0 +1,107 @@
+.pagination_index_style {
+  border-radius: 28px;
+  width: 34px;
+  background-color: #534133;
+  padding-left: 0px;
+  padding-right: 0px;
+  color: white;
+}
+
+.number_button_style {
+  padding-left: 18px;
+}
+
+.pagination_index_no_padding_style {
+  padding: 2px;
+  margin-top: 10px;
+}
+
+@media (min-width:768px) and (max-width:1028px) {
+  .number_button_style {
+    padding-left: 10px;
+  }
+
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+
+  /* Safari only override */
+  .header_th_style {
+    color: black;
+    background-color: #e2d9d5;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1;
+    width: 11%;
+    padding: 9px;
+    font-weight: 600 !important;
+  }
+}
+
+.header_th_style {
+  color: black;
+  background-color: #e2d9d5;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 11%;
+  padding: 9px;
+  font-weight: 600 !important;
+}
+
+.scroll-box {
+  width: 100%;
+  height: 235px;
+  overflow-y: auto;
+}
+
+.scroll-box::-webkit-scrollbar {
+  width: .4em;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #534133;
+}
+
+.table_Column {
+  border-bottom: 1px solid #dee2e6;
+  padding: 8px;
+  height: 55px;
+}
+
+.tableheader {
+  color: white;
+  background-color: #534133;
+  position: sticky !important;
+  top: 0;
+  z-index: 99;
+  height: 40px;
+  text-align: left;
+}
+
+.tableheaderfirst {
+  color: white;
+  background-color: #534133;
+  position: sticky !important;
+  top: 0;
+  z-index: 99;
+  height: 40px;
+  text-align: left;
+
+}
+
+.pagination_last {
+  margin-top: 15px;
+  margin-left: 10px;
+}
+
+.pagination_first {
+  margin-top: 15px;
+  margin-right: -88px;
+}
+
+.toggle_Style {
+  margin-top: 10px;
+  margin-left: 10px;
+}

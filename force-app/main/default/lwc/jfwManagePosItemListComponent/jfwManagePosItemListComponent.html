@@ -1,0 +1,152 @@
+<!-- Author : VM,VB
+     Date:21th october 2020
+     Aim:To display the pos item table contents -->
+<template>
+   <lightning-card>
+       <!-- create button -->
+    <lightning-button class="slds-align_absolute-center" variant="brand" title="Create POS Item" label="Create POS Item" onclick={openCreateModal}></lightning-button>
+  <br/>
+   <!-- search -->
+   <div class="slds-align_absolute-center" style="height:2rem;">
+    <div style="width:50%;">
+        <lightning-input
+                         name="enter-search"
+                         label="Search"
+                         placeholder="Enter Item Number, Item Name to search"
+                         type="search" 
+                         value={searchedKeyword}
+                         onchange={handlePOSItemSearchFilter}></lightning-input>
+    </div>
+</div>
+
+<!-- filters -->
+<div class="slds-align_absolute-center" style="height:5rem;">
+    <div style="width:50%;">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small">
+                <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small" style ="font-size:small;" label="Brand" dropdown-alignment="right"
+                placeholder="All Brands" value={value} options={brandListToDisplay} onchange={handleChangeForBrand} ></lightning-combobox>  
+            </div>
+            <div class="slds-col slds-size_6-of-12 slds-p-left_xx-small">
+                <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small" style ="font-size:small;" dropdown-alignment="right"  label="Item Type"
+          placeholder="All Item Types" value={value} options={itemTypeListToDisplay} onchange={handleChangeForItemType} ></lightning-combobox> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table -->
+<lightning-card>
+<template if:false ={posItemList}>
+    <template if:true={posItemFound}>
+<div class="header_div_style">
+    <div class="table-responsive scroll-box">
+
+        <table class="table table-hover; table-fixed ;width:100%; ">
+            <thead>
+                <tr>
+                    <th class="header_th_style_first">Item Preview</th>
+                    <th class="header_th_style">Item No</th>
+                    <th class="header_th_style">Item Name</th>
+                    <th class="header_th_style">Brand</th>
+                    <th class="header_th_style">Item Type</th>
+                    <th class="header_th_style">Pack Of</th>
+                    <th class="header_th_style">Price</th>
+                    <th class="header_th_style">Available Stock</th>
+                    <th class="header_th_style" style="padding-right: 5px;">Active</th>
+                    <th class="header_th_style" style="padding-right: 5px;">Edit</th>
+                    <th class="header_th_style" style="padding-right: 5px;">Deactivate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={posItems} for:item="posItem">
+                    <tr key={posItem.Id} class="table_Column" >
+                    
+                        <td class="td_content_style">
+                            <div class="slds-truncate" >
+                        
+                                    <template if:true={posItem.posItemImageURL}>
+                                    <div> 
+                                                               
+                                    <img  src={posItem.posItemImageURL} class="image_style"/>
+                                </div>
+                                    </template>
+                                    <template if:false={posItem.posItemImageURL}>
+                                        <div> 
+                                                                   
+                                        <img src={NoImageURL} class="image_style"/>
+                                    </div>
+                                        </template>
+                          
+                            </div>
+                            <br/>
+                        </td>
+                        <td >
+                           <div class="slds-truncate content_style" title={posItem.posItemList.Item_No__c}>{posItem.posItemList.Item_No__c}</div>
+                        </td>
+                        <td >
+                           
+                           <div class="slds-truncate content_style" title={posItem.posItemList.Item_Name__c}>{posItem.posItemList.Item_Name__c}</div>
+                        </td>
+                        <td >
+                           <div class="slds-truncate content_style" title={posItem.posItemList.Brand__r.Brand_Name__c}>{posItem.posItemList.Brand__r.Brand_Name__c}</div>
+                        </td>
+                        <td >  
+                           <div class="slds-truncate content_style" title={posItem.posItemList.Type_of_Item__r.Item_Type__c}>{posItem.posItemList.Type_of_Item__r.Item_Type__c}</div>
+                        </td>
+                        <td >
+                            <div class="slds-truncate content_style" title={posItem.posItemList.Pack_Of__c}>{posItem.posItemList.Pack_Of__c}</div>
+                        </td>
+                        <td >
+                           
+                            <div class="slds-truncate content_style" title={posItem.posItemList.Price__c}>
+                                ${posItem.posItemList.Price__c}
+                            </div>
+                        </td>
+                     
+                         <td >
+                           <div class="slds-truncate content_style" title={posItem.Available_Stock__c}>{posItem.posItemList.Available_Stock__c}</div>
+                         </td>
+                        <td >
+                            <div class="slds-truncate">
+                                <template if:true={posItem.posItemList.Active__c}>
+                                    <lightning-icon title="Active" icon-name="utility:check" alternative-text="checked" size="xx-small" > </lightning-icon>
+                                </template>
+
+                                <template if:false={posItem.posItemList.Active__c}>
+                                    <lightning-icon title="Active" alternative-text="checked" size="xx-small" > </lightning-icon>
+                                </template>
+                            </div>
+                        </td>
+                        <td >
+                            <lightning-button-icon class="icon_color"  icon-name="utility:edit" name={posItem} onclick={openEditPosItemModal} size="x-small"></lightning-button-icon>
+                        </td>
+                        <td >
+                            <template if:true={posItem.posItemList.Active__c}>
+                            <lightning-input type="toggle" class="toggle_Style" name={posItem.posItemList} onclick={deactivatePosItem} checked={posItem.posItemList.Active__c} size="x-small"></lightning-input>  
+                            </template>
+
+                            <template if:false={posItem.posItemList.Active__c}>
+                                <lightning-input type="toggle" class="toggle_Style" disabled size="x-small"></lightning-input>  
+                                </template>
+                        </td>
+                    </tr>
+                    </template>
+            </tbody>
+        </table>
+    </div>
+</div>
+</template>
+</template>
+<template if:false={posItemFound}>
+    <lightning-card style="text-align:center; color:#534133; font-size:16px">
+        <p>Pos Item not Found</p>
+    </lightning-card>
+</template>
+</lightning-card>
+</lightning-card>
+<!-- To call the child components and passing the data to the child components -->
+<template if:true={isOpenModal}>
+    <c-jfw-manage-pos-item-create-edit-component edited-pos-item-data={editedPosItemData} is-edit-clicked={isEditClicked} label-name={labelName} onclosemodal={closeModal} pos-items-with-validation={posItemsWithValidation} pos-item-stock-number-validation={posItemStockNumberValidation} brand-list-to-display={brandListToDisplay} item-type-list-to-display={itemTypeListToDisplay}></c-jfw-manage-pos-item-create-edit-component>
+</template>
+</template>

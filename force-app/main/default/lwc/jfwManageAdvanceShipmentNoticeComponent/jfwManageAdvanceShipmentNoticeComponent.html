@@ -1,0 +1,15 @@
+<!-- Authors:SN,JP
+    Date:21-10-2020
+    Aim: To hold the functionality of breadcrumb of manage ASN and to invoke the jfwManageAdvanceShipmentNoticeListComponent to display the ASN details and its functionalities. -->
+
+<template>
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Manage Advance Shipment Notice</a></li>
+        </ul>
+     </div> 
+    </br>
+<!-- To call the jfwManageAdvanceShipmentNoticeListComponent to dispaly the ASN details and search,create,edit and view details -->
+    <c-jfw-manage-advance-shipment-notice-list-component></c-jfw-manage-advance-shipment-notice-list-component>
+</template>

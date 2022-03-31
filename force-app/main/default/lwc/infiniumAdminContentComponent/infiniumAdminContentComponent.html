@@ -1,0 +1,122 @@
+<!--Author : Sanjana; Date : 20-09-2021
+Aim : To display the contents on the site -->
+
+<template>
+    <template if:false={accountDetailsForInfiniumSpirits}>
+        <!-- To navigate to home page -->
+        <template if:true={isHome}>
+            <c-infinium-home-component></c-infinium-home-component>
+        </template>
+        <!-- To navigate to  Address book page -->
+        <template if:true={isAddressBook}>
+            <c-infinium-manage-address-book-component></c-infinium-manage-address-book-component>
+        </template>
+        <!-- To navigate to Manage Brand page -->
+        <template if:true={isManageBrand}>
+            <c-infinium-manage-brand-component></c-infinium-manage-brand-component>
+        </template>
+        <!-- To navigate to Manage Item Type page -->
+        <template if:true={isManageItemType}>
+            <c-infinium-manage-item-type-component></c-infinium-manage-item-type-component>
+        </template>
+        <!-- To navigate to Manage Territories page -->
+        <template if:true={isManageTerrioties}>
+            <c-infinium-manage-territories-component></c-infinium-manage-territories-component>
+        </template>
+        <!-- To navigate to Manage Shipping Methods page -->
+        <template if:true={isManageShippingMethods}>
+            <c-infinium-manage-shipping-method-component></c-infinium-manage-shipping-method-component>
+        </template>
+        <!-- To navigate to Manage Pos Items  page -->
+        <template if:true={isManagePosItem}>
+            <c-infinium-manage-pos-item-component></c-infinium-manage-pos-item-component>
+        </template>
+        <!-- To navigate to Manage Buy Book-->
+        <template if:true={isManageprograms}>
+            <c-infinium-manage-program-component></c-infinium-manage-program-component>
+        </template>
+        <!-- To navigate to Manage Buy Book Budget-->
+        <template if:true={isManageprogramsBudget}>
+            <c-infinium-manage-program-budget-component></c-infinium-manage-program-budget-component>
+        </template>
+        <!-- To navigate to Manage Designation-->
+        <template if:true={isManageDesignation}>
+            <c-infinium-manage-designation-component></c-infinium-manage-designation-component>
+        </template>
+        <!-- To navigate to Assign Designation-->
+        <template if:true={isAssignDesignation}>
+            <c-infinium-assign-designation-component></c-infinium-assign-designation-component>
+        </template>
+        <!-- To navigate to Manage chair user-->
+        <template if:true={isManageChairUser}>
+            <c-infinium-manage-chair-user-component></c-infinium-manage-chair-user-component>
+        </template>
+        <!-- To navigate to Edit Order-->
+        <template if:true={isEditOrder}>
+            <c-infinium-edit-order-component></c-infinium-edit-order-component>
+        </template>
+        <!-- To navigate to Manage Playbook-->
+        <template if:true={isManagePlaybook}>
+            <c-infinium-program-playbook-component></c-infinium-program-playbook-component>
+        </template>
+        <!-- To navigate to Open Buy Book List-->
+        <template if:true={isOpenProgramList}>
+            <c-infinium-open-program-component></c-infinium-open-program-component>
+        </template>
+        <!-- To navigate to Add/remove POS Items for a Buy book-->
+        <template if:true={isProgramPOSItemToCart}>
+            <c-infinium-pos-item-menu-component selected-program-detail={selectedProgramDetail}
+                program-id={selectedProgramId}></c-infinium-pos-item-menu-component>
+        </template>
+        <!-- To navigate to shopping cart for a Buy book-->
+        <template if:true={isProgramShoppingCart}>
+            <c-infinium-shopping-cart-component selected-program-detail={selectedProgramDetail}
+                program-id={selectedProgramId}></c-infinium-shopping-cart-component>
+        </template>
+        <!--  To navigate to Preview  page -->
+        <template if:true={isPreviewOrder}>
+            <c-infinium-preview-order-component emerge-order-id={orderId} program-id={selectedProgramId}>
+            </c-infinium-preview-order-component>
+        </template>
+        <!-- To navigate to Order Status page -->
+        <template if:true={isOrderStatus}>
+            <c-infinium-order-status-component></c-infinium-order-status-component>
+        </template>
+        
+        <template if:true={isInventoryOrderStatus}>
+            <c-infinium-inventory-order-status-component></c-infinium-inventory-order-status-component>
+        </template>
+        <template if:true={isManageASN}>
+            <c-infinium-manage-advance-shipment-notice-component>
+            </c-infinium-manage-advance-shipment-notice-component>
+        </template>
+         <!-- To navigate to place order - pos item list page -->
+        <template if:true={isPosItemMenuPage}>
+        <c-infinium-inventory-pos-item-menu-component></c-infinium-inventory-pos-item-menu-component>
+        </template>
+          <!-- To navigate to invetory shopping cart page -->
+      <template if:true={isInventoryShoppingCart}>
+        <c-infinium-inventory-shopping-cart-component></c-infinium-inventory-shopping-cart-component> 
+    </template>
+    <template if:true={isInventoryPreviewOrder}>
+        <c-infinium-inventory-preview-order-component emerge-order-id={inventoryOrderId}></c-infinium-inventory-preview-order-component> 
+    </template>
+    <!-- to navigate to pos catalog component -->
+    <template if:true={isPosCatalog}>
+        <c-infinium-inventory-pos-catalog-component></c-infinium-inventory-pos-catalog-component> 
+    </template>
+    <!-- to navigate to manage approval component -->
+    <template if:true={isManageApproval}>
+        <c-infinium-manage-approvals-component></c-infinium-manage-approvals-component> 
+    </template>
+    <!-- to navigate to manage ordered items component -->
+    <template if:true={isManageOrderedItems}>
+        <c-infinium-manage-ordered-items-component></c-infinium-manage-ordered-items-component> 
+    </template>
+    <!-- to navigate to manage send wave orders component -->
+    <template if:true={isManageSendWaveOrders}>
+        <c-infinium-send-wave-orders></c-infinium-send-wave-orders> 
+    </template>
+    
+    </template>
+</template>

@@ -1,0 +1,70 @@
+<!-- Authors:Authors:Vanditha,Thanvi  Date:05-01-2021
+Aim: This is the grandchild component that is responsible create/edit modal pop-up -->
+
+<template>
+    <!-- Modal/Popup Box LWC starts here -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container ">
+
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header popUpHeader modal_header_style">
+                <lightning-button-icon icon-name="utility:close" onclick={closeModal} variant="bare-inverse"
+                    class="slds-modal__close"></lightning-button-icon>
+                <!-- naming the label as "create a brand" and "edit a brand"  based on the boolean value of the variable isEditClicked -->
+                <template if:true={isEditClicked}>
+                    <h2 id="modal-heading-01"
+                        class="slds-text-heading_medium slds-hyphenate slds-text-heading_small popUp_header">Edit Brand
+                        for {labelName}</h2>
+                </template>
+                <template if:false={isEditClicked}>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate popUp_header">Create Brand
+                    </h2>
+                </template>
+
+            </header>
+
+            <!-- Modal/Popup Box LWC body starts here -->
+            <div>
+                <div class="slds-modal__content modal_body_style" id="modal-content-id-1">
+                    <div class="slds-m-around_large ">
+                        <!-- input field for brand name  -->
+                        <div>
+                            <lightning-input name="brandName" required="true" value={brandDetails.Brand_Name__c}
+                                label="Brand Name" minlength="4" maxlength="40" class="brandNameValidation"
+                                onchange={validateBrandName}>
+                            </lightning-input>
+                        </div>
+                        <!-- checkbox for active status -->
+                        <div>
+                            <lightning-input type="checkbox" label="Active" checked={brandDetails.Active__c}
+                                onchange={handleChangeActive} name="brandActive">
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer modal_footer_style">
+                    <div class="slds-align_absolute-center">
+                        <!-- "save" button -->
+                        <div style="padding-right:3px">
+                            <lightning-button variant="brand" type="submit" title="save" label="Save"
+                                onclick={saveBrand} disabled={showErrorMessage}></lightning-button>
+                        </div>
+                        <!-- "save and new" button -->
+                        <div style="padding-right:3px">
+                            <lightning-button variant="brand" label="Save And New" title="Save And New"
+                                disabled={showErrorMessage} onclick={saveAndNewBrand}></lightning-button>
+                        </div>
+                        <!-- "cancel" button -->
+                        <div>
+                            <lightning-button variant="brand" type="cancel" title="cancel" label="Cancel"
+                                onclick={closeModal}></lightning-button>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </section>
+</template>

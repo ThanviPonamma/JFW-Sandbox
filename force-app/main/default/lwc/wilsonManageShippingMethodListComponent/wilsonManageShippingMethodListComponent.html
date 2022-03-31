@@ -1,0 +1,123 @@
+<!-- Authors:Vanditha,Thanvi
+     Date:06-01-2021
+     Aim:To display Shipping Method table which contains all the created shipping method with the item type name , active status and create and edit buttons for creating or updatig the existing item type -->
+
+     <template>
+        <!-- Create shipping Method Button -->
+        <lightning-card>
+            <div>
+                <lightning-button variant = "brand" label = "Create Shipping Method" class="slds-align_absolute-center" onclick={openCreateModal}>
+                </lightning-button>
+            </div>
+         
+          <!-- Shipping Method Table -->
+          <template if:true={shippingMethod}>
+          <template if:true={shippingMethodFound}>
+            <br/>
+          <div class="header_div_style">
+            <div class="table-responsive scroll-box">
+                <!-- Variable to display the shipping method data -->
+                <table class="table table-hover; table-fixed ;width: 100%; ">
+                    <thead>
+                        <tr class="table_header_style">
+                            <th class="header_th_style">Shipping Method Name</th>
+                            <th class="header_th_style">Approval Required</th>
+                            <th class="header_th_style">Active</th>
+                            <th class="header_th_style">Default</th>
+                            <th class="header_th_style">Edit</th>
+                            <th class="header_th_style">Deactivate</th>
+                        </tr>
+                    </thead>
+    
+    
+                    <!-- Table Body -->
+                    <tbody>
+                        <template for:each={shippingMethodList} for:item="shippingMethod">
+                            <tr key={shippingMethod.Id} class="table_Column" >
+                                <td role="gridcell">
+                                    <div class="slds-truncate td_content_style" title={shippingMethod.Shipping_Method_Name__c}>{shippingMethod.Shipping_Method_Name__c}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <template if:true={shippingMethod.ApprovalRequired__c}>
+                                        <lightning-icon icon-name="utility:check" size="x-small"></lightning-icon>   
+                                    </template>
+                                    <template if:false={shippingMethod.ApprovalRequired__c}>
+                                        <lightning-icon  size="x-small"></lightning-icon>   
+                                    </template>
+                                </td>
+                             
+                                <td role="gridcell">
+                                    <div class="slds-truncate">
+                                        <template if:true={shippingMethod.Active__c}>
+                                            <lightning-icon icon-name="utility:check"  size="x-small"></lightning-icon>   
+                                        </template>
+                                        <template if:false={shippingMethod.Active__c}>
+                                            <lightning-icon  size="x-small"></lightning-icon>   
+                                        </template>
+                                    </div>
+                                </td>
+    
+                                <td role="gridcell">
+                                    <div class="slds-truncate">
+                                        <template if:true={shippingMethod.Default__c}>
+                                            <lightning-icon icon-name="utility:check"  size="x-small"></lightning-icon>   
+                                        </template>
+                                        <template if:false={shippingMethod.Default__c}>
+                                            <lightning-icon  size="x-small"></lightning-icon>   
+                                        </template>
+                                    </div>
+                                </td>
+    
+                                <td role="gridcell">
+                                    <lightning-button-icon class="icon_color"  icon-name="utility:edit" name={shippingMethod} onclick={openEditModal} size="x-small"></lightning-button-icon>
+                                </td>
+    
+                                <td role="gridcell">
+                                    <div class="slds-truncate">
+                                        <template if:true={shippingMethod.Default__c}>
+                                        <template if:true={shippingMethod.Active__c}>
+                                            <lightning-input type="toggle" disabled checked={shippingMethod.Active__c} ></lightning-input>  
+                                        </template>
+                                        </template>
+    
+                                        <!--      <lightning-input type="toggle" checked={brand.Active__c} class="slds-align_absolute-center toggle_Style" value={brand} name={brand} detail={brand} onclick={deactivateBrand} size="x-small"></lightning-input> -->
+                                        
+                                        <template if:false={shippingMethod.Default__c}>
+                                            <template if:false={shippingMethod.Active__c}>
+                                            <lightning-input type="toggle" disabled ></lightning-input>   
+                                        </template>
+                                    </template>
+    
+                                         <template if:false={shippingMethod.Default__c}>
+                                            <template if:true={shippingMethod.Active__c}>
+                                                <lightning-input type="toggle" class="slds-align_absolute-center toggle_Style" name={shippingMethod} checked={shippingMethod.Active__c} onclick={handleChangeDeactivateShippingeMethods} size="x-small"></lightning-input>
+                                            </template>
+                                         </template>
+                                       
+                                    </div> 
+                                </td>
+    
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+           </div>
+            </template>
+            </template>
+        </lightning-card>
+    
+        <template if:false={shippingMethodFound}>
+            <br/>
+                <lightning-card class="message_text">
+                    <p>Shipping Methods not found</p>
+                </lightning-card>
+        </template>
+        
+    
+    
+        <!-- Onclick of  Create / Edit button the child(modalpop) should open -->
+        <template if:true={isOpenModal}>
+           <c-wilson-manage-shipping-method-create-edit-component shipping-method-to-change={shippingMethodToChange}  shipping-method-names-for-validation={shippingMethodNamesForValidation} label-name={labelName} is-edit-clicked={isEditClicked} onclosemodal={closeModal} ></c-wilson-manage-shipping-method-create-edit-component> 
+        </template>
+    </template>

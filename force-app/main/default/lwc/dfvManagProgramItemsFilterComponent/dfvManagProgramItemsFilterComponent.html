@@ -1,0 +1,20 @@
+<template>
+    <div class="c-container">
+        <lightning-card>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-align_absolute-center">
+                    <lightning-input type="search" label="Search " style="width: 37vw;
+                    " 
+                      class="slds-align_absolute-center slds-media_center search_Text_Style"
+                      placeholder="Search based on Item Name and Item Number"></lightning-input>
+
+                      <lightning-input type="search" label="Search " style="width: 37vw;
+                      " value={searchedKeyword} onchange={searchPosItems}
+                        class="slds-align_absolute-center slds-media_center search_Text_Style"
+                        placeholder="Search based on Item Name and Item Number"></lightning-input>
+                  </div>
+            </div>
+        </lightning-card>
+    </div>
+   
+</template>

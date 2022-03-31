@@ -1,0 +1,513 @@
+<!-- Author:VM ,VB
+     Date:21st october 2020
+     Aim:To show edit/create modal -->
+
+<template>
+    <!--MODAL POPUP  -->
+    <div class="slds-m-around_xx-large">
+        <!-- displaying the pop-up modal  -->
+        <section role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                <!-- display the header of the modal based on the user wants to create a pos item or edit a pos item -->
+                <header class="slds-modal__header modal_header_style">
+                    <template if:true={isEditClicked}>
+                        <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close"
+                            variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit POS Item for
+                            {labelName}</h2>
+                    </template>
+
+                    <template if:false={isEditClicked}>
+                        <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close"
+                            variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Create POS Item</h2>
+                    </template>
+                </header>
+                <!-- Modal Body -->
+                <div>
+                    <div class="slds-modal__content modal_body_style scroll-box" id="modal-content-id-1">
+                        <div class="slds-m-around_medium modal_margin_style">
+
+                            <div class="slds-grid slds-wrap">
+                                <!-- display the pos item number -->
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small slds-p-left_xx-small">
+                                    <template if:true={isEditClicked}>
+                                        <!-- disabled filed if the user wants to edit an existing item -->
+                                        <lightning-input name="posItemStockNumber"
+                                            value={posItems.posItemList.Item_No__c} required="true" disabled
+                                            label="Item No" maxlength="24" class="posItemStockNumber">
+                                        </lightning-input>
+                                    </template>
+                                    <!-- validate if the user wants to create a new pos item -->
+                                    <template if:false={isEditClicked}>
+                                        <lightning-input name="posItemStockNumber"
+                                            value={posItems.posItemList.Item_No__c} required="true"
+                                            class="posItemStockNumber" label="Item No" maxlength="24"
+                                            onchange={validatePosItemStockNumber}></lightning-input>
+                                    </template>
+                                </div>
+                                <!-- displays pos item name -->
+                                <div class="slds-col slds-size_6-of-12 slds-p-left_xx-small">
+                                    <div>
+                                        <lightning-input name="posItemName" value={posItems.posItemList.Item_Name__c}
+                                            required="true" class="posItemName" label="Item Name"
+                                            onchange={validatePosItemName}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-p-top_small">
+                                <!-- display the list of brands for the user to select -->
+                                <div class="slds-col slds-size_3-of-12 slds-p-right_xx-small">
+                                    <lightning-combobox
+                                        class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small posItemBrandId"
+                                        required="true" style="font-size:small;" label="Brand"
+                                        dropdown-alignment="center" placeholder="Brand"
+                                        value={posItems.posItemList.Brand__r.Id} options={brandListToDisplay}
+                                        onchange={handleChangeForBrand}></lightning-combobox>
+
+                                </div>
+                                <div class="slds-col slds-size_3-of-12 slds-p-right_xx-small slds-p-left_xx-small">
+                                    <!-- display the list of item for the user to select -->
+                                    <lightning-combobox
+                                        class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small posItemItemTypeId"
+                                        required="true" style="font-size:small;" dropdown-alignment="center"
+                                        label="Item Type" placeholder="Item Type"
+                                        name={posItems.posItemList.Type_of_Item__r.Item_Type__c}
+                                        value={posItems.posItemList.Type_of_Item__r.Id} options={itemTypeListToDisplay}
+                                        onchange={handleChangeForItemType}>
+                                    </lightning-combobox>
+
+                                </div>
+                                <!-- displaying pack of -->
+                                <div class="slds-col slds-size_3-of-12 slds-p-left_xx-small">
+                                    <lightning-input name="packOf" value={posItems.posItemList.Pack_Of__c}
+                                        class="packOf" required="true" label="Pack Of" onchange={validatePosItemPackOf}
+                                        maxlength="3"></lightning-input>
+                                </div>
+                                <!-- displaying price field -->
+                                <div class="slds-col slds-size_3-of-12 slds-p-left_xx-small">
+                                    <lightning-input formatter="currency" value={posItems.posItemList.Price__c}
+                                        name="posItemPrice" label="Price" class="posItemPrice" maxlength="5"
+                                        onchange={validatePosItemPrice}></lightning-input>
+                                </div>
+                            </div>
+                            <!-- displaying approval required checkbox -->
+                            <div class="slds-grid slds-wrap slds-p-top_small">
+                                <div class="slds-col slds-size_4-of-12 slds-p-right_xx-small">
+                                    <lightning-input type="checkbox" label="Approval Required"
+                                        checked={posItems.posItemList.Approval_Required__c}
+                                        name="posItemApprovalRequired" onchange={handleChangeApprovalRequired}>
+                                    </lightning-input>
+                                </div>
+                                <!-- displaying marketing only checkbox -->
+                                <!-- The below is commented as the Suzie requested not to see the marketing only feature
+                                Authors: Nachappa and Thanvi Date:05/01/2021 -->
+                                <!-- <div class="slds-col slds-size_3-of-12 slds-p-left_xx-small">
+                                    <lightning-input type="checkbox" label="Marketing Only"
+                                        checked={posItems.posItemList.Marketing_Only__c} name="marketingOnly"
+                                        onchange={handleChangeMarketingOnly}></lightning-input>
+                                </div> -->
+                                <!-- displaying lot number required checkbox -->
+                                <div class="slds-col slds-size_4-of-12 slds-p-left_xx-small">
+                                    <lightning-input type="checkbox" label="Lot Number Required"
+                                        checked={posItems.posItemList.LotNumberRequired__c}
+                                        name="posItemLotNumberRequired" onchange={handleChangeLotNumberRequired}>
+                                    </lightning-input>
+                                </div>
+                                <!-- displaying active checkbox -->
+                                <div class="slds-col slds-size_4-of-12 slds-p-right_xx-small">
+
+                                    <lightning-input type="checkbox" label="Active" name="posItemActive"
+                                        checked={posItems.posItemList.Active__c} onchange={handleChangeActiveStatus}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <!-- Authors:Sanjana and Thanvi CR No:JFW-28-Dec-03  Date:04-01-2021 
+                            To dislay the state list to the user on selection of item type name coupon.-->
+                            <div class="slds-grid slds-wrap slds-p-top_small">
+                                 <template if:false={getStateListToBeDisplayed}>
+                                    <template if:true={displayStateListDualBox}>
+                                        <!-- display state list -->
+                                         <div class="slds-size_6-of-12 slds-p-left_xx-small ">
+                                            <lightning-dual-listbox name="States" label="State List"
+                                                source-label="Available States" selected-label="Selected States"
+                                                value={assignedStateList} options={availableStateList}
+                                                onchange={handleSelectedStates}></lightning-dual-listbox>
+                                        </div>  
+
+                                        <!-- Authors: Thanvi and Vanditha
+                                             Date:08/01/2021
+                                             CR No : JFW-08-Jan-06  -->
+
+                                        <!-- The below lines is commented to met the requirement of the CR  -->
+                                        <!-- Autofill the dimensions on selection of the item type disable the dimensional(length,width,height,weight) -->
+
+
+                                        <!--  <div class="slds-size_6-of-12 slds-p-top_medium slds-p-left_xx-small "> -->
+                                        <!-- displaying input field for length -->
+                                        <!-- <div class="slds-p-top_small">
+                                            <lightning-input class="numericvalidationForLength" name="length"
+                                                required="true" label="Length(inch)"
+                                                value={posItems.posItemList.Length__c} maxlength="5"
+                                                onchange={validatePosItemLength}></lightning-input>
+                                            </div> -->
+                                        <!-- displaying input field for width -->
+                                        <!-- <div class="slds-p-top_small">
+                                            <lightning-input class="numericvalidationForWidth" name="width"
+                                                required="true" label="Width(inch)"
+                                                value={posItems.posItemList.Width__c} maxlength="5"
+                                                onchange={validatePosItemWidth}></lightning-input>
+                                            </div> -->
+                                        <!-- displaying input field for height -->
+                                        <!-- <div class="slds-p-top_small">
+                                                <lightning-input name="height" class="numericValidationForHeight"
+                                                required="true" label="Height(inch)"
+                                                value={posItems.posItemList.Height__c} maxlength="5"
+                                                onchange={validatePosItemHeight}></lightning-input>
+                                            </div> -->
+                                        <!-- displaying input field for weight -->
+                                        <!-- <div class="slds-p-top_x-small">
+                                            <lightning-input name="weight" required="true"
+                                                class="numericValidationForWeight" label="Weight(lbs)"
+                                                value={posItems.posItemList.Weight__c} maxlength="5"
+                                                onchange={validatePosItemWeight}></lightning-input>
+                                            </div>
+                                        </div> -->
+
+
+                                        <!-- Authors: Thanvi and Vanditha
+                                             Date:08/01/2021
+                                             CR No : JFW-08-Jan-06  -->
+                                        <!-- The below lines are added to met the requirement of the CR  -->
+                                        <!-- Autofill the dimensions on selection of the item type disable the dimensional(length,width,height,weight) -->
+                                        <div class="slds-size_6-of-12 slds-p-top_medium slds-p-left_xx-small ">
+                                            <!-- displaying input field for length -->
+                                            <div class="slds-p-top_small">
+                                                <lightning-input class="numericvalidationForLength" name="length"
+                                                    required="true" label="Length(inch)" disabled
+                                                    value={posItems.posItemList.Length__c} maxlength="5">
+                                                </lightning-input>
+                                            </div>
+                                            <!-- displaying input field for width -->
+                                            <div class="slds-p-top_small">
+                                                <lightning-input class="numericvalidationForWidth" name="width"
+                                                    required="true" label="Width(inch)" disabled
+                                                    value={posItems.posItemList.Width__c} maxlength="5">
+                                                </lightning-input>
+                                            </div>
+                                            <!-- displaying input field for height -->
+                                            <div class="slds-p-top_small">
+                                                <lightning-input name="height" class="numericValidationForHeight"
+                                                    required="true" label="Height(inch)" disabled
+                                                    value={posItems.posItemList.Height__c} maxlength="5">
+                                                </lightning-input>
+                                            </div>
+                                            <!-- displaying input field for weight -->
+                                            <div class="slds-p-top_x-small">
+                                                <lightning-input name="weight" required="true" disabled
+                                                    class="numericValidationForWeight" label="Weight(lbs)"
+                                                    value={posItems.posItemList.Weight__c} maxlength="5">
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </template>
+                            </div>
+                            <!-- Authors:Sanjana and Thanvi CR No:JFW-28-Dec-03  Date:04-01-2021 
+                            The template if condition is added to display length,wigth,height,weight if single row if the item type name is not coupon-->
+                            <template if:false={displayStateListDualBox}>
+
+                                <!-- Authors: Thanvi and Vanditha
+                                             Date:08/01/2021
+                                             CR No : JFW-08-Jan-06  -->
+
+                                <!-- The below lines is commented to met the requirement of the CR  -->
+                                <!-- Autofill the dimensions on selection of the item type disable the dimensional(length,width,height,weight) -->
+
+
+                                <!-- <div class="slds-grid slds-wrap slds-p-top_small">
+                                    <div class="slds-col slds-size_3-of-12 slds-p-right_xx-small">
+                                       
+                                        <lightning-input class="numericvalidationForLength" name="length"
+                                            required="true" label="Length(inch)" value={posItems.posItemList.Length__c}
+                                            maxlength="5" onchange={validatePosItemLength}></lightning-input>
+
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12 slds-p-right_xx-small">
+                                       
+                                        <lightning-input class="numericvalidationForWidth" name="width" required="true"
+                                            label="Width(inch)" value={posItems.posItemList.Width__c} maxlength="5"
+                                            onchange={validatePosItemWidth}></lightning-input>
+
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12 slds-p-right_xx-small">
+                                       
+                                        <lightning-input name="height" class="numericValidationForHeight"
+                                            required="true" label="Height(inch)" value={posItems.posItemList.Height__c}
+                                            maxlength="5" onchange={validatePosItemHeight}></lightning-input>
+
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12">
+                                       
+                                        <lightning-input name="weight" required="true"
+                                            class="numericValidationForWeight" label="Weight(lbs)"
+                                            value={posItems.posItemList.Weight__c} maxlength="5"
+                                            onchange={validatePosItemWeight}></lightning-input>
+
+                                    </div>
+                                </div> -->
+
+
+
+                                <!-- Authors: Thanvi and Vanditha
+                                             Date:08/01/2021
+                                             CR No : JFW-08-Jan-06  -->
+                                <!-- The below lines are added to met the requirement of the CR  -->
+                                <!-- Autofill the dimensions on selection of the item type disable the dimensional(length,width,height,weight) -->
+                                <div class="slds-grid slds-wrap slds-p-top_small">
+                                    <div class="slds-col slds-size_3-of-12 slds-p-right_xx-small">
+                                        <!-- displaying input field for length -->
+                                        <lightning-input class="numericvalidationForLength" name="length"
+                                            required="true" label="Length(inch)" disabled
+                                            value={posItems.posItemList.Length__c} maxlength="5"></lightning-input>
+
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12 slds-p-right_xx-small">
+                                        <!-- displaying input field for width -->
+                                        <lightning-input class="numericvalidationForWidth" name="width" required="true"
+                                            label="Width(inch)" disabled value={posItems.posItemList.Width__c}
+                                            maxlength="5"></lightning-input>
+
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12 slds-p-right_xx-small">
+                                        <!-- displaying input field for height -->
+                                        <lightning-input name="height" class="numericValidationForHeight"
+                                            required="true" label="Height(inch)" disabled
+                                            value={posItems.posItemList.Height__c} maxlength="5"></lightning-input>
+
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12">
+                                        <!-- displaying input field for weight -->
+                                        <lightning-input name="weight" required="true"
+                                            class="numericValidationForWeight" disabled label="Weight(lbs)"
+                                            value={posItems.posItemList.Weight__c} maxlength="5"></lightning-input>
+
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="slds-grid slds-wrap slds-p-top_small">
+                                <div class="slds-col slds-size_4-of-12 slds-p-right_xx-small">
+                                    <!-- displaying checkbox for low level inventory applicable -->
+                                    <lightning-input type="checkbox" label="Low Inventory Level Applicable"
+                                        name="lowInventoryLevelApplicable" class="lowInventoryLevelApplicable"
+                                        checked={posItems.posItemList.Low_inventory_level_applicable__c}
+                                        onchange={handleChangeLowInventoryLevelApplicable}></lightning-input>
+                                    <!-- displaying input field for level inventory applicable -->
+                                    <template if:true={posItems.posItemList.Low_inventory_level_applicable__c}>
+                                        <div class="slds-col slds-size_12-of-12 slds-p-right_xx-small">
+
+                                            <lightning-input required="true" name="lowInventoryLevel"
+                                                value={posItems.posItemList.Low_Inventory_Level__c}
+                                                label="Low Level Inventory" class="lowInventoryLevel"
+                                                onchange={validateLowLevelInventory} maxlength="3"
+                                                message-when-value-missing="Please enter a suitable value.">
+                                            </lightning-input>
+
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="slds-col slds-size_4-of-12 slds-p-left_xx-small">
+                                    <!-- displaying checkbox for Expiration Date Required -->
+                                    <lightning-input type="checkbox" label="Expiration Date Required"
+                                        name="posItemExpirationDateRequired" class="posItemExpirationDateRequired"
+                                        value={posItems.posItemList.ExpirationDateRequired__c}
+                                        checked={posItems.posItemList.ExpirationDateRequired__c}
+                                        onchange={handleChangeExpirationDateRequired}></lightning-input>
+                                    <!-- displaying input field for Expiration Date Required -->
+                                    <template if:true={posItems.posItemList.ExpirationDateRequired__c}>
+                                        <div class="slds-col slds-size_12-of-12 slds-p-left_xx-small">
+
+
+                                            <lightning-input type="date" name="posItemExpirationDate"
+                                                value={posItems.posItemList.Expiration_Date__c} label="Expiration Date"
+                                                min={today} class="posItemExpirationDate"
+                                                onchange={validateExpirationDate} required="true"
+                                                message-when-value-missing="Please enter a suitable value.">
+                                            </lightning-input>
+
+
+
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="slds-col slds-size_4-of-12 slds-p-right_xx-small slds-p-left_xx-small">
+                                    <!-- displaying checkbox for Maximum Order Quantity Applicable -->
+                                    <lightning-input type="checkbox" label="Maximum Order Quantity Applicable"
+                                        name="maximumOrderQuantityApplicable"
+                                        checked={posItems.posItemList.Maximum_order_quantity_applicable__c}
+                                        value={posItems.posItemList.Maximum_order_quantity_applicable__c}
+                                        onchange={handleChangeMaxOrderQuantityApplicable}></lightning-input>
+                                    <!-- displaying input field for Maximum Order Quantity Applicable -->
+                                    <template if:true={posItems.posItemList.Maximum_order_quantity_applicable__c}>
+                                        <div
+                                            class="slds-col slds-size_12-of-12 slds-p-right_xx-small slds-p-left_xx-small">
+                                            <lightning-input required="true" type="number" name="maximumOrderQty"
+                                                class="maximumOrderQuantityApplicable"
+                                                value={posItems.posItemList.Maximum_Order_Qty__c}
+                                                label="Maximum Order Qty" onchange={validateMaxOrderQuantity}
+                                                maxlength="4"
+                                                message-when-value-missing="Please enter a suitable value.">
+                                            </lightning-input>
+
+                                        </div>
+                                    </template>
+                                </div>
+
+                            </div>
+                            <div class="slds-grid slds-wrap">
+
+                                <div class="slds-size_3-of-12 slds-p-right_xx-small slds-p-left_xx-small">
+                                    <!-- displaying input field for harmonization code -->
+                                    <lightning-input type="text" name="posItemHarmonizationCode"
+                                        label="Harmonization Code" class="posItemHarmonizationCode"
+                                        value={posItems.posItemList.HarmonizationCode__c} maxlength="8"
+                                        onchange={validateHarmonizationCode}></lightning-input>
+
+
+                                </div>
+
+                                <div class="slds-size_3-of-12 slds-p-right_xx-small slds-p-left_xx-small">
+                                    <!-- displaying input field for vendor name -->
+                                    <lightning-input type="text" name="posItemVendorName" class="posItemVendorName"
+                                        value={posItems.posItemList.Vendor__c} label="Vendor Name"
+                                        onchange={validateVendorName}></lightning-input>
+
+                                </div>
+                                <div
+                                    class="slds-col slds-size_3-of-12 slds-p-right_xx-small slds-p-left_medium slds-p-top_x-large">
+                                    <lightning-input type="checkbox" label="Marketing Only"
+                                        checked={posItems.posItemList.Marketing_Only__c} name="marketingOnly"
+                                        onchange={handleChangeMarketingOnly}></lightning-input>
+                                </div>
+                                <div class="slds-size_3-of-12 slds-p-left_xx-small ">
+
+                                    <div>
+                                        <!-- displaying input field for avilable inventory -->
+                                        <template if:true={isEditClicked}>
+                                            <lightning-input name="availableInventory" class="availableInventory"
+                                                value={posItems.posItemList.Available_Stock__c}
+                                                label="Available Inventory" disabled maxlength="5">
+                                            </lightning-input>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="slds-grid slds-wrap slds-p-top_small">
+                                <div class="slds-col slds-size_6-of-12 slds-p-left_xx-small">
+                                    <!-- displaying input field for user to upload image of the pos item -->
+                                    <div>
+                                        
+
+                                        <!-- commenting the below code to implement resize of the image -->
+
+                                        <!-- <lightning-input label="" class="posItemFileId" name="file uploader"
+                                            onchange={handleFilesChange} type="file" multiple="false">
+                                        </lightning-input> -->
+                                        <lightning-input label="" class="posItemFileId" name="file uploader"
+                                        onchange={handleFilesChange} accept="image/png,image/jpg,image/jpeg" type="file" multiple="false">
+                                    </lightning-input>
+                                    </div><br />
+                                    <!-- displaying the pos item if it aready exists -->
+                                    <template if:true={posItems.posItemImageURL}>
+
+                                        <div style="width: 236px;">
+                                            <div class="slds-file slds-file_card slds-has-title">
+                                                <figure>
+                                                    <div class="slds-file__crop">
+                                                        <img class="attachedImage"
+                                                            src={posItems.posItemImageURL}>
+                                                    </div>
+                                                </figure>
+                                                <!-- icon to remove the image -->
+                                                <div class="slds-file__actions-menu">
+                                                    <lightning-button-icon icon-class="dark" icon-name="utility:close"
+                                                        onclick={removeImage} variant="bare" title="Close" size="medium"
+                                                        alternative-text="Remove"></lightning-button-icon>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+
+
+
+                                    <!-- testing -->
+                                  
+
+                                    <!-- testing -->
+                                    <!-- displaying the preview of an uploaded image -->
+                                    <template if:true={isImageShown}>
+                                        <div style="width: 236px;">
+                                            <div class="slds-file slds-file_card slds-has-title">
+                                                <figure>
+                                                    <div class="slds-file__crop">
+                                                        <img class="attachedImage"
+                                                            src={posItems.posItemImageURL}>
+                                                    </div>
+                                                </figure>
+                                                <!-- icon to remove the image -->
+                                                <div class="slds-file__actions-menu">
+                                                    <lightning-button-icon icon-class="dark" icon-name="utility:close"
+                                                        onclick={removeImage} variant="bare" title="Remove"
+                                                        size="medium" alternative-text="Remove"></lightning-button-icon>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+
+
+                                </div>
+                                <!-- input field to enter the discription of an item -->
+                                <div class="slds-col slds-size_6-of-12 slds-p-left_xx-small slds-p-right_xx-small">
+                                    <lightning-textarea name="Item" onchange={validateItemDescription}
+                                        label="Item description" value={posItems.posItemList.Item_Descrption__c}>
+                                    </lightning-textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- footer of the modal begins here -->
+                <footer class="slds-modal__footer slds-grid slds-grid_align-spread modal_footer_style">
+                    <div class="slds-align_absolute-center">
+                        <!-- save button -->
+                        <template if:true={isButtonDisable}>
+                            <lightning-button variant="brand" label="Save" title="Save" disabled class="footer_buttons">
+                            </lightning-button>
+                        </template>
+                        <template if:false={isButtonDisable}>
+                            <lightning-button variant="brand" label="Save" title="Save" onclick={savePosItem}
+                                class="footer_buttons"></lightning-button>
+                        </template>
+                        <!-- close button -->
+                        <lightning-button variant="brand" class="footer_buttons" label="Cancel" title="Cancel"
+                            onclick={closeModal}></lightning-button>
+                    </div>
+
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

@@ -1,0 +1,58 @@
+<!--  Author:Thanvi;Date:20-SEP-2021
+Aim : To display the search, sortby , brand and item type filters and to invoke the parent component based on user interaction-->
+
+<template>
+  <div class="c-container">
+    <lightning-card>
+      <div class="slds-grid slds-gutters">
+        <!-- when the users entres the data the values captures the data and sends to the onchange event -->
+        <div class="slds-align_absolute-center">
+          <lightning-input type="search" label="Search " style="width: 37vw;
+          " value={searchedKeyword} onchange={searchPosItems}
+            class="slds-align_absolute-center slds-media_center search_Text_Style"
+            placeholder="Search based on Item Name and Item Number"></lightning-input>
+        </div>
+
+      </div>
+      </br>
+      <!-- Grid system to display the data  -->
+      <div class="slds-grid  slds-align_absolute-center">
+        <div class="slds-size_1-of-12 button_style">
+
+          <!-- To display the data in the form of grid view to the users  -->
+          <lightning-button-icon icon-name="utility:apps" alternative-text="Grid View" value="GRID_VIEW"
+            onclick={changeViewType}></lightning-button-icon>
+
+          <!-- To display the data in the form of list view to the users  -->
+          <lightning-button-icon icon-name="utility:picklist_type" alternative-text="List View" value="LIST_VIEW"
+            onclick={changeViewType}></lightning-button-icon>
+        </div>
+        <!-- lightning combobox to hold the list of brand when the page loads -->
+        <div class="slds-size_3-of-12 slds-p-right_small slds-p-left_xx-small">
+          <lightning-combobox class="combobox slds-listbox__option slds-media_center slds-media_small"
+            style="font-size:small;width:100%" label="Brand" dropdown-alignment="right" placeholder="Brand"
+            value={value} options={brandListToDisplay} onchange={handleChangeForBrand}></lightning-combobox>
+        </div>
+
+        <!-- lightning combobox to hold the list of item types when the page loads -->
+        <div class="slds-size_3-of-12 slds-p-right_small slds-p-left_xx-small">
+          <lightning-combobox class="combobox slds-listbox__option slds-media_center slds-media_small"
+            style="font-size:small;width:100%" dropdown-alignment="right" label="Item Type" placeholder="Item Type"
+            value={value} options={itemTypeListToDisplay} onchange={handleChangeForItemType}></lightning-combobox>
+        </div>
+        <div class="slds-size_2-of-12 slds-p-right_small slds-p-left_xx-small">
+
+          <!-- lightning combobox to hold the sort by values when the page loads so that the user can filter the pos table based on the filter-->
+          <lightning-combobox class="combobox slds-listbox__option slds-media_center slds-media_small"
+            style="font-size:small;" dropdown-alignment="right" label="Sort By" placeholder="Sort By" value={value}
+            options={sortByValue} onchange={handleChangeForSortBy}></lightning-combobox>
+        </div>
+        <div class="slds-size_2-of-12 slds-p-right_small slds-p-left_xx-small slds-p-top_large">
+          <!-- <lightning-button onclick={addAllProgramItemsToCart} variant="brand" title="Add all listed items to cart"
+            label="Add all listed items to cart" disabled={isAddAllItemsDisable}></lightning-button> -->
+        </div>
+      </div>
+    </lightning-card>
+  </div>
+
+</template>

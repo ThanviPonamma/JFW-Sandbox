@@ -1,0 +1,15 @@
+<!-- Author:Thanvi
+Date: 16-08-2021 -->
+<!-- Aim: To hold the bread crumb and the child component  -->
+<template>
+    <!-- Breadcrumb with on click of home will navigate to home page -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Manage Playbook</a></li>
+        </ul>
+     </div>
+  <br/>
+<!-- To invoke the child component to display the table and edit,deactivate,add/remove states and territories -->
+<c-copper-buy-book-playbook-list-component></c-copper-buy-book-playbook-list-component>
+</template>

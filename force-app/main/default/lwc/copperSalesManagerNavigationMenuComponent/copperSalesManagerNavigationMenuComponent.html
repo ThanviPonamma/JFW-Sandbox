@@ -1,0 +1,55 @@
+<!-- Author : Thanvi; Date : 06/Aug/2021
+Aim : responsible to handle the navigation menu -->
+
+<template>
+    <!-- Header logo with log out  -->
+
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_2-of-12 ">
+                <img style="margin-bottom: 20px;" src={coppercaneHeaderLogo} />
+            </div>
+            <div class="slds-col slds-size_8-of-12 "></div>
+            <div class="slds-col slds-size_2-of-12 " style="text-align: right;margin-top:25px">
+                <lightning-button-icon size="large" icon-name="utility:logout" variant="bare" alternative-text="Log Out" icon-class="dark" onclick={logoutApplication}></lightning-button-icon>
+            </div>
+        </div>
+
+    <!-- The menu list for Salesmanager RPT -->
+
+    <div class="topnav hover_header_display_style">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light no-padding hover_header_display_style">
+            <div class="navbar-collapse" style="background-color: #a26a37;border-radius: 5px;">
+                <ul class="navbar-nav mr-auto navigation-menu" style="flex-direction: initial;">
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" onclick={navigateToHomeComponent}><i class="mdi mdi-view-dashboard "></i>Home</a>
+                    </li>
+                    <!--Desktop view-->
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link"><i class="mdi mdi-view-dashboard"></i>Buy Book Ordering</a>
+                        <ul class="submenu megamenu">
+                            <li>
+                                <a class="subMenuDecoration" onclick={navigateToPlaybook}>Playbook</a>
+                                <a class="subMenuDecoration" onclick={navigateToOpenBuyBookComponent}>Place Orders</a>
+                                <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Address Book</a>
+                                <a class="subMenuDecoration" onclick={navigateToOrderStatusComponent}>Order Status</a>
+                               
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" onclick={navigateToPODSite}><i class="mdi mdi-view-dashboard"></i>Print On Demand</a>
+                    </li>
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" onclick={openHelpDesk}><i class="mdi mdi-view-dashboard"></i>Help Desk</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <form id="myForm" name="myForm" action="https://www.Coppercanemarketing.com/index.php?route=account/login&amp;SSL" method="post" enctype="multipart/form-data" target="_blank">
+        <input type="hidden" name="email" value={userName} />
+       
+        <input type="hidden" name="override" value="1" />
+    </form>
+</template>

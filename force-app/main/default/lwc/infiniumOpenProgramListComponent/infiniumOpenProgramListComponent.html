@@ -1,0 +1,85 @@
+<template>
+    <template if:false={getAllOpenProgram}>
+        <lightning-card>
+            <div style="width:100%;" class="slds-align_absolute-center header_div_style">
+                <div class="scroll-box">
+                    <table class="table-fixed" role="grid" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th class="tableheader" style="width: 25%;">Program Image</th>
+                                <th class="tableheader" style="width: 25%;">Program Name</th>
+                                <th class="tableheader" style="width: 18%;">Close Date</th>
+                                <th class="tableheader" style="width: 18%;">In Market Date</th>
+                                <!-- <th class="tableheader" style="width: 10%;">Allocated Budget</th>
+                                <th class="tableheader" style="width: 10%;">Utilized Budget</th>
+                                <th class="tableheader" style="width: 10%;">Available Budget</th>  -->
+                                <th class="tableheader" style="width: 14%; text-align:center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={programList} for:item="program">
+                                <tr class="table_Column" key={program.program_chairBudget.id}>
+                                    <td role="gridcell">
+                                        <template if:true={program.programImageURL}>
+                                            <div>
+                                                <img style="height: 130px;" src={program.programImageURL} />
+                                            </div>
+                                        </template>
+                                        <template if:false={program.programImageURL}>
+                                            <div>
+                                                <img style="height: 130px;" src={NoImageURL} />
+                                            </div>
+                                        </template>
+
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate item_type_content_style"
+                                            title={program.program_chairBudget.Program__r.Name__c}>
+                                            {program.program_chairBudget.Program__r.Name__c}
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                            value={program.program_chairBudget.Program__r.Closing_Date__c}>
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td role="gridcell">
+
+                                        <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                            value={program.program_chairBudget.Program__r.In_Market_Date__c}>
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <!-- <td class="align_data_style" role="gridcell">
+                                        <div class="slds-truncate item_type_content_style" title={program.program_chairBudget.Allocated_Budget__c}>
+                                            <lightning-formatted-number value={program.program_chairBudget.Allocated_Budget__c}
+                                            format-style="currency" currency-code="USD">
+                                        </lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td class="align_data_style" role="gridcell">
+                                        <div class="slds-truncate item_type_content_style" title={program.program_chairBudget.Consumed_Budget__c}>
+                                            <lightning-formatted-number value={program.program_chairBudget.Consumed_Budget__c}
+                                            format-style="currency" currency-code="USD"> </lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td class="align_data_style" role="gridcell">
+                                        <div class="slds-truncate item_type_content_style" title={program.program_chairBudget.Available_Chair_Budget__c}>
+                                            <lightning-formatted-number value={program.program_chairBudget.Available_Chair_Budget__c}
+                                            format-style="currency" currency-code="USD"> </lightning-formatted-number>
+                                        </div>
+                                    </td> -->
+                                    <td style="text-align: center;">
+                                        <lightning-button variant="brand" class="slds-align_absolute-center" title="Enter Order" value={program}
+                                        label="Enter Order" onclick={goToCartItemsComponent}></lightning-button>
+                                </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </lightning-card>
+    </template>
+
+</template>

@@ -1,0 +1,35 @@
+<!-- Authors:Sanjana     Date:08-11-2021
+    
+Aim : To display breadcrumb ,search and call the child component responsible for showing table data-->
+
+<template>
+    <!-- Breadcrumbs forthe order status page -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <!-- to navigate to the home page -->
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Order Status</a></li>
+        </ul>
+     </div>
+     <br/>
+     
+    <Lightning-card>
+            <!-- The serach field to search the order details -->
+            <div class="slds-align_absolute-center ">
+                <lightning-input type="search" label="Search"
+                class="slds-m-around_xx-small serach_width"
+                placeholder="Enter Order Number,Ship to Name,Ship to Comapany,city" onchange={handleChangeSearchAddressBook}
+                value={searchedKeyword}></lightning-input>
+            
+                <!-- On click fo search button the user searched order is displayed to the users -->
+                <lightning-button variant="brand" type="search" title="Search" class="search_button_style"
+                label="Search" onclick={searchOrderEvent}></lightning-button>
+              </div>
+        <br />
+        
+<!-- To call the child component "infiniumInventoryOrderStatusTable"
+     To pass the search keyword to display the searched data to the users -->
+       <c-infinium-inventory-order-status-details-component oncallshippingcartcomponent={openShoppingCartDetails} search-key={searchKey} ></c-infinium-inventory-order-status-details-component>
+    </Lightning-card>
+
+</template>

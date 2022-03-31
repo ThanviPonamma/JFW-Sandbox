@@ -1,0 +1,15 @@
+<!-- Authors:TP,VP Date:19-10-2020 -->
+<!-- Aim: To hold the bread crumb and the c-jfw-manage-territories-list child component  -->
+<template>
+    <!-- Breadcrumb with on click of home will navigate to home page -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Manage Territories</a></li>
+        </ul>
+     </div>
+  <br/>
+<!-- To invoke the child component to display the table and edit,deactivate,add/remove states and territories -->
+<c-jfw-manage-territories-list></c-jfw-manage-territories-list>
+
+</template>

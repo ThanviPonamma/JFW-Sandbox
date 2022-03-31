@@ -1,0 +1,21 @@
+<!-- Authors: TP,SN,VM,VB
+Date: 07-10-2020
+Aim: This is the parent compoenent which holds the breadcrumbs to display and to call the  child component responsible to hold pos items in the cart details and to invoke preview orders component -->
+
+<template>
+    <!-- To show the breadcrumbs for shopping cart when the page is loaded-->
+        <div class="breadcrumbContents">
+            <ul class="breadcrumb">
+                <!-- to navigate to home page -->
+                <li><a onclick={navigateToHomePage}>Home</a></li>
+                <li><a>Shopping Cart</a></li>
+            </ul>
+        </div> 
+        <br/>
+        <!-- To call the child component jfw-shopping-cart-item-details-component -->
+        <!-- The custom event is sent from the child compoenent to invoke the preview page -->
+        <!-- The attribute is sent from the child component to receive the order id from parent compoenent -->
+        <c-jfw-shopping-cart-item-details-component oncallpreviewcomponent={openPreviewComponent} emerge-order-id = {orderId}></c-jfw-shopping-cart-item-details-component>
+    <br/>
+   
+</template>

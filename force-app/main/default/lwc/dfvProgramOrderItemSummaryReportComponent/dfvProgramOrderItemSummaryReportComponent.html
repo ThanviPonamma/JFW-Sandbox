@@ -1,0 +1,147 @@
+<!--
+  @File Name          : dfvProgramOrderItemSummaryReportComponent.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 8/5/2020, 7:53:36 pm
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    8/5/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+    <!-- Author : Vanditha and Vignesh Date:April 29 2020 
+        Aim : To display the Program Order Item Summary Report-->
+     <!-- to display the breadcrumbs -->
+     <div class="breadcrumbContents">
+         <ul class="breadcrumb">
+             <li><a>Home</a></li>
+              <li><a>Custom Report</a></li>
+             <li><a>Order Item Summary Report</a></li>
+         </ul>
+      </div>
+       <!-- to display the UI in card form -->
+      <div class="slds-box">
+
+        <!-- To get the select field we use combobox in lwc -->
+       
+             <label class="label_text">Select Program</label>
+     
+             <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" style ="font-size:small" dropdown-alignment="right"   name="orderStatus" placeholder="Select a Program" value={value}  options={programDetails} onchange={handleProgramChange} ></lightning-combobox> 
+           
+        <!-- button to download the pdf -->
+
+        <template if:true={programItemResult}>
+          <a target="_self"  class="slds-button button_color slds-align_absolute-center"  download="ProgramOrderItemSummaryReport.csv" disabled={disabledCondition} href={hrefdata} onclick={exportToCSV}  
+            style="margin-left: 61%; color:white;width: max-content;">Download Report</a>
+               <!-- Author : Vanditha and Vighnesh 
+                       Date : 26 may 2020
+                      Aim : To add the total Amount Spent  -->
+                      <lightning-input type="number" class="slds-float_right" style="width: fit-content;
+                      position: sticky; margin-top: -46px;"
+                      label="Total Budget Spent"
+                      value={TotalAmount}
+                      formatter="currency"
+                      disabled>
+                      </lightning-input>
+                  
+          </template>
+         
+    </div>
+    
+ <br/>
+ 
+
+       <template if:true={itemProgramId}>
+       <template if:true={programItemResult}> 
+  <!-- template tag to display table only if program is present for the user -->
+    <!-- lightning card to begin the table to display the information -->
+<lightning-card>
+ <!-- tables -->
+<div class="table-responsive scroll-box">
+ 
+  
+ 
+    <table class=" table-fixed " >
+        <thead >
+            <tr>
+               
+              <th class="tableheader ">
+                  <div class="table_label ">Brand Name</div>
+                </th>
+              <th class="tableheader ">
+                <div class="table_label">Item Number</div>
+            </th>
+              <th class="tableheader ">
+                <div class="table_label">Item Type</div>
+            </th>
+              <th class="tableheader ">
+                  <div class="table_label">Item Name</div>
+            </th>
+            <th class="tableheader ">
+              <div class="table_label">Vendor</div>
+        </th>
+              <th class="tableheader ">
+                  <div class="table_label_custom">Price</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label_custom">Pack Of</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label_custom">Total Qty Ordered</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label_custom">Total Pieces Ordered</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label">Total Amount</div>
+            </th>
+            </tr>
+              
+        </thead>
+         
+        <tbody>
+            <!-- table body to display the data -->
+
+            <template for:each={programOrderSummaryReport.data} for:item="items">
+
+                        <tr style="border-bottom: 1px solid #dee2e6; padding:3px;" key={items.Id}>
+                          <td title={items.Brand}>{items.Brand}</td>
+                          <td title={items.PosItemNumber}>{items.PosItemNumber}</td>
+                          <td title={items.ItemType}>{items.ItemType}</td>
+                          <td title={items.PosItemName}>{items.PosItemName}</td>
+                          <td title={items.PosItemName}>{items.Vendor}</td>
+                          <td title={items.Price}>${items.Price}</td>
+                          <td title={items.PackOf}>{items.PackOf}</td>
+                          <td title={items.TotalQuantity}>{items.TotalQuantity}</td>
+                          <td title={items.TotalPiecesOrdered}>{items.TotalPiecesOrdered}</td>
+                          <td>
+                            <lightning-input name="qty" type="number" style="width: fit-content;
+                            position: sticky; margin-top: -8px;"
+                            value={items.TotalAmount}
+                            formatter="currency"
+                            disabled
+                            >
+               </lightning-input>
+                          </td>
+                      </tr>  
+            </template>
+            </tbody>
+    </table>
+
+</div>
+ 
+</lightning-card>
+</template> 
+</template>
+ 
+<template if:false={itemProgramId}>
+  <p class="fontData">Please select the program to continue</p>
+ </template> 
+  <template if:false={programItemResult}>
+    <template if:true={itemProgramId}>
+    <p class="fontData">The selected program does not have any orders</p>
+   </template> 
+</template>
+
+</template>

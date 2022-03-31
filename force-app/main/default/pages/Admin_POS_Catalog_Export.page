@@ -1,0 +1,35 @@
+<!-- Changing the name for Talking Rain
+            Author: Thanvi,Nachappa
+            Date: 07-09-2021 -->
+<!--<apex:page standardController="Brand__c" sidebar="false" id="pg" contentType="application/x-pdf#Trinchero Family Estates POS Catalog.pdf" cache="true">-->
+<apex:page standardController="Brand__c" sidebar="false" id="pg" contentType="application/x-pdf#DFV POS Catalog.pdf" cache="true">
+ 
+    <head> 
+        
+        <style type="text/css">
+            @page{
+            size:A3 portrait;
+            }
+        </style>
+    </head> 
+      <!-- Changing the name for Talking Rain
+            Author: Thanvi,Nachappa
+            Date: 07-09-2021 -->
+    <!--<apex:image id="theImage" value="{!$Resource.TrincheroLogo}" style="margin-top: -1.0em;" height="100" />--> 
+    <apex:image id="theImage" value="{!$Resource.DFVLogo}" style="margin-top: -1.0em;" height="100" />
+    <center> 
+        <!-- Changing the name for trinchero
+            Author: Sanjana
+            Date: 10-08-2021
+            CR - DFV-03-June-28 -->
+        <!-- <h2 style="margin-top: -3em;">DFV Wines Emerge POS Catalog</h2>   -->
+          <!-- Changing the name for Talking Rain
+            Author: Thanvi,Nachappa
+            Date: 07-09-2021 -->
+        <!-- <h2 style="margin-top: -3em;">Trinchero Family Estates POS Catalog</h2>   -->
+        <h2 style="margin-top: -3em;">DFV POS Catalog</h2>
+    </center> 
+    <apex:include pageName="Admin_POS_Catalog_Pdf"/>
+    
+    
+</apex:page>

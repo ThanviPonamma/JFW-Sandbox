@@ -1,0 +1,50 @@
+<!-- Author : Thanvi, Vanditha, Varsha, Sanjana
+Date : 01/10/2020
+Aim : To display breadcrubms , cart button and to invoke the child components jfwPosItemMenuWithFiltersComponent and jfwPosItemMenuAddOrRemoveItemsComponent -->
+
+<template>
+    <!-- to display the breadcrumbs -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Inventory Order</a></li>
+        </ul>
+    </div>
+
+
+    <div>
+        <!-- to display the cart size to the users -->
+        <template if:false={isDisableViewCart}>
+            <button class="slds-button slds-button_neutral  slds-float_right viewcart_button_style"
+                onclick={navigateToShoppingCartComponent} title="View Cart">
+                View Cart({viewCartSize})
+            </button>
+        </template>
+
+        <!-- The "isDisableViewCart" is an boolean variable to disble the view cart button if the order addedto cart is 0 -->
+        <template if:true={isDisableViewCart}>
+            <button class="slds-button slds-button_neutral slds-float_right viewcart_disabled_button_style"
+                title="View Cart" disabled>
+                View Cart
+            </button>
+        </template>
+    </div><br />
+
+    <!-- To call the child components to parent -->
+
+    <!-- To call the child component that holds all the filter conditions -->
+    <!-- And the custom event is sent from the child component to the parent component to get brandId,ItemTypeId,SortById -->
+    <c-jfw-pos-item-menu-with-filters-component onselectbrandevent={brandIdEvent}
+        onselectitemtypeevent={itemTypeIdEvent}
+        onselectsortbyevent={getSortbyIdEvent} onsendsearchdatatoparent={searchEventHandler} onviewitemevent={viewItemEvent}>
+    </c-jfw-pos-item-menu-with-filters-component>
+
+
+    <!-- To call the child component to display the pos items with add/remove button  -->
+    <!-- And the child components can receive the data from the parent component when the component is called  -->
+    <c-jfw-pos-item-menu-add-or-remove-items-component get-brand-id={brandId} get-item-type-id={itemTypeId}
+        get-sort-by={sortByValue} oncartitemsize={cartItemSizeEvent} get-search-value={searchValue} is-list-view={isListView}>
+    </c-jfw-pos-item-menu-add-or-remove-items-component>
+
+
+</template>

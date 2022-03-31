@@ -1,0 +1,18 @@
+<!--Authors: Thanvi;Date: 20-SEP-2021 -->
+<!--to set the size of the page,to display the logo and the header in the playbook pdf-->
+<apex:page standardController="Program__c" sidebar="false" id="pg" contentType="application/x-pdf#{!Program__c.Name__c}.pdf" cache="true" >
+<head> 
+
+<style type="text/css">
+@page{
+   size:A3 portrait;
+}
+</style>
+</head> 
+<apex:image id="theImage" value="{!$Resource.InfiniumHeaderLogo}" width="25%" /> 
+<center> 
+  <h2 style="margin-top: -3em;">Program Playbook</h2>
+  <h3>Program Name : {!Program__c.Name__c}</h3>
+</center> 
+<apex:include pageName="Infinium_Playbook_POS_Pdf"/>
+</apex:page>

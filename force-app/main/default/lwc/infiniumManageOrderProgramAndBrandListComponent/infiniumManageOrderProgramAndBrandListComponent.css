@@ -1,0 +1,16 @@
+.combobox {
+    width: fit-content;
+    text-align: left;
+    font-size: medium;
+    font-weight: 600;
+    font-family: sans-serif;
+    /* margin-top: -53px; */
+
+    
+} 
+
+.itemLabelStyle{
+font-size: inherit;
+/* margin-top:20px; */
+margin-left: 113px; 
+}

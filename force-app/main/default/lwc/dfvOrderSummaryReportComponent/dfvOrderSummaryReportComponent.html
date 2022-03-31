@@ -1,0 +1,174 @@
+<template>
+    <!-- Author : Vanditha and Vignesh Date:April 17 2020 
+        Aim : To display the Order Summary Report-->
+     <!-- to display the breadcrumbs -->
+     <div class="breadcrumbContents">
+         <ul class="breadcrumb">
+             <li><a>Home</a></li>
+              <li><a>Program Ordering</a></li>
+             <li><a>Order Summary Report</a></li>
+         </ul>
+      </div>
+
+      <!-- to display the UI in card form -->
+      <div class="slds-box">
+
+        <!-- To get the select field we use combobox in lwc -->
+       
+             <label  style="margin-left: 31%;font-size: inherit;">Select Program</label>
+     
+      <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" style ="font-size:small" dropdown-alignment="right"   name="orderStatus" placeholder="Select a Program" value={value}  options={inProgress} onchange={handleProgramChange} ></lightning-combobox> 
+        <!-- button to download the pdf -->
+
+        <template if:true={responseValue}>
+          <a target="_self"  class="slds-button button_color slds-align_absolute-center"  download="ProgramOrderItemSummaryReport.csv" disabled={disabledCondition} href={hrefdata} onclick={exportToCSV}  
+            style="margin-left: 61%; color:white;width: max-content;">Download Report</a>
+          </template>
+    </div>
+    
+ <br/>
+
+<!-- template tag to display table only if program is present for the user -->
+<template if:true={responseValue}>
+     
+<!-- lightning card to begin the table to display the information -->
+
+<lightning-card>
+    <div class="table-responsive scroll-box">
+ <!-- tables -->
+ 
+    <table class=" table-fixed " >
+        <thead >
+            <tr>
+              <th class="tableheader ">
+                  <div class="table_label ">Program Name</div>
+                </th>
+              <th class="tableheader ">
+                <div class="table_label">Brand Name</div>
+            </th>
+              <th class="tableheader ">
+                <div class="table_label">Order Name</div>
+            </th>
+              <!-- <th class="tableheader ">
+                <div class="table_label">Division</div>
+            </th> -->
+              <th class="tableheader ">
+                <div class="table_label"> Vendor</div>
+            </th>
+              <th class="tableheader " >
+                  <div class="table_label">Item Type</div>
+            </th>
+              <th class="tableheader ">
+                  <div class="table_label" >Item Number</div>
+            </th>
+              <th class="tableheader ">
+                  <div class="table_label">Item Name</div>
+            </th>
+            <!-- //commenting the Item description for TEF demo 
+       //Authors: Sanjana, Nachappa
+       //Date: 07-06-2021
+       //CR - DFV-03-June-28 -->
+              <!-- <th class="tableheader ">
+                  <div class="table_Description">Item Descrption</div>
+            </th> -->
+              <th class="tableheader ">
+                  <div class="table_data">Pack Of</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_data">Quantity</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_data">Price</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_data">Total Line Amount</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label">Ship To Name</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label">Ship To Company</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label">Address</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label">Ship To City</div>
+            </th>
+               <th class="tableheader " >
+                   <div class="table_data">State Code</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_data">Zip</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label">Phone</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label">Email</div>
+            </th>
+               <th class="tableheader ">
+                   <div class="table_label">Order Status</div>
+            </th>
+            <th class="tableheader ">
+              <div class="table_label">Tracking Number</div>
+       </th> 
+               <th class="tableheader ">
+                   <div class="table_label">Created Date</div>
+            </th> 
+            <th class="tableheader ">
+              <div class="table_label">Last Modified Date</div>
+       </th> 
+             
+            </tr>
+              
+        </thead>
+        <tbody>
+            <!-- table body to display the data -->
+        
+            <template for:each={orderSummaryReport.data} for:item="reports">
+
+                        <tr style="border-bottom: 1px solid #dee2e6; padding:3px;" key={reports.Id}>
+                            <td title={reports.ProgramName}>{reports.ProgramName}</td>
+                            <td title={reports.BrandName}>{reports.BrandName}</td>
+                            <td title={reports.OrderName}>{reports.OrderName}</td>
+                            <!-- <td title={reports.UserId}>{reports.UserId}</td> -->
+                            <td title={reports.Vendor}>{reports.Vendor}</td>
+                            <td title={reports.ItemType}>{reports.ItemType}</td>
+                            <td title={reports.ItemNo} >{reports.ItemNo}</td>
+                            <td title={reports.PosItemName}>{reports.PosItemName}</td>
+                            <!-- //commenting the Item description for TEF demo 
+                            //Authors: Sanjana, Nachappa
+                            //Date: 07-06-2021
+                            //CR - DFV-03-June-28 -->
+                            <!-- <td title={reports.PosItemDescrption}>{reports.PosItemDescrption}</td> -->
+                            <td title={reports.PosPackOf}>{reports.PosPackOf}</td>
+                            <td title={reports.Quantity}>{reports.Quantity}</td>
+                            <td title={reports.PosItemPrice}>${reports.PosItemPrice}</td>
+                            <td title={reports.TotalLineAmount}>${reports.TotalLineAmount}</td>
+                            <td title={reports.OrdDestShipToName}>{reports.OrdDestShipToName}</td>
+                            <td title={reports.OrdDestShipToCompany}>{reports.OrdDestShipToCompany}</td>
+                            <td title={reports.OrdDestAddress}>{reports.OrdDestAddress}</td>
+                            <td title={reports.OrdDestShipToCity}>{reports.OrdDestShipToCity}</td>
+                            <td title={reports.OrdDestStateCode}>{reports.OrdDestStateCode}</td>
+                            <td title={reports.OrdDestZip}>{reports.OrdDestZip}</td>
+                            <td title={reports.OrdDestPhone}>{reports.OrdDestPhone}</td>
+                            <td title={reports.OrdDestEmail}>{reports.OrdDestEmail}</td>
+                            <td title={reports.OrdDestOrderStatus}>{reports.OrdDestOrderStatus}</td>
+                            <td title={reports.TrackingNumber}>{reports.TrackingNumber}</td>
+                            <td title={reports.CreatedDate}>{reports.CreatedDate}</td>
+                            <td title={reports.LastModifiedDate}>{reports.LastModifiedDate}</td>
+                            
+                        </tr>       
+                        
+                    </template>
+               
+            </tbody>
+    </table>
+</div>
+</lightning-card>
+</template>
+<template if:false={responseValue}>
+  <p class="fontData">Please select a program to see the orders you have placed.</p>
+  </template>
+</template>

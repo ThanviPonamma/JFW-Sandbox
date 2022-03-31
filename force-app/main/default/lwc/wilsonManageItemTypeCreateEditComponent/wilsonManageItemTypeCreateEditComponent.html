@@ -1,0 +1,55 @@
+<!-- Authors:Vanditha,Thanvi
+     Date:05-01-2021
+     Aim:To display create/edit item type popup -->
+
+<!-- Modal Header -->
+<template>
+    <div class="slds-m-around_xx-large">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header modal_header_style">
+                    <lightning-button-icon icon-name="utility:close" onclick={closeModal} variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                    
+                    <template if:true={isEditModalOpen}>
+                        <h2 id="modal-heading-01" style="padding-right: 20px;" class="slds-text-heading_small slds-hyphenate">Edit Item Type for {labelName}</h2>
+                    </template>
+                    <template if:false={isEditModalOpen}>
+                        <h2 id="modal-heading-02" style="padding-right: 20px;" class="slds-text-heading_small slds-hyphenate">Create Item Type</h2>
+                    </template>
+                  </header>
+                <div> 
+                    <!--MODAL BOX BODY -->
+                    <div class="exampleHolder">
+                        <div class="slds-modal__content modal_body_style" id="modal-content-id-1">
+                            <div class="slds-m-around_large listitemClass">
+                         
+                                    <lightning-input name="itemTypeName" value={itemType.Item_Type__c} required="true" minlength="4" class="itemTypeValidator" label="Item Type"  maxlength="40" onchange={handleItemTypeName} ></lightning-input>
+                                <!-- </div> -->
+                          
+                                <lightning-input type="checkbox" label="Active"  checked={itemType.Active__c} onchange={handleChangeActiveStatus} 
+                                ></lightning-input>
+    
+                                
+                            </div>
+                        </div>
+                        <!--MODAL BOX FOOTER-->
+    
+                        <footer class="slds-modal__footer modal_footer_style">
+                            <div class="slds-align_absolute-center">
+                                <lightning-button class="footer_buttons" disabled={disableSaveButton} variant="brand" label="Save" title="Save" onclick={saveItemType}></lightning-button>
+    
+                                <lightning-button class="footer_buttons" variant="brand"
+                                    label="Save And New" onclick={saveAndNewItemType} title="Save And New" disabled={disableSaveButton} ></lightning-button>
+    
+                                    <lightning-button class="footer_buttons" variant="brand"
+                                    label="Cancel" title="Cancel" onclick={closeModal}></lightning-button>
+                            </div>
+                        </footer>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

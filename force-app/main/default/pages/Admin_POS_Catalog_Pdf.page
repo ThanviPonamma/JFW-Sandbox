@@ -1,0 +1,45 @@
+<apex:page standardController="Brand__c" showHeader="false" sidebar="false" cache="true"
+           renderAs="PDF" extensions="Admin_POS_CatalogController">
+        
+      <html>
+        <body >                     
+            <font face="arial" size="2">                                                                      
+          <table border="1" style="border: solid #CCCCCC; border-width: 1;width:100%;" >
+            <tr style="font-size: 15px; font-face: arial;border-width: 1;  text-align: center;color:white;font-weight:bold;background:#4f4b2b;"> 
+                <th >Item Preview</th>
+                <th >Item No</th>
+                <th >Item Name</th>
+              <!--  <th >Item Description</th> -->
+                <th >Brand</th>
+                <th >Pack Of</th>
+                <th >Inventory</th>
+               <th >Max Order Quantity</th>
+                <th>Approval Required</th>
+            </tr>
+            <apex:repeat var="posItem" value="{!posItemList}">
+              <tr style="font-size: 11px; font-face: verdana ;text-align: center;">
+                <td ><apex:image id="theImage" url="/servlet/servlet.FileDownload?file={!posItem.Attachment_Id__c}" style="padding-top:1%;padding-bottom:1%"/>
+                </td>
+                <td >{!posItem.Item_No__c}</td>
+                <td >{!posItem.Item_Name__c}</td>
+              <!--  <td >{!posItem.Item_Descrption__c}</td> -->
+                <td >{!posItem.Brand__r.Brand_Name__c}</td>
+                <td >{!posItem.Pack_Of__c}</td>               
+                <td >{!posItem.Logical_Invenory_Stock__c}</td>
+               <td >{!posItem.Maximum_Order_Qty__c}</td>  
+                <td >{!posItem.Approval_Required__c}</td>                   
+              </tr>
+            </apex:repeat>                 
+          </table>
+          <p />
+        </font>
+      </body>         
+    </html>
+    <style type="text/css">
+        TH {font-size: 11px; font-face: arial;background: #CCCCCC;
+        border-width: 1;  text-align: center;color:red; } 
+        TD  {font-size: 11px; font-face: verdana ;text-align: center; } 
+        TABLE {border: solid #CCCCCC; border-width: 1}
+        TR {border: solid #CCCCCC; border-width: 1;text-align :center}   
+    </style>
+</apex:page>

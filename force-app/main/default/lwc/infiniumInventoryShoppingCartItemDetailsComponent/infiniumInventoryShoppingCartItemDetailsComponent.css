@@ -1,0 +1,91 @@
+.preview_button_style {
+  font-weight: 800;
+  margin-right: 15px;
+}
+
+.addAddress_button_style {
+  font-weight: 800;
+  margin-top: -31px;
+  margin-left: 540px;
+}
+
+.tableheader {
+  color: #001137;
+  background-color: #dee2e6;
+  position: sticky !important;
+  top: 0;
+  z-index: 99;
+  height: 40px;
+  text-align: left;
+}
+
+.tableheaderfirst {
+  color: #001137;
+  background-color: #dee2e6;
+  position: sticky !important;
+  top: 0;
+  z-index: 99;
+  height: 30px;
+  text-align: left;
+
+}
+
+/* scroll bar */
+.scroll-box {
+  width: 98%;
+  height: 380px;
+  overflow-y: auto;
+}
+
+.scroll-box::-webkit-scrollbar {
+  width: .4em;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #001137;
+}
+
+.table_Column {
+  border-bottom: 1px solid #dee2e6;
+  padding: 8px;
+  height: 45px;
+}
+
+.item_description_style {
+  width: 26%;
+  text-align: left;
+}
+
+.totalQuantity_field_style {
+  width: 70px;
+  margin-left: 120px;
+
+}
+
+.table_width {
+  width: 15% !important;
+  padding-left: 9px;
+}
+
+.quantity_field {
+  width: 63px;
+  position: sticky;
+  margin-top: -8px;
+}
+
+.error_message_for_exceed {
+  color: red;
+  font-family: sans-serif;
+}
+
+.slds-p-left_small,
+.slds-p-left--small {
+  padding-left: 0 !important;
+}
+
+.image_style {
+  height: 130px;
+  width: 70%;
+
+}

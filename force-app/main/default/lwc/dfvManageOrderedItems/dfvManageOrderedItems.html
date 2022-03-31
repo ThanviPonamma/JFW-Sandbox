@@ -1,0 +1,44 @@
+<!-- Author - VP,TP,JP,SN,VB
+     Date - June 19th 2020
+     Aim - To display the breadcrumb and to invoke the child component dfvManageOrderProgramList -->
+     <template>
+          <!-- Breadcrumb -->
+          <div class="breadcrumbContents">
+               <ul class="breadcrumb">
+                   <li><a>Home</a></li>
+                    <li><a>Manage Ordered Items</a></li>
+               </ul>
+          </div>
+
+
+            <!-- Aim - To invoke the child component for displaying the list of programs and list of Brands in the lightning combobox -->
+            <c-dfv-manage-order-program-and-brand-list onselectedprogramid={selectionOfProgramId} onselectedbrandid={selectionOfBrandId}></c-dfv-manage-order-program-and-brand-list>
+            <!-- Aim - To invoke the child component for displaying the list of withheld items for the particular selected program. -->
+            </br>
+
+            <!-- To display the child components if the program is selected-->
+            <template if:true={programBrandDetails}>
+           
+               <c-dfv-manage-ordered-withheld-items-table onupdateavailableandwithheldlist={pageRefreshEvent}  get-program-id={selectedProgramId}  ></c-dfv-manage-ordered-withheld-items-table>
+                </br>
+
+               <!-- Aim - To invoke the child component for displaying the list of Available items for the particular selected program. -->
+               <c-dfv-manage-ordered-available-items-table onupdateavailableandwithheldlist={pageRefreshEvent} get-program-id={selectedProgramId} get-brand-id={selectedBrandId}></c-dfv-manage-ordered-available-items-table>
+            </template>
+
+             <!-- To hide the child component if no program is selected and show message -->
+             <template if:false={programBrandDetails}>
+             <template if:false={isRefreshList}>
+                     <p class="message_style">Please select a program and a brand to view the available and withheld items.</p>
+              </template>
+               </template>
+
+
+               <!-- To refresh the page when the method is called -->
+               <template if:true={isRefreshList}>
+                     <c-dfv-manage-ordered-withheld-items-table onupdateavailableandwithheldlist={pageRefreshEvent} get-program-id={selectedProgramId}  ></c-dfv-manage-ordered-withheld-items-table>
+                     </br>
+                      <!-- Aim - To invoke the child component for displaying the list of Available items for the particular selected program. -->
+                     <c-dfv-manage-ordered-available-items-table onupdateavailableandwithheldlist={pageRefreshEvent} get-program-id={selectedProgramId} get-brand-id={selectedBrandId}></c-dfv-manage-ordered-available-items-table> 
+               </template>
+     </template>

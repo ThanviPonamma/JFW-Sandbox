@@ -1,0 +1,36 @@
+/* combobox */
+.combobox {
+    width: fit-content;
+    text-align: left;
+    font-size: medium;
+    font-weight: 600;
+    font-family: sans-serif;
+    margin-top: -53px;
+}
+/* search button */
+.searchButtonStyle{
+    margin-top: 25px;
+    /* margin-left: 33px; */
+}
+.user_Label{
+    font-size: inherit; 
+    margin-left: 142px; 
+}
+/* search button */
+.search_Button_Align{
+    margin-top: 19px;
+    margin-left: 7px;
+
+}
+.programName_label{
+   font-size: inherit;
+   margin-left: 60px;
+}
+.search_icon{
+    margin-top: -25px;
+    margin-left: 430px;
+}
+.search_icon_update{
+    margin-top: -26px;
+    margin-left: 213px;
+}

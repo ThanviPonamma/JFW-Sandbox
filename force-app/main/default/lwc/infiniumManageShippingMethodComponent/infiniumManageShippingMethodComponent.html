@@ -1,0 +1,15 @@
+<!--Author : Sanjana; Date : 20-09-2021
+
+    Aim : To display the breadcrumb of manage ishipping Method page and call the child component -->
+    <template>
+        <!-- Breadcrumb with on click of home it will navigate to home page -->
+      <div class="breadcrumbContents">
+          <ul class="breadcrumb">
+              <li><a onclick={navigateToHomePage}>Home</a></li>
+              <li><a>Manage Shipping Methods</a></li>
+          </ul>
+       </div>
+      <br/>
+      <!-- To open the child component which has the data to dsplay the shipping methods -->
+      <c-infinium-manage-shipping-method-list-component></c-infinium-manage-shipping-method-list-component>
+      </template>

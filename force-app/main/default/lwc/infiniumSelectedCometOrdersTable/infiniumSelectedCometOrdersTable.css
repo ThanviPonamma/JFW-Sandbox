@@ -1,0 +1,76 @@
+/* scroll bar */
+.scroll-box {
+    width: 96%;
+    height: 220px;
+    overflow-y: auto;
+    }
+  
+    .scroll-box::-webkit-scrollbar {
+        width: .4em;
+    }
+    
+    .scroll-box::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: #001137;
+    }
+    
+  
+    .table_Column {
+      border-bottom: 1px solid #dee2e6;
+       padding:8px;
+       height: 45px;
+    }
+  
+  
+    .tableheader {
+    
+      color: white;
+    background-color:#001137;
+    position: sticky !important; 
+    top:0;
+    z-index: 99;
+    height: 30px;
+   text-align: center; 
+   
+    }
+  
+    .tableheaderfirst {
+    
+      color: white;
+    background-color:#001137;
+    position: sticky !important; 
+    top:0;
+    z-index: 99;
+    height: 30px;
+   text-align: left; 
+   
+    }
+    caption, th, td {
+      text-align: center !important;
+  }
+  .headerText{
+      font-size: small;
+      font-weight: bold;
+      margin-left: 48px;
+    }
+    .message_Text{
+    
+      font-size: small;
+      font-weight: bold;
+    
+     
+    }
+    .submitToWarehouse{
+      margin-right: 62px;
+      margin-top: -19px;
+      margin-bottom: 5px;
+    }
+    .table_Width{
+      margin-left: 25px;
+     }
+     .errorMessage{
+      text-align: center;
+      color:#001137;
+      margin-bottom: -7px;
+      font-weight: 700;
+     }

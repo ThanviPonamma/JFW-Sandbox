@@ -1,0 +1,46 @@
+<template>
+    <!-- Header logo with log out  -->
+
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_2-of-12 ">
+            <img style="height: 70px;" src={jfwHeaderLogo} />
+        </div>
+        <div class="slds-col slds-size_8-of-12 ">
+            </div>
+        <div class="slds-col slds-size_2-of-12 " style="text-align: right;margin-top:25px">
+            <lightning-button-icon size="large" icon-name="utility:logout" variant="bare" alternative-text="Log Out" icon-class="dark" onclick={logoutApplication}></lightning-button-icon>
+        </div>
+    </div>
+    <!-- The menu list for ADMIN/ ADMIN RPT -->
+
+    <div class="topnav hover_header_display_style">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light no-padding hover_header_display_style">
+            <div class="navbar-collapse" style="background-color: #534133;border-radius: 5px;">
+                <ul class="navbar-nav mr-auto navigation-menu" style="flex-direction: initial;">
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" onclick={navigateToHomeComponent}><i class="mdi mdi-view-dashboard "></i>Home</a>
+                    </li>
+
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link"><i class="mdi mdi-view-dashboard"></i>Inventory Order</a>
+                        <ul class="submenu megamenu">
+                            <li>
+                                <a class="subMenuDecoration" onclick={navigateToPOSCatalog}>POS Catalog</a>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryPlaceOrderComponent}>Place Orders</a>
+                                <a class="subMenuDecoration" onclick={navigateToAddressBookComponent}>Address Book</a>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryShoppingCartComponent}>Shopping Cart Details</a>
+                                <a class="subMenuDecoration" onclick={navigateToInventoryOrderStatusComponent}>Order Status</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="has-submenu">
+                        <a class="menu_item_style nav-link" onclick={openHelpDesk}><i class="mdi mdi-view-dashboard"></i>Help Desk</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    
+</template>

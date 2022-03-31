@@ -1,0 +1,43 @@
+<!--Authors:Sanjana    Date:11-11-2021
+     Aim - To display the breadcrumb and to invoke the child components -->
+     <template>
+        <div class="breadcrumbContents">
+            <ul class="breadcrumb">
+                <li><a>Home</a></li>
+                <li><a>Send Wave Orders</a></li>
+            </ul>
+         </div>
+     
+         <!-- Aim - To invoke the child component for displaying the list of selected comet orders for the particular selected program and user. -->
+         <template if:true={programUserDetails}>
+             <c-infinium-selected-comet-orders-table get-program-id={selectedProgramId} get-user-id={selectedUserId} onupdateavailableandselectedcometorderlist={pageRefreshEvent} ></c-infinium-selected-comet-orders-table>
+         </template>
+        <template if:true={isRefreshList}>
+          <c-infinium-selected-comet-orders-table get-program-id={selectedProgramId} get-user-id={selectedUserId} onupdateavailableandselectedcometorderlist={pageRefreshEvent}></c-infinium-selected-comet-orders-table>
+        </template>
+        
+        <br/>
+              <p class="textHeader">Available Seasonal Orders</p>
+     
+         <div class="availableOrderPage_style">
+             <c-infinium-send-wave-orders-program-and-user-list onselectedprogramid={selectionOfProgramId} onselecteduserid={selectionOfUserId} onsendsearchdatatoavailable={enteredSearchValue}></c-infinium-send-wave-orders-program-and-user-list>
+            
+             <template if:false={programUserDetails}>
+              <template if:false={isRefreshList}>
+                   <p class="message">Please select a program and a user to display the orders.</p>
+             </template>
+             </template>
+             <br/>
+          
+                 <!-- Aim - To invoke the child component for displaying the list of available comet orders for the particular selected program and user. -->
+                 <template if:true={programUserDetails}>
+                    <c-infinium-available-comet-orders-table get-program-id={selectedProgramId} get-search-value={searchValue} get-user-id={selectedUserId} onupdateavailableandselectedcometorderlist={pageRefreshEvent}></c-infinium-available-comet-orders-table>
+                </template>
+         </div>
+  
+   <!-- To display the available comet order table -->
+    <template if:true={isRefreshList}>
+        <c-infinium-available-comet-orders-table get-program-id={selectedProgramId}   get-search-value={searchValue} get-user-id={selectedUserId} onupdateavailableandselectedcometorderlist={pageRefreshEvent}></c-infinium-available-comet-orders-table>
+    </template>
+  
+</template>

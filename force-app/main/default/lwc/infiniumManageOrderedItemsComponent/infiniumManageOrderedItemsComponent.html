@@ -1,0 +1,54 @@
+<!-- Author - Sanjana
+     Date - 10-11-2021
+     Aim - To display the breadcrumb and to invoke the child component infiniumManageOrderProgramList -->
+<template>
+     <!-- Breadcrumb -->
+     <div class="breadcrumbContents">
+          <ul class="breadcrumb">
+               <li><a>Home</a></li>
+               <li><a>Manage Ordered Items</a></li>
+          </ul>
+     </div><br />
+
+
+     <!-- Aim - To invoke the child component for displaying the list of programs and list of Brands in the lightning combobox -->
+     <c-infinium-manage-order-program-and-brand-list-component onselectedprogramid={selectionOfProgramId}
+          onselectedbrandid={selectionOfBrandId}></c-infinium-manage-order-program-and-brand-list-component>
+     <!-- Aim - To invoke the child component for displaying the list of withheld items for the particular selected program. -->
+     </br>
+
+     <!-- To display the child components if the program is selected-->
+     <template if:true={programBrandDetails}>
+
+          <c-infinium-manage-ordered-withheld-items-table-component onupdateavailableandwithheldlist={pageRefreshEvent}
+               get-program-id={selectedProgramId}></c-infinium-manage-ordered-withheld-items-table-component>
+          </br>
+
+          <!-- Aim - To invoke the child component for displaying the list of Available items for the particular selected program. -->
+          <c-infinium-manage-ordered-available-items-table onupdateavailableandwithheldlist={pageRefreshEvent}
+               get-program-id={selectedProgramId} get-brand-id={selectedBrandId}>
+          </c-infinium-manage-ordered-available-items-table>
+     </template>
+
+     <!-- To hide the child component if no program is selected and show message -->
+     <template if:false={programBrandDetails}>
+          <template if:false={isRefreshList}>
+               <lightning-card>
+                    <p class="message_style">Please select a program and a brand to view the available and withheld
+                         items.</p>
+               </lightning-card>
+          </template>
+     </template>
+
+
+     <!-- To refresh the page when the method is called -->
+     <template if:true={isRefreshList}>
+          <c-infinium-manage-ordered-withheld-items-table-component onupdateavailableandwithheldlist={pageRefreshEvent}
+               get-program-id={selectedProgramId}></c-infinium-manage-ordered-withheld-items-table-component>
+          </br>
+          <!-- Aim - To invoke the child component for displaying the list of Available items for the particular selected program. -->
+          <c-infinium-manage-ordered-available-items-table onupdateavailableandwithheldlist={pageRefreshEvent}
+               get-program-id={selectedProgramId} get-brand-id={selectedBrandId}>
+          </c-infinium-manage-ordered-available-items-table>
+     </template>
+</template>

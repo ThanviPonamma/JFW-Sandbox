@@ -1,0 +1,507 @@
+<!-- Authors:Vanditha,Thanvi      Date:07-01-2021
+  Aim : This component is responsible for holding the Edit details and view details buttons ,the popup modal of view details, search filter and the table which displays contents of the order status page.  -->
+
+<template>
+    <!-- Table of the order status page -->
+    <template if:false={orderStatusData}>
+        <!-- Spinner -->
+        <div class="spinner">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+                </lightning-spinner>
+            </template>
+        </div>
+
+        <!-- To display the table if the conditions matches -->
+        <template if:true={orderStatusFound}>
+
+            <div class="c-container">
+                <div class="table-responsive scroll-box">
+                    <table class="table-fixed">
+                        <thead>
+                            <tr>
+                                <th class="tableheader ">Order Number</th>
+                                <th class="tableheader ">Order Details</th>
+                                <th class="tableheader ">Order Status</th>
+                                <th class="tableheader ">Ship To Name</th>
+                                <th class="tableheader ">Ship To Company</th>
+                                <th class="tableheader ">City</th>
+                                <th class="tableheader ">State</th>
+                                <th class="tableheader ">Order Date</th>
+                            </tr>
+                        </thead>
+
+                        <!-- Table body -->
+                        <tbody>
+                            <template for:each={orderStatus} for:item="orders">
+                                <tr class="table_Column" key={orders.Id}>
+
+                                    <td title={orders.OrderDestination.OrderName__c}>
+                                        {orders.OrderDestination.OrderName__c}</td>
+                                    <td>
+                                        <template if:true={orders.orderStatusButton}>
+                                            <lightning-button
+                                                class="slds-align_absolute-center editButtonViewButton_style"
+                                                title="Edit Details" variant="brand" label="Edit Details"
+                                                onclick={openShoppingCartDetails}></lightning-button>
+                                        </template>
+                                        <template if:false={orders.orderStatusButton}>
+                                            <lightning-button
+                                                class=" slds-align_absolute-center editButtonViewButton_style "
+                                                title="view Details" variant="brand" label="View Details"
+                                                value={orders.OrderDestination} data-id={orders.OrderDestination.Id}
+                                                onclick={openModal}>
+                                            </lightning-button>
+                                        </template>
+
+                                    </td>
+                                    <td title={orders.OrderDestination.OrdStatus__c}>
+                                        {orders.OrderDestination.OrdStatus__c}</td>
+                                    <td title={orders.OrderDestination.AddressBook__r.Shipto_Name__c}>
+                                        {orders.OrderDestination.AddressBook__r.Shipto_Name__c}</td>
+                                    <td title={orders.OrderDestination.AddressBook__r.Shipto_Company__c}>
+                                        {orders.OrderDestination.AddressBook__r.Shipto_Company__c}</td>
+                                    <td title={orders.OrderDestination.AddressBook__r.City__c}>
+                                        {orders.OrderDestination.AddressBook__r.City__c}</td>
+                                    <td title={orders.OrderDestination.AddressBook__r.State__r.State_Code__c}>
+                                        {orders.OrderDestination.AddressBook__r.State__r.State_Code__c}</td>
+                                    <td>
+                                        <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                            value={orders.OrderDestination.Order__r.Order_Date__c}>
+                                        </lightning-formatted-date-time>
+
+
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </template>
+        <template if:false={orderStatusFound}>
+            <lightning-card class="message_text">
+                <p>No Orders found</p>
+            </lightning-card>
+        </template>
+    </template>
+
+
+
+    <!-- Pop-up modal for the view details -->
+
+    <template if:true={isModalOpen}>
+        <lightning-card>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- Box LWC header here -->
+                    <header class="slds-modal__header popUpHeader">
+
+                        <!-- the close button icon on click of which the button closes -->
+                        <lightning-button-icon icon-name="utility:close" alternative-text="Close" onclick={closeModal}
+                            variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate popUp_header">Order
+                            Details</h2>
+                    </header>
+
+                    <!-- Modal Body -->
+
+                    <div class="slds-modal__content slds-p-around_small modal_body_style scroll-box_modal">
+                        <h6 style="color:#610c04">Current Order Status</h6>
+                        <div class="slds-box">
+                            <!-- The progress bar for open status -->
+                            <template if:true={statusOpen}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : Open
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=1 type="path" variant="base">
+                                    <lightning-progress-step label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Needs Approval" value=2></lightning-progress-step>
+                                    <lightning-progress-step label="Submitted" value=3></lightning-progress-step>
+                                    <lightning-progress-step label="In Process" value=4></lightning-progress-step>
+                                    <lightning-progress-step label="Shipped" value=5></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+                            <!-- The progress bar for needs approval -->
+                            <template if:true={statusNeedApproval}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : Needs Approval
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=2 type="path" variant="base">
+                                    <lightning-progress-step label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Needs Approval" value=2></lightning-progress-step>
+                                    <lightning-progress-step label="Submitted" value=3></lightning-progress-step>
+                                    <lightning-progress-step label="In Process" value=4></lightning-progress-step>
+                                    <lightning-progress-step label="Shipped" value=5></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+                            <!-- The progress bar for the status to send -->
+                            <template if:true={statusSend}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : Send To Comet
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=3 type="path" variant="base">
+                                    <lightning-progress-step label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Needs Approval" value=2></lightning-progress-step>
+                                    <lightning-progress-step label="Submitted" value=3></lightning-progress-step>
+                                    <lightning-progress-step label="In Process" value=4></lightning-progress-step>
+                                    <lightning-progress-step label="Shipped" value=5></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+                            <!-- The progress bar for submit status -->
+                            <template if:true={statusSubmit}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : Submitted
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=3 type="path" variant="base">
+                                    <lightning-progress-step label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Needs Approval" value=2></lightning-progress-step>
+                                    <lightning-progress-step label="Submitted" value=3></lightning-progress-step>
+                                    <lightning-progress-step label="In Process" value=4></lightning-progress-step>
+                                    <lightning-progress-step label="Shipped" value=5></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+                              <!-- The progress bar if the order status is InProcess -->
+                              <template if:true={statusInProcess}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : InProcess
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=4 type="path" variant="base">
+                                    <lightning-progress-step label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Needs Approval" value=2></lightning-progress-step>
+                                    <lightning-progress-step label="Submitted" value=3></lightning-progress-step>
+                                    <lightning-progress-step label="In Process" value=4></lightning-progress-step>
+                                    <lightning-progress-step label="Shipped" value=5></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+
+                            <!-- The progress bar if the order status is shipped -->
+                            <template if:true={statusShipped}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : Shipped
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=5 type="path" variant="base">
+                                    <lightning-progress-step label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Needs Approval" value=2></lightning-progress-step>
+                                    <lightning-progress-step label="Submitted" value=3></lightning-progress-step>
+                                    <lightning-progress-step label="In Process" value=4></lightning-progress-step>
+                                    <lightning-progress-step label="Shipped" value=5></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+                            <template if:true={statusRejected}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : Rejected
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=3 type="path" variant="base">
+                                    <lightning-progress-step label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Needs Approval" value=2></lightning-progress-step>
+                                    <lightning-progress-step label="Rejected" value=3></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+                            <template if:true={orderFailed}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : This order failed to submit
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=2 type="path" variant="base">
+                                    <lightning-progress-step disabled label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Order failed" value=2></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+                            <template if:true={shippingMethodRejected}>
+                                <div class="slds-text-align_center slds-text-body_small ordered_Details_Font_Weight">
+                                    Order Status : Rejected due to shipping method
+                                </div>
+                                <br />
+                                <lightning-progress-indicator current-step=3 type="path" variant="base">
+                                    <lightning-progress-step label="Open" value=1></lightning-progress-step>
+                                    <lightning-progress-step label="Needs Approval" value=2></lightning-progress-step>
+                                    <lightning-progress-step label="Rejected due to shipping method" value=3>
+                                    </lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </template>
+
+                        </div>
+
+
+                        <h6 style="color:#610c04">Shipping Address Details</h6>
+                        <div class="slds-box">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12">
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="around-small" size="6">
+                                            <div>
+                                                <b>Order Number
+                                                    :{cometOrderAddressDetails.OrderName__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>Ship To Name :
+                                                    {cometOrderAddressDetails.AddressBook__r.Shipto_Name__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>Ship To Company :
+                                                    {cometOrderAddressDetails.AddressBook__r.Shipto_Company__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>City :
+                                                    {cometOrderAddressDetails.AddressBook__r.City__c}</b>
+                                            </div>
+
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small" size="6">
+                                            <div>
+                                                <b>Selected Shipping Method :
+                                                    {cometOrderAddressDetails.SelectedShippingMethod__r.Shipping_Method_Name__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>Address :
+                                                    {cometOrderAddressDetails.AddressBook__r.Address__c}</b>
+                                            </div>
+                                            <div>
+                                                <b>State :
+                                                    {cometOrderAddressDetails.AddressBook__r.State__r.State_Name__c}</b>
+
+                                            </div>
+                                            <div>
+                                                <b>Zip :
+                                                    {cometOrderAddressDetails.AddressBook__r.Zip__c}</b>
+                                            </div>
+
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                        </div>
+
+                        <h6 style="color:#610c04">POS Item Details</h6>
+                        <div class="slds-box">
+
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={orderDestinationDetail} for:item="orderPOSItem">
+                                    <lightning-layout-item padding="around-small" size="12" key={orderPOSItem.Id}>
+                                        <lightning-layout>
+                                            <lightning-layout-item padding="around-small" size="4">
+                                                <div>
+
+                                                    <template if:true={orderPOSItem.posItemImageURL}>
+                                                        <img style="height: 130px;"
+                                                            src={orderPOSItem.posItemImageURL} />
+                                                    </template>
+                                                    <template if:false={orderPOSItem.posItemImageURL}>
+                                                        <img style="height: 130px;" src={NoImageURL} />
+
+                                                    </template>
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item padding="around-small" size="4">
+                                                <div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Item Name
+                                                            : {orderPOSItem.OrderItems.POS_Item__r.Item_Name__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Item Number :
+                                                            {orderPOSItem.OrderItems.POS_Item__r.Item_No__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Brand Name :
+                                                            {orderPOSItem.OrderItems.POS_Item__r.Brand__r.Brand_Name__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Item Type
+                                                            :
+                                                            {orderPOSItem.OrderItems.POS_Item__r.Type_of_Item__r.Item_Type__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <b>Pack Of :
+                                                            {orderPOSItem.OrderItems.POS_Item__r.Pack_Of__c}</b>
+                                                    </div>
+                                                    <div class="slds-text-body_smal ordered_Details_Font_Weight">
+                                                        <b>Ordered Quantity : {orderPOSItem.OrderItems.Quantity__c}</b>
+                                                    </div>
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item padding="around-small" size="4">
+                                                <div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <template
+                                                            if:true={orderPOSItem.OrderItems.POS_Item__r.Approval_Required__c}>
+                                                            Item Approval Required :
+                                                            <lightning-icon icon-name="utility:check" style="margin-top: -17px;
+                                                    margin-left: 106px;" class="slds-align_absolute-center"
+                                                                variant="success" size="x-small"></lightning-icon>
+                                                        </template>
+                                                        <template
+                                                            if:false={orderPOSItem.OrderItems.POS_Item__r.Approval_Required__c}>
+                                                            Item Approval Required :
+                                                            <lightning-icon icon-name="utility:close" style="margin-left: 106px;
+                                                        margin-top: -16px;" class="slds-align_absolute-center"
+                                                                variant="success" size="x-small"></lightning-icon>
+
+                                                        </template>
+
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <template if:true={orderPOSItem.OrderItems.MaxOrderApproved__c}>
+                                                            Max Order Qty Approval<br />
+                                                            Required :
+                                                            <lightning-icon icon-name="utility:check" style="margin-top: -15px;
+                                                margin-right: 35px;" class="slds-align_absolute-center"
+                                                                variant="success" size="x-small"></lightning-icon>
+                                                        </template>
+                                                        <template
+                                                            if:false={orderPOSItem.OrderItems.MaxOrderApproved__c}>
+                                                            Max Order Qty Approval<br />
+                                                            Required :
+                                                            <lightning-icon icon-name="utility:close" style=" margin-left: 82px;
+                                                    margin-top: -16px;" class="slds-align_absolute-center"
+                                                                variant="success" size="x-small"></lightning-icon>
+
+                                                        </template>
+
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <template
+                                                            if:true={orderPOSItem.OrderItems.POS_Item__r.Maximum_Order_Qty__c}>
+                                                            Max Order Quantity :
+                                                            {orderPOSItem.OrderItems.POS_Item__r.Maximum_Order_Qty__c}
+                                                        </template>
+                                                        <template
+                                                            if:false={orderPOSItem.OrderItems.POS_Item__r.Maximum_Order_Qty__c}>
+                                                            Max Order Quantity : -
+                                                        </template>
+
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <template if:true={orderPOSItem.OrderItems.ItemApproved__c}>
+                                                            Item approved status :
+                                                            <lightning-icon icon-name="utility:check" style="    margin-left: 82px;
+                                                    margin-top: -16px;" class="slds-align_absolute-center"
+                                                                variant="success" size="x-small"></lightning-icon>
+                                                        </template>
+                                                        <template if:false={orderPOSItem.OrderItems.ItemApproved__c}>
+                                                            Item approved status :
+                                                            <lightning-icon icon-name="utility:close" style="    margin-left: 82px;
+                                                    margin-top: -16px;" class="slds-align_absolute-center"
+                                                                variant="success" size="x-small"></lightning-icon>
+
+                                                        </template>
+
+                                                    </div>
+                                                    <div class="slds-text-body_small ordered_Details_Font_Weight">
+                                                        <template if:true={orderPOSItem.OrderItems.MaxOrderApproved__c}>
+                                                            <div
+                                                                class="slds-text-body_small ordered_Details_Font_Weight">
+                                                                Max order approved status
+                                                                Required: <lightning-icon icon-name="utility:check"
+                                                                    style="    margin-left: 140px;
+                                                        margin-top: -16px;" class="slds-align_absolute-center"
+                                                                    variant="success" size="x-small"></lightning-icon>
+
+                                                            </div>
+                                                        </template>
+                                                        <template
+                                                            if:false={orderPOSItem.OrderItems.MaxOrderApproved__c}>
+                                                            <div
+                                                                class="slds-text-body_small ordered_Details_Font_Weight">
+                                                                Max order approved status: <lightning-icon
+                                                                    icon-name="utility:close" style="    margin-left: 140px;
+                                                        margin-top: -16px;" class="slds-align_absolute-center"
+                                                                    variant="success" size="x-small"></lightning-icon>
+
+                                                            </div>
+                                                        </template>
+
+                                                    </div>
+
+                                                </div>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+
+                        </div>
+
+
+                        <div class="slds-modal__content slds-p-around_small">
+
+                            <template if:true={statusSubmit}>
+                                <h6 style="color:#610c04">Tracking Numbers Info</h6>
+                                <div class="slds-box">
+                                    <div style="width:100%;">
+                                        <span class="slds-text-body_small ordered_Details_Font_Weight">Carrier : </span>
+                                        <span
+                                            class="slds-text-align_left ordered_Details_Font_Weight">{cometOrderAddressDetails.Carrier__c}</span>
+                                        <br />
+                                        <template for:each={trackNoList} for:item="trackingNo">
+                                            <lightning-layout-item key={trackingNo.Id} style="padding:20px">
+                                                <lightning-button variant="brand" label={trackingNo} value={trackingNo}
+                                                    onclick={onClickOfTrackingNo}></lightning-button>
+                                            </lightning-layout-item>
+                                        </template>
+
+                                    </div>
+
+                                </div>
+
+                            </template>
+                            <template if:true={statusShipped}>
+                                <h6 style="color:#610c04">Tracking Numbers Info</h6>
+                                <div class="slds-box">
+                                    <div style="width:100%;">
+                                        <span class="slds-text-body_small ordered_Details_Font_Weight">Carrier :</span>
+                                        <span class="slds-text-align_left ordered_Details_Font_Weight">Fedex</span>
+                                        <br />
+                                        <template for:each={trackNoList} for:item="trackingNo">
+                                            <lightning-layout-item key={trackingNo.Id} style="padding:20px">
+                                                <lightning-button variant="brand" label={trackingNo} value={trackingNo}
+                                                    onclick={onClickOfTrackingNo}></lightning-button>
+                                            </lightning-layout-item>
+                                        </template>
+
+                                    </div>
+
+                                </div>
+
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- PopUp Footer -->
+                    <!-- Contains close button -->
+
+                    <footer class="slds-modal__footer  modal_footer_style">
+
+                        <lightning-button variant="brand" type="cancel" class="slds-align_absolute-center"
+                            title="cancel" label="Cancel" onclick={closeModal}></lightning-button>
+
+                    </footer>
+
+                </div>
+            </section>
+
+        </lightning-card>
+    </template>
+
+</template>

@@ -1,0 +1,98 @@
+.no_data_text_style {
+    color: #a26737;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.header_div_style {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    height: 620px;
+}
+
+
+.table thead th {
+    top: -1px;
+    padding-top: 8px;
+}
+
+.btn_width {
+    width: 120px;
+}
+
+.slds-select:focus {
+    outline: 0;
+    border-color: #a26737;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 3px #a26737;
+}
+
+.item_type_content_style {
+    white-space: normal;
+    width: 185px;
+}
+
+.table_Column {
+    border-bottom: 1px solid #dee2e6;
+    padding: 8px;
+    height: 55px;
+}
+
+.td_currency_style {
+    height: 2rem;
+    border-radius: 5px;
+    width: 80%;
+    background-color: #E9EAEC;
+}
+/* scroll bar */
+.scroll-box {
+    width: 100%;
+    height: 620px;
+    overflow-y: auto;
+  }
+  
+  .scroll-box::-webkit-scrollbar {
+    width: .4em;
+  }
+  
+  .scroll-box::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #a26737;
+  }
+.display_currency_style {
+    height: 2rem;
+    border-radius: 5px;
+    width: 50%;
+    padding: 5px;
+    background-color: #E9EAEC;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  
+    /* Safari only override */
+    .tableheader {
+      background-color: #231F20;
+      position: -webkit-sticky;
+      top: 0;
+      padding: 8px;
+      z-index: 99;
+      width: 20%;
+      height: 40px;
+      text-align: left;
+      color: #808080;
+      font-weight: bold;
+    }
+  }
+  .tableheader {
+    background-color: #231F20;
+    position: sticky !important;
+    top: 0;
+    padding: 8px;
+    z-index: 99;
+    width: 20%;
+    height: 40px;
+    text-align: left;
+    color: #808080;
+    font-weight: bold;
+  }

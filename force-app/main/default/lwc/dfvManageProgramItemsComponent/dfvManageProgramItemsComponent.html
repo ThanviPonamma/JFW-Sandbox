@@ -1,0 +1,57 @@
+<template>
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <!-- to navigate to home page -->
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Manage Program Items</a></li>
+        </ul>
+    </div> 
+
+
+    <div class="c-container">
+        <lightning-card>
+
+            <P class="header_style">Select a Brand and a program to manage the items</P>
+
+                <div class="slds-grid  slds-align_absolute-center" style="margin-bottom: 50px;">
+
+                    <div class="slds-size_3-of-12 button_style">
+            
+                    
+                    </div>
+                    <!-- lightning combobox to hold the list of brand when the page loads -->
+                    <div class="slds-size_3-of-12 slds-p-right_small slds-p-left_xx-small">
+                     
+
+                        <lightning-combobox
+                        name="brand"             
+                        placeholder="All Brands"
+                        options={allBrands}
+                        value={value}
+                        onchange={getSelectedBrand} 
+                       ></lightning-combobox>
+                    </div>
+            
+                    <!-- lightning combobox to hold the list of item types when the page loads -->
+                    <div class="slds-size_3-of-12 slds-p-right_small slds-p-left_xx-small">
+                        <lightning-combobox
+                        name="program"                  
+                        placeholder="All Programs"
+                        options={allPrograms}
+                        onchange={getSelectedProgram} 
+                        ></lightning-combobox>
+                    </div>
+                    <div class="slds-size_3-of-12 slds-p-right_small slds-p-left_xx-small">
+                                 
+                    </div>
+                   
+
+                  </div>
+        </lightning-card>
+    </div>
+   
+    <template if:true={displayProgramItemDetails}>
+        <c-dfv-manage-program-items-details-component></c-dfv-manage-program-items-details-component>
+    </template>
+
+</template>

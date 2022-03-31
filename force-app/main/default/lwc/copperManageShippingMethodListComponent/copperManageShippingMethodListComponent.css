@@ -1,0 +1,89 @@
+/* scroll bar */
+.c-container {
+    border: 1px solid #d8dde6;
+    margin: 10px 0 20px 0;
+  }
+  
+  .scroll-box {
+    width: 100%;
+    height: 250px;
+    overflow-y: auto;
+  }
+  
+  .scroll-box::-webkit-scrollbar {
+    width: .4em;
+  }
+  
+  .scroll-box::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #a26a37;
+  }
+  
+  .table_Column {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  
+  .toggle_Style {
+    margin-top: 10px;
+  }
+  
+  .THIS .slds-checkbox_toggle [type="checkbox"]:checked+.slds-checkbox_faux_container .slds-checkbox_faux {
+    background-color: #110103 !important;
+    border-color: #A9898A !important;
+  }
+  
+  .icon_color:hover {
+    color: #a26a37;
+  }
+  
+  .td_content_style {
+    font-size: 13px;
+    font-weight: 600;
+    color: black;
+    padding-left: 10px;
+  }
+  
+  
+  .header_div_style {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    overflow-x: auto;
+    height: 300px;
+  }
+  
+  .table_header_style {
+    background-color: #231F20;
+    position: sticky !important;
+    color: #808080;
+    top: 0;
+  
+  }
+  
+  .header_th_style {
+    color: 808080;
+    background-color: #231F20;
+  
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    height: 40px;
+    font-weight: 600 !important;
+  }
+  
+  .table thead th {
+    width: 18.5%;
+  }
+  
+  .slds-icon_container {
+    padding-left: 7px;
+  }
+  
+  .message_text {
+    text-align: center;
+    color: #a26a37;
+    font-size: 16px
+  }

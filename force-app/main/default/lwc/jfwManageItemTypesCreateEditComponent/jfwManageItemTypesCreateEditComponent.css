@@ -1,0 +1,55 @@
+.exampleHolder{
+  position:relative;
+}
+
+.buttonHover:hover{  
+  background-color:rgb(83, 65, 51); 
+  border-color:rgb(83, 65, 51);
+}
+
+.slds-form-element__label{
+  padding-bottom: 10px;
+  font-weight: 700;
+  color: black;
+}
+.slds-checkbox__label{
+  padding-top: 10px;
+}
+
+.modal_header_style{
+  background-color:#534133;
+  border-bottom:#534133;
+  color: white;
+}
+.modal_body_style{
+  border-right: 2px solid#534133!important;
+  border-left: 2px solid#534133!important;
+}
+.button_color_style{
+  background-color:#534133;
+  border-color:#534133
+}
+.modal_footer_style{
+  border-right: 2px solid#534133!important;
+  border-left: 2px solid#534133!important;
+  border-bottom: 2px solid#534133!important;
+}
+.slds-text-heading_small{
+  margin-bottom: 0;
+}
+.slds-modal__close {
+  top: 0.5rem!important;
+  right: 0.5rem!important;
+}
+.slds-modal .slds-modal__container {
+  width: 23%;  
+}
+.footer_buttons{
+  margin-right: 10px;
+}
+@media only screen and (min-width:768px) and (max-width:1281px) {
+  .slds-modal .slds-modal__container {
+      width: 25%;
+      
+  }
+}

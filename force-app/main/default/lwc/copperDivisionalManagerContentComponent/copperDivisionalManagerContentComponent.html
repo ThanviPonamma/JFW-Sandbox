@@ -1,0 +1,45 @@
+<!-- Author : Thanvi: Date :06/Aug/2021
+Aim : To display the contents on the site -->
+
+
+<template>
+    <template if:false={accountDetailsForCopperCane}>
+        <!-- To navigate to home page -->
+        <template if:true={isHome}>
+            <c-copper-home-component></c-copper-home-component>
+        </template>
+        <!-- To navigate to  Address book page -->
+        <template if:true={isAddressBook}>
+            <c-copper-manage-address-book-component></c-copper-manage-address-book-component>
+        </template>
+        <!-- To navigate to Manage Playbook-->
+        <template if:true={isManagePlaybook}>
+            <c-copper-buy-book-playbook-component></c-copper-buy-book-playbook-component>
+        </template>
+         <!-- To navigate to Open Buy Book List-->
+         <template if:true={isOpenBuyBookList}>
+           <c-copper-open-buy-book-component></c-copper-open-buy-book-component>
+        </template>
+         <!-- To navigate to Add/remove POS Items for a Buy book-->
+         <template if:true={isBuyBookPOSItemToCart}>
+            <c-copper-pos-item-menu-component selected-buy-book-detail={selectedBuyBookDetail} 
+            buy-book-id={selectedBuyBookId}></c-copper-pos-item-menu-component>
+         </template>
+          <!-- To navigate to shopping cart for a Buy book-->
+          <template if:true={isBuyBookShoppingCart}>
+            <c-copper-shopping-cart-component selected-buy-book-detail={selectedBuyBookDetail} 
+            buy-book-id={selectedBuyBookId}></c-copper-shopping-cart-component>
+         </template>
+           <!--  To navigate to Preview  page -->
+        <template if:true={isPreviewOrder}>
+            <c-copper-preview-order-component emerge-order-id={orderId} buy-book-id={selectedBuyBookId}></c-copper-preview-order-component>
+        </template>
+         <!-- To navigate to Order Status page -->
+         <template if:true={isOrderStatus}>
+            <c-copper-order-status-component></c-copper-order-status-component>
+        </template>
+        <template if:true={isEditOrder}>
+            <c-copper-edit-order-for-divisional-manager-component></c-copper-edit-order-for-divisional-manager-component>
+        </template>
+    </template>
+</template>

@@ -1,0 +1,23 @@
+<!-- Author: SN,VB
+Date: 9th October 2020
+Aim : To hold breadcrumb , edit ,confirm buttons and call the child component responsible for showing preview order data-->
+
+
+<template>
+  <div class="breadcrumbContents">
+            <ul class="breadcrumb">
+                <li><a onclick={navigateToHomePage}>Home</a></li>
+                <li><a>Preview Order</a></li>
+            </ul>
+         </div>
+         <br/>
+       
+    <button class="slds-button slds-button_neutral  slds-float_left edit_button_style" title="search" onclick={editOrderEvent} >
+                Edit Order</button>
+             
+    <button class="slds-button slds-button_neutral  slds-float_right confirm_button_style" title="search" onclick={confirmOrderEvent}>
+                 Confirm Order</button> 
+        <br/>
+       <c-jfw-preview-order-details-component  emerge-order-id={emergeOrderId} ></c-jfw-preview-order-details-component>
+   
+</template>

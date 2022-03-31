@@ -1,0 +1,15 @@
+<!-- Authors:SN
+    Date:05-11-2021
+    Aim: To hold the functionality of breadcrumb of manage ASN and to invoke the infiniumManageAdvanceShipmentNoticeListComponent to display the ASN details and its functionalities. -->
+
+    <template>
+        <div class="breadcrumbContents">
+            <ul class="breadcrumb">
+                <li><a onclick={navigateToHomePage}>Home</a></li>
+                <li><a>Manage Advance Shipment Notice</a></li>
+            </ul>
+         </div> 
+        </br>
+    <!-- To call the InfiniumManageAdvanceShipmentNoticeListComponent to dispaly the ASN details and search,create,edit and view details -->
+        <c-infinium-manage-advance-shipment-notice-list-component></c-infinium-manage-advance-shipment-notice-list-component>
+    </template>

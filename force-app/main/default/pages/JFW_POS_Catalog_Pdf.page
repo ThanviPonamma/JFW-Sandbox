@@ -1,0 +1,94 @@
+<!--Authors: VB, SN
+Date: 15-10-2020 -->
+<!--this page is using the class JFWPOSCatalog_Apex and it will be downloadable as pdf file -->
+<apex:page standardController="Brand__c" showHeader="false" sidebar="false" cache="true" renderAs="PDF" extensions="JFWPOSCatalog_Apex">
+  <!--body of the catalog page starts here-->
+  <html>
+
+  <body>
+    <font face="arial" size="2">
+      <table border="1" style="border: solid #CCCCCC; border-width: 1;width:100%;">
+        <tr style="font-size: 15px; font-face: arial;border-width: 1;  text-align: center;color:white;font-weight:bold;background:#4f4b2b;">
+          <th>Item Preview</th>
+          <th>Item No</th>
+          <th>Item Name</th>
+          <th>Brand</th>
+          <th>Item type</th>
+          <th>Pack Of</th>
+          <th>Price</th>
+          <th>Inventory</th>
+          <th>Max Order Quantity</th>
+          <th>Approval Required</th>
+        </tr>
+        <apex:repeat var="posItem" value="{!posItemList}">
+          <tr style="font-size: 11px; font-face: verdana ;text-align: center;">
+            <!--if the image of the pos item does not exists, display the image noimageavailable from static resources-->
+            <td>
+              <apex:image id="theImage" rendered="{! If(posItem.Attachment_Id__c !=''||posItem.Attachment_Id__c != null ,true,false) }"
+                url="/servlet/servlet.FileDownload?file={!posItem.Attachment_Id__c}" style="padding-top:1%;padding-bottom:1% ;height:200px;width:200px"
+              />
+              <apex:image id="theNoImage" rendered="{! If(posItem.Attachment_Id__c ==''||posItem.Attachment_Id__c == null ,true,false)}"
+                value="{!$Resource.noimageavailable}" style="padding-top:1%;padding-bottom:1% ;height:200px;width:200px" />
+            </td>
+            <td>{!posItem.Item_No__c}</td>
+            <td>{!posItem.Item_Name__c}</td>
+            <td>{!posItem.Brand__r.Brand_Name__c}</td>
+            <td>{!posItem.Type_of_Item__r.Item_Type__c}</td>
+            <td>{!posItem.Pack_Of__c}</td>
+            <td>{!posItem.Price__c}</td>
+            <td>{!posItem.Logical_Invenory_Stock__c}</td>
+            <!--display max order quantity if exists or dislay N/A-->
+            <td>
+              <apex:outputPanel id="theMaxOrdPanel" rendered="{! If(posItem.Maximum_Order_Qty__c!=null ,true,false) }">
+                {!posItem.Maximum_Order_Qty__c}
+              </apex:outputPanel>
+              <apex:outputPanel id="theMaxOrdNullPanel" rendered="{! If(posItem.Maximum_Order_Qty__c==null ,true,false) }">
+                <p>N/A</p>
+              </apex:outputPanel>
+
+            </td>
+            <!--display YES if approval required or else display NO-->
+            <td>
+              <apex:outputPanel id="thePanel" rendered="{! If(posItem.Approval_Required__c == true ,true,false) }">
+                YES
+              </apex:outputPanel>
+              <apex:outputPanel id="theNullPanel" rendered="{! If(posItem.Approval_Required__c==false ,true,false) }">
+                <p>NO</p>
+              </apex:outputPanel>
+            </td>
+          </tr>
+        </apex:repeat>
+      </table>
+      <p />
+    </font>
+  </body>
+
+  </html>
+  <style type="text/css">
+    TH {
+      font-size: 11px;
+      font-face: arial;
+      background: #CCCCCC;
+      border-width: 1;
+      text-align: center;
+      color: red;
+    }
+
+    TD {
+      font-size: 11px;
+      font-face: verdana;
+      text-align: center;
+    }
+
+    TABLE {
+      border: solid #CCCCCC;
+      border-width: 1
+    }
+
+    TR {
+      border: solid #CCCCCC;
+      border-width: 1;
+      text-align: center
+    }
+  </style>
+</apex:page>

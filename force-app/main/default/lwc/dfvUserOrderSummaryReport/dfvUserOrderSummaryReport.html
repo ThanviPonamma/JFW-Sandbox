@@ -1,0 +1,127 @@
+<template>
+ <!-- Author : Vanditha and Vignesh Date:May 07 2020 
+        Aim : To display the User Order Summary Report-->
+     <!-- to display the breadcrumbs -->
+     <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a>Home</a></li>
+             <li><a>Custom Report</a></li>
+            <li><a>User Order Summary Report</a></li>
+        </ul>
+     </div>
+
+      <!-- to display the UI in card form -->
+     <div class="slds-box">
+
+       <!-- To get the select field we use combobox in lwc -->
+      
+            <label class="label_text">Select Program</label>
+    
+            <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" style ="font-size:small" dropdown-alignment="right"  name="orderStatus" placeholder="Select a Program" value={value}  options={inProgress} onchange={handleProgramChange}></lightning-combobox> 
+          
+     
+            <!-- button to download the pdf -->
+       <template if:true={selectedUserProgramId}> 
+       <template if:true={userResponseResult}>
+
+        <a target="_self"  class="slds-button button_color slds-align_absolute-center"  download="ProgramOrderItemSummaryReport.csv" disabled={disabledCondition} href={hrefdata} onclick={exportToCSV}  
+        style="margin-left: 61%; color:white;width: max-content;">Download Report</a>
+            <!-- Author : Vanditha and Vighnesh 
+                       Date : 26 may 2020
+                      Aim : To add the total Amount Spent  -->
+    
+         <lightning-input type="number" class="slds-float_right" style="width: fit-content;
+                           position: sticky; margin-top: -46px; "
+                           label="Total Budget Spent"
+                           value={TotalAmount}
+                           formatter="currency"
+                           disabled>
+           </lightning-input>
+        </template>
+        </template>
+      </div>
+   
+<br/>
+<template if:true={selectedUserProgramId}>
+ <template if:true={userResponseResult}>
+<lightning-card>
+    <div class="table-responsive scroll-box">
+ <!-- tables -->
+    <table class=" table-fixed ">
+        <thead >
+            <tr>
+                <th class="tableheader ">
+                    <div class="table_label ">Program Name</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_label ">Designation Name</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_label ">Ordered By</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_label ">Order Number</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_label ">Ordered Date</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_label ">Order Status</div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_label ">Order Amount </div>
+                  </th>
+                  <th class="tableheader ">
+                    <div class="table_label ">Budget Remaining
+                    </div>
+                  </th>
+
+
+                
+          </tr>              
+        </thead>
+       
+        <tbody>
+          <template for:each={userOrderSummaryReport.data} for:item="users">
+            <tr style="border-bottom: 1px solid #dee2e6; padding:3px;" key ={users.Id}>
+              <td title={users.programName}>{users.programName}</td>
+              <td title={users.ChairName}>{users.ChairName}</td>
+              <td title={users.ChairUserName}>{users.ChairUserName}</td>
+              <td title={users.OrderName}>{users.OrderName}</td>
+              <td title={users.OrderDate}>{users.OrderDate}</td>
+              <td title={users.OrdStatus}>{users.OrdStatus}</td>
+              <td>
+                <lightning-input type="number" style="width: fit-content;
+                position: sticky; margin-top: -8px;"
+                value={users.TotalOrderAmount}
+                formatter="currency"
+                disabled>
+   </lightning-input>
+              </td>
+            
+              <td>
+                <lightning-input type="number" style="width: fit-content;
+                position: sticky; margin-top: -8px;"
+                value={users.BudgetAvailable}
+                formatter="currency"
+                disabled>
+   </lightning-input>
+              </td>
+   
+            </tr>
+          </template>
+           </tbody>
+    </table>
+</div>
+</lightning-card>
+</template>
+</template>
+<template if:false={selectedUserProgramId}>
+  <p class="fontData">Please select the program to continue</p>
+ </template> 
+  <template if:false={userResponseResult}>
+    <template if:true={selectedUserProgramId}>
+    <p class="fontData">The selected program does not have any orders</p>
+   </template> 
+</template>
+</template>

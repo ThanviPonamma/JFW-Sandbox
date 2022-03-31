@@ -1,0 +1,95 @@
+<!-- Authors:Sanjana    Date:08-11-2021
+Aim: this is the child component of infiniumInventoryPosCatalogComponent which is responsible to accept the filter inputs from the parents and display the list of pos items and its details in the form of a table-->
+
+<template>
+    <!-- invoking the init method getAllPosItemsdetails -->
+    <template if:false={getAllPosItemsdetails}>
+        <!-- if data in the  posItemsFound variable exists  -->
+        <template if:true={posItemsFound}>
+            <!-- table to display pos items table -->
+            <div class="c-container">
+                <div class="table-responsive scroll-box">
+                    <!-- displaying the table with the pos item details -->
+                    <table class="table-fixed">
+                        <thead>
+                            <tr>
+                                <th class="tableheaderfirst ">Item Preview</th>
+                                <th class="tableheader ">Item No</th>
+                                <th class="tableheader ">Item Name</th>
+                                <th class="tableheader ">Brand</th>
+                                <th class="tableheader ">Pack of</th>
+                                <th class="tableheader ">Price</th>
+                                <th class="tableheader ">Inventory</th>
+                                <th class="tableheader ">Max Order Quantity</th>
+                                <th class="tableheader ">Approval Required</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <!-- displaying the image of the pos item if it exists -->
+                            <template for:each={posItemsListWithDetails} for:item="posItem">
+                                <tr class="table_Column" key={posItem.Id}>
+                                    <td>
+                                        <template if:true={posItem.posItemImageAttachment}>
+                                            <div>
+                                                <img class="image_height" src={posItem.posItemImageAttachment} />
+                                            </div>
+                                            <!-- displaying the blank image if the pos item image doesnot exists-->
+                                        </template>
+                                        <template if:false={posItem.posItemImageAttachment}>
+                                            <div>
+                                                <img class="image_height" src={NoImageURL} />
+                                            </div>
+                                        </template>
+                                    </td>
+                                    <!-- pos item number -->
+                                    <td title={posItem.posItem.Item_No__c}>{posItem.posItem.Item_No__c}</td>
+                                    <!-- pos item name -->
+                                    <td title={posItem.posItem.Item_Name__c}>{posItem.posItem.Item_Name__c}</td>
+                                    <!-- pos item brand name -->
+                                    <td title={posItem.posItem.Brand__r.Brand_Name__c}>
+                                        {posItem.posItem.Brand__r.Brand_Name__c}</td>
+                                    <!-- pos item pack of -->
+                                    <td title={posItem.posItem.Pack_Of__c}>{posItem.posItem.Pack_Of__c}</td>
+                                    <!-- pos item price -->
+                                    <td title={posItem.posItem.Price__c}>${posItem.posItem.Price__c}</td>
+                                    <!-- pos item logical inventory stock -->
+                                    <td title={posItem.posItem.Logical_Invenory_Stock__c}>
+                                        {posItem.posItem.Logical_Invenory_Stock__c}</td>
+                                    <!-- display pos item max order quantity if exists or display N/A -->
+                                    <template if:true={posItem.posItem.Maximum_Order_Qty__c}>
+                                        <td title={posItem.posItem.Maximum_Order_Qty__c}>
+                                            {posItem.posItem.Maximum_Order_Qty__c}</td>
+                                    </template>
+                                    <template if:false={posItem.posItem.Maximum_Order_Qty__c}>
+                                        <td title={posItem.posItem.Maximum_Order_Qty__c}>
+                                            <p>N/A</p>
+                                        </td>
+                                    </template>
+                                    <!-- display YES if approval is required. Or display NO -->
+                                    <template if:true={posItem.posItem.Maximum_Order_Qty__c}>
+                                        <td title={posItem.posItem.Approval_Required__c}>YES</td>
+                                    </template>
+
+                                    <template if:false={posItem.posItem.Maximum_Order_Qty__c}>
+                                        <td title={posItem.posItem.Approval_Required__c}>No</td>
+                                    </template>
+
+                                </tr>
+                            </template>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </template>
+    </template>
+    <!-- Message if there are no pos items -->
+    <!-- displaying the message "No pos items found" if the variable posItemsFound is empty -->
+    <template if:false={posItemsFound}>
+        <lightning-card class="message_text">
+            <p>No Pos Items found</p>
+        </lightning-card>
+    </template>
+</template>

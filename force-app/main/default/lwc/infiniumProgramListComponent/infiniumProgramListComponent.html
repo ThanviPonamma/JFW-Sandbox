@@ -1,0 +1,191 @@
+<!--Author:Sanjana Date:21-09-2021
+Aim: This is the child component that is responsible for displaying program details in the form of table -->
+
+<template>
+    <!-- displaying a box -->
+    <div class="slds-box">
+        <div>
+            <!-- displaying a button to open a create pop-up modal -->
+            <lightning-button class="slds-align_absolute-center" variant="brand" title="Create Program"
+                label="Create Program" onclick={onCreateProgram}></lightning-button>
+        </div>
+
+        <div>
+            <template if:false={getAllProgram}>
+                <template if:true={programNotFound}>
+                    <br />
+                    <!-- displaying a table of program list and its details -->
+                    <div class="table-responsive scroll-box">
+                        <!-- table starts here -->
+                        <table class="table-fixed">
+                            <thead>
+                                <tr>
+                                    <!-- Program image -->
+                                    <th class="tableheader" style="width:10%;">Program Image</th>
+                                    <!-- Program name -->
+                                    <th class="tableheader" style="width:14%;">Program Name</th>
+                                    <!-- Program Details -->
+                                    <th class="tableheader" style="width:14%;">Program Details</th>
+                                    <!-- Program Budget -->
+                                    <th class="tableheader" style="width:14%;">Program Budget</th>
+                                    <!-- Program Items -->
+                                    <th class="tableheader" style="width:9%;">Items</th>
+                                    <!-- Program active status -->
+                                    <th class="tableheader" style="width:9%;">Active</th>
+                                    <!-- Program edit pop-up -->
+                                    <th class="tableheader" style="width:9%;">Edit</th>
+                                    <!-- toggle button to deactivate the Program -->
+                                    <th class="tableheader" style="width:9%;">Deactivate</th>
+
+                                </tr>
+                            </thead>
+
+                            <!-- table body starts here -->
+                            <tbody>
+                                <!-- The attribute 'programs' contains details of the program -->
+                                <template for:each={programs} for:item="program">
+                                    <tr class="table_Column" key={program.Id}>
+                                        <!-- program image -->
+                                        <td role="gridcell" style="text-align:left;">
+                                            <div>
+                                                <template if:true={program.programImageURL}>
+                                                    <div>
+                                                        <img style="height: 130px;" src={program.programImageURL} />
+                                                    </div>
+                                                </template>
+                                                <template if:false={program.programImageURL}>
+                                                    <div>
+
+                                                        <img style="height: 130px;" src={NoImageURL} />
+                                                    </div>
+                                                </template>
+
+                                            </div>
+                                            <br />
+                                        </td>
+                                        <!-- program name -->
+                                        <td role="gridcell">
+                                            <div class="slds-truncate item_type_content_style"
+                                                title={program.program.Name__c}>{program.program.Name__c}</div>
+                                        </td>
+                                        <!-- program details -->
+                                        <td role="gridcell">
+                                            <span>Start Date: </span>
+                                            <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                                value={program.program.Start_Date__c}>
+                                            </lightning-formatted-date-time><br />
+                                            <span>End Date: </span>
+                                            <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                                value={program.program.Closing_Date__c}></lightning-formatted-date-time>
+                                            <br />
+                                            <span>In Market Date: </span>
+                                            <lightning-formatted-date-time year='numeric' month='2-digit' day="2-digit"
+                                                value={program.program.In_Market_Date__c}>
+                                            </lightning-formatted-date-time>
+                                        </td>
+                                        <!-- program budget -->
+                                        <td role="gridcell">
+                                                <lightning-formatted-number value={program.program.Program_Budget__c} format-style="currency"
+                                                currency-code="USD"></lightning-formatted-number>
+                                        </td>
+                                        <!-- program items -->
+                                        <td role="gridcell">
+                                            <template if:false={program.program.Active__c}>
+                                                <lightning-icon class="icon_color" disabled icon-name="utility:overflow"
+                                                    size="small" title="Add Or Remove Items"></lightning-icon>
+                                            </template>
+                                            <template if:true={program.program.Active__c}>
+                                                <lightning-icon class="icon_color" onclick={addOrRemoveItems}
+                                                    icon-name="utility:overflow" size="small" value={program.program}
+                                                    name={program.program} title="Add Or Remove Items"></lightning-icon>
+                                            </template>
+
+                                        </td>
+
+                                        <!-- program active status -->
+                                        <td role="gridcell">
+                                            <div class="slds-truncate">
+                                                <template if:true={program.program.Active__c}>
+                                                    <lightning-icon icon-name="utility:check" alternative-text="Active"
+                                                        size="x-small" title="Active"></lightning-icon>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <!-- program edit pop-up -->
+                                        <td role="gridcell">
+                                            <lightning-button-icon class="icon_color" value={program} name={program}
+                                                detail={program.program} icon-name="utility:edit"
+                                                onclick={openEditPopUp} size="small"></lightning-button-icon>
+                                        </td>
+                                        <!-- toggle button to deactivate the program -->
+                                        <td role="gridcell">
+                                            <template if:false={program.program.Active__c}>
+                                                <lightning-input type="toggle" disabled
+                                                    class="slds-align_absolute-center toggle_Style"
+                                                    checked={program.program.Active__c} size="x-small">
+                                                </lightning-input>
+                                            </template>
+                                            <template if:true={program.program.Active__c}>
+                                                <lightning-input type="toggle" checked={program.program.Active__c}
+                                                    class="slds-align_absolute-center toggle_Style"
+                                                    value={program.program} name={program.program}
+                                                    detail={program.program} onclick={deactivateProgram} size="x-small">
+                                                </lightning-input>
+                                            </template>
+
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div>
+
+    <!-- to add the message of no program is found -->
+
+    <template if:false={programNotFound}>
+        <br />
+        <lightning-card class="message_text">
+            <p>Programs not found</p>
+        </lightning-card>
+    </template>
+    <template if:true={isOpenModalForToastMessage}>
+        <div class="slds-m-around_medium">
+            <section role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal">
+                <div class="slds-modal__container pop-up ">
+                    <div class="slds-modal__content popUp_border_style">
+                        <div class="slds-m-around_medium">
+                            <b>Please go to Manage Program Budget option to allocate budget to the users for the program</b>
+
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer popUp_border_footer_style">
+                        <div class="slds-align_absolute-center">
+                            <lightning-button variant="brand" label="Close" title="Close" onclick={closeMessageModel}>
+                            </lightning-button>
+                        </div>
+                    </footer>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <!-- invoking edit/create pop-up  -->
+    <template if:true={openEditModal}>
+        <c-infinium-manage-program-create-edit-component get-program-details={selectedProgramDetails}
+            is-edit-clicked={isEditClicked} label-name={labelName}
+            program-name-for-validation={programNameForValidation} onclosemodal={closeModal}
+            selected-button-name={selectedButtonName}></c-infinium-manage-program-create-edit-component>
+    </template>
+
+    <!-- invoking item modal pop-up  -->
+    <template if:true={openItemModal}>
+        <c-infinium-manage-program-item-component get-program-details={selectedProgramDetails} label-name={labelName}
+            onclosemodal={closeModal}>
+        </c-infinium-manage-program-item-component>
+    </template>
+</template>

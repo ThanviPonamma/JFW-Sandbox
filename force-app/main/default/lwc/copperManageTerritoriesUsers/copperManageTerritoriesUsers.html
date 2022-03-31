@@ -1,0 +1,43 @@
+<!-- Author:Sanjana
+Date: 11-08-2021 -->
+<!-- Aim: To add/remove the user for a Territory as a territory user -->
+<template>
+    <template if:false={currentTerritoryUserList}>
+        <div class="slds-m-around_xx-large">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header modal_header_style">
+                        <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close" variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                        <h2 id="modal-heading-01" class="slds-text-heading_small slds-hyphenate">Users Under the Territory "{labelName}"</h2>
+                    </header>
+                    <div class="exampleHolder">
+                        <div class="slds-modal__content modal_body_style" id="modal-content-id-1">
+                            <div class="slds-m-around_medium listitemClass">
+                                <!-- Dual list box for users  -->
+                                   <lightning-dual-listbox name="territoryUsers"
+                                   source-label="Available Users"
+                                   disable-reordering = true
+                                   selected-label="Assigned Territory Users"
+                                   options={availableUserList}
+                                   value={assignedUserList}
+                                   onchange={theUserListToBeAssigned}>
+                                </lightning-dual-listbox>
+                            </div>
+                        </div>
+                        <!--###### MODAL BOX FOOTER Part Start ######-->
+                        <footer class="slds-modal__footer modal_footer_style">
+                            <div class="slds-align_absolute-center">
+                                 <!-- To display save button -->
+                                <lightning-button variant="brand"  class="slds-m-around_xx-small" label="Save" title="Save" onclick={saveTerritoryUser} disabled={isSaveDisabled}></lightning-button>
+                                 <!-- To display cancel button -->
+                                <lightning-button variant="brand"  class="slds-m-around_xx-small" label="Cancel" title="Cancel" onclick={closeModal}></lightning-button>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+        </div>
+    </template>
+</template>

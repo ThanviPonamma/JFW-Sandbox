@@ -1,0 +1,211 @@
+<template>
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a>Home</a></li>
+            <li><a>Buy Book Tracking Number</a></li>
+        </ul>
+    </div>
+
+    <lightning-card>
+        <lightning-layout vertical-align="end" multiple-rows="true">
+            <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="2">
+
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="3">
+                <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option "
+                    style="font-size:small" dropdown-alignment="right" placeholder="Select a Program" value={program}
+                    options={programListToDisplay} onchange={onSelectionOfProgram}>
+                </lightning-combobox>
+                <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option "
+                    style="font-size:small" dropdown-alignment="right" placeholder="Select a Brand" value={brand}
+                    options={brandListToDisplay} onchange={onSelectionOfBrand}>
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="1">
+
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="3">
+                <lightning-combobox class="combobox slds-align_absolute-center slds-listbox__option "
+                    style="font-size:small" dropdown-alignment="right" placeholder="Select a POS Item"
+                    value={programPosItem} options={programItemListToDisplay} onchange={onSelectionOfPOSItem}
+                    disabled={isProgramSelected}>
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="1">
+            </lightning-layout-item>
+
+            <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="2">
+                <lightning-button class="button_text_color slds-align_absolute-center" variant="brand" title="Proceed"
+                    label="Proceed" onclick={onClickOfProceedButton} disabled={isDisableProceedButton}>
+                </lightning-button>
+            </lightning-layout-item>
+
+        </lightning-layout><br />
+
+        <template if:true={isOrderExist}>
+            <lightning-layout vertical-align="end" multiple-rows="true">
+                <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="2">
+
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="3">
+                    <lightning-file-upload accept={acceptedCSVFormats} label="Upload Tracking Numbers"
+                        multiple="multiple" disabled={isTrackingFileUploaded} onuploadfinished={uploadFileHandler}
+                        record-id={recordId}>
+                    </lightning-file-upload>
+
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="1">
+
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="2">
+                    <template if:false={isTrackingFileUploaded}>
+                        <lightning-button class="button_text_color slds-align_absolute-center" variant="brand"
+                            title="Sync Tracking Number" label="Sync Tracking Number"
+                            onclick={onClickOfSyncTrackingNumberButton} disabled>
+                        </lightning-button>
+                    </template>
+                    <template if:true={isTrackingFileUploaded}>
+                        <lightning-button class="button_text_color slds-align_absolute-center" variant="brand"
+                            title="Sync Tracking Number" label="Sync Tracking Number"
+                            onclick={onClickOfSyncTrackingNumberButton} disabled={isTrackingSynced}>
+                        </lightning-button>
+                    </template>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="1">
+
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-p-right_small slds-p-left_xx-small " flexibility="grow" size="2">
+                    <template if:false={isTrackingFileUploaded}>
+                        <lightning-button class="slds-align_absolute-center button_text_color" variant="brand"
+                            title="Show Tracking Number" label="Show Tracking Number" disabled>
+                        </lightning-button>
+                    </template>
+                    <template if:true={isTrackingFileUploaded}>
+                        <template if:false={isTrackingSynced}>
+                            <lightning-button class="slds-align_absolute-center button_text_color" variant="brand"
+                                title="Show Tracking Number" label="Show Tracking Number" disabled>
+                            </lightning-button>
+                        </template>
+                    </template>
+                    <template if:true={isTrackingFileUploaded}>
+                        <template if:true={isTrackingSynced}>
+                            <lightning-button class="slds-align_absolute-center button_text_color" variant="brand"
+                                title="Show Tracking Number" label="Show Tracking Number"
+                                onclick={onClickOfShowTrackingButton}></lightning-button>
+                        </template>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    </lightning-card><br />
+
+    <template if:true={isOrderDetailsLoading}>
+        <div class="spinner_style">
+            <lightning-spinner alternative-text="Loading" variant="inverse"></lightning-spinner>
+        </div>
+    </template>
+
+    <template if:false={isOrderDetailsLoading}>
+        <template if:true={isOrderExist}>
+            <lightning-card>
+                <div class="header_div_style">
+                    <div class="table-responsive scroll-box">
+                        <table class="table table-hover; table-fixed ;width:100%; ">
+                            <thead>
+                                <tr class="table_header_style">
+                                    <th class="tableheader" style="width:8%">Order Number</th>
+                                    <th class="tableheader" style="width:15%">Ordered Details</th>
+                                    <th class="tableheader" style="width:30%">Item Details</th>
+                                    <th class="tableheader" style="width:30%">Shipping Details</th>
+                                    <th class="tableheader" style="width:8%">Order Status</th>
+                                    <th class="tableheader" style="width:8%">Tracking Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={orderDetails} for:item="orderDetail">
+                                    <tr class="table_Column" key={orderDetail.Id}>
+                                        <td role="gridcell">
+                                            <div class="content_style">
+                                                {orderDetail.OrderDestination__r.OrderName__c}
+                                            </div>
+                                        </td>
+                                        <td role="gridcell">
+                                            <div class="content_style">
+                                                <span>Ordered By:
+                                                    {orderDetail.OrderDestination__r.Order_owner__c}</span><br />
+                                                <span>Ordered Quantity:
+                                                    {orderDetail.Quantity__c}</span><br />
+                                                <span>Total Line Amount:
+                                                    {orderDetail.Total_Line_Amount__c}</span><br />
+                                                <span>Ordered Date: <lightning-formatted-date-time year='numeric'
+                                                        month='2-digit' day="2-digit"
+                                                        value={orderDetail.CreatedDate}>
+                                                    </lightning-formatted-date-time>
+                                                </span>
+
+                                            </div>
+                                        </td>
+                                        <td role="gridcell">
+                                            <div class="content_style">
+                                                <span>Item No:
+                                                    {orderDetail.POS_Item__r.Item_No__c}</span><br />
+                                                <span>Item Name:
+                                                    {orderDetail.POS_Item__r.Item_Name__c}</span><br />
+                                                <span>Brand:
+                                                    {orderDetail.POS_Item__r.Brand__r.Brand_Name__c}</span><br />
+                                                <span>Item Type:
+                                                    {orderDetail.POS_Item__r.Type_of_Item__r.Item_Type__c}</span><br />
+                                                <span>Pack Of:
+                                                    {orderDetail.POS_Item__r.Pack_Of__c}</span><br />
+                                                <span>Price: {orderDetail.POS_Item__r.Price__c}</span><br />
+                                            </div>
+                                        </td>
+                                        <td role="gridcell">
+                                            <div class="content_style">
+                                                <span>Ship to Name:
+                                                    {orderDetail.OrderDestination__r.AddressBook__r.Shipto_Name__c}</span><br />
+                                                <span>Ship to Company:
+                                                    {orderDetail.OrderDestination__r.AddressBook__r.Shipto_Company__c}</span><br />
+                                                <span>Address:
+                                                    {orderDetail.OrderDestination__r.AddressBook__r.Address__c}</span><br />
+                                                <span>City:
+                                                    {orderDetail.OrderDestination__r.AddressBook__r.City__c}</span><br />
+                                                <span>State:
+                                                    {orderDetail.OrderDestination__r.AddressBook__r.State__r.State_Name__c}</span><br />
+                                                <span>Zip Code:
+                                                    {orderDetail.OrderDestination__r.AddressBook__r.Zip__c}</span><br />
+                                                <span>Carrier:
+                                                    {orderDetail.Carrier__c}</span><br />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="content_style">
+                                                {orderDetail.OrderDestination__r.OrdStatus__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="content_style">
+                                                {orderDetail.Tracking_Numbers__c}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </lightning-card>
+        </template>
+
+    </template>
+
+    <template if:false={isOrderExist}>
+        <lightning-card>
+            <div class="slds-align_absolute-center">
+                <p style="font-weight: bold; color: #b7a15e;">No Orders Available</p>
+            </div>
+        </lightning-card>
+    </template>
+
+</template>

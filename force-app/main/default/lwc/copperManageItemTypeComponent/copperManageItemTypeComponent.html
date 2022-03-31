@@ -1,0 +1,17 @@
+<!-- Authors: Sanjana
+Date: 10-08-2021
+Aim: Component to create item types -->
+
+
+<template>
+    <!-- Breadcrumb with on click of home it will navigate to home page -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Manage Item Types</a></li>
+        </ul>
+     </div>
+    <br/>
+    <!-- To call child component for displaying table of manage item type system -->
+    <c-copper-manage-item-type-list-component></c-copper-manage-item-type-list-component>
+    </template>

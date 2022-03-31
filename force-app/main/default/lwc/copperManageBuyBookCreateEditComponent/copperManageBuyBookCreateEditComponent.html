@@ -1,0 +1,176 @@
+<!-- Author: Thanvi  Date:10/Aug/2021
+     Aim:To show edit/create modal -->
+
+<template>
+    <!--MODAL POPUP  -->
+    <div class="slds-m-around_xx-large">
+        <!-- displaying the pop-up modal  -->
+        <section role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                <!-- display the header of the modal based on the user wants to create a pos item or edit a pos item -->
+                <header class="slds-modal__header modal_header_style">
+                    <template if:true={isEditClicked}>
+                        <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close"
+                            variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit Buy Book
+                            "{labelName}"
+                        </h2>
+                    </template>
+
+                    <template if:false={isEditClicked}>
+                        <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="Close"
+                            variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Create Buy Book</h2>
+                    </template>
+                </header>
+                <!-- Modal Body -->
+                <div>
+                    <div class="slds-modal__content modal_body_style scroll-box" id="modal-content-id-1">
+                        <div class="slds-m-around_medium modal_margin_style">
+
+                            <div class="slds-grid slds-wrap">
+                                <!--The Buy Book Name -->
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small slds-p-left_xx-small">
+
+                                    <lightning-input name="buyBookName" required="true"
+                                        value={buyBookDetail.buyBook.Name__c} label="Buy Book Name" minlength="4"
+                                        maxlength="40" class="buyBookNameValidation" onchange={validateBuyBookName}>
+                                    </lightning-input>
+
+                                </div>
+                                <!--The Buy Book Budget -->
+                                <div class="slds-col slds-size_6-of-12 slds-p-left_xx-small">
+                                    <div onkeydown={removeBuyBookBudgetSpecialCharacters}
+                                        onkeypress={removeBuyBookBudgetSpecialCharacters}>
+                                        <lightning-input formatter="currency" class="buyBookBudget"
+                                            value={buyBookDetail.buyBook.Program_Budget__c} label="Buy Book Budget in $" maxlength="10"
+                                            onchange={validateBuyBookBudget}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <!--The Buy Book Start Date -->
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_xx-small slds-p-left_xx-small">
+                                    <div onkeydown={preventDate} onkeypress={preventDate}>
+                                        <lightning-input type="date" class="buyBookStartDateInputField"
+                                            value={buyBookDetail.buyBook.Start_Date__c} label="Start Date"
+                                            required="true" onchange={validateBuyBookStartDate}
+                                            message-when-value-missing="Please enter a suitable value."
+                                            max={buyBookDetail.buyBook.Closing_Date__c}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <!--The Buy Book Closing Date -->
+                                <div class="slds-col slds-size_6-of-12 slds-p-left_xx-small">
+                                    <div onkeydown={preventDate} onkeypress={preventDate}>
+                                        <lightning-input size="10" type="date" class="buyBookCloseDateInputField"
+                                            value={buyBookDetail.buyBook.Closing_Date__c} label="Close Date"
+                                            required="true" message-when-value-missing="Please enter a suitable value."
+                                            onchange={validateBuyBookCloseDate}
+                                            min={buyBookDetail.buyBook.Start_Date__c}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_small">
+                                    <!--The Buy Book In Market Date -->
+                                    <div onkeydown={preventDate} onkeypress={preventDate}>
+                                        <lightning-input type="date" class="buyBookInMarketDateInputField"
+                                            value={buyBookDetail.buyBook.In_Market_Date__c} label="In Market Date"
+                                            required="true" message-when-value-missing="Please enter a suitable value."
+                                            onchange={validateBuyBookInMarketDate}
+                                            min={buyBookDetail.buyBook.Closing_Date__c}></lightning-input>
+                                    </div>
+                                    <!--The Buy BookActive status -->
+                                    <lightning-input type="checkbox" label="Active" name="buyBookctiveInputField"
+                                        checked={buyBookDetail.buyBook.Active__c}
+                                        value={buyBookDetail.buyBook.Active__c} onchange={handleChangeActive}>
+                                    </lightning-input>
+                                </div>
+
+                                <div class="slds-col slds-size_6-of-12 slds-p-left_xx-small">
+                                    <!-- displaying input field for user to upload image of the  buy book -->
+                                    <div>
+                                        <lightning-input label="" class="buyBookFileId" name="file uploader"
+                                            onchange={handleFilesChange} accept="image/png,image/jpg,image/jpeg"
+                                            type="file" multiple="false">
+                                        </lightning-input>
+                                    </div><br />
+                                    <!-- displaying the pos item if it aready exists -->
+                                    <template if:true={buyBookDetail.buyBookImageURL}>
+
+                                        <div style="width: 236px;">
+                                            <div class="slds-file slds-file_card slds-has-title">
+                                                <figure>
+                                                    <div class="slds-file__crop">
+                                                        <img style="height: 130px;" class="attachedImage"
+                                                            src={buyBookDetail.buyBookImageURL}>
+                                                    </div>
+                                                </figure>
+                                                <!-- icon to remove the image -->
+                                                <div class="slds-file__actions-menu">
+                                                    <lightning-button-icon icon-class="dark" icon-name="utility:close"
+                                                        onclick={removeImage} variant="bare" title="Close" size="medium"
+                                                        alternative-text="Remove"></lightning-button-icon>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <!-- displaying the preview of an uploaded image -->
+                                    <template if:true={isImageShown}>
+
+                                        <div style="width: 236px;">
+                                            <div class="slds-file slds-file_card slds-has-title">
+                                                <figure>
+                                                    <div class="slds-file__crop">
+                                                        <img style="height: 130px;" class="attachedImage"
+                                                            src={buyBookDetail.buyBookImageURL}>
+                                                    </div>
+                                                </figure>
+                                                <!-- icon to remove the image -->
+                                                <div class="slds-file__actions-menu">
+                                                    <lightning-button-icon icon-class="dark" icon-name="utility:close"
+                                                        onclick={removeImage} variant="bare" title="Remove"
+                                                        size="medium" alternative-text="Remove"></lightning-button-icon>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- footer of the modal begins here -->
+                <footer class="slds-modal__footer modal_footer_style">
+                    <div class="slds-align_absolute-center">
+                        <!-- "save" button -->
+                        <div style="padding-right:3px">
+                            <lightning-button variant="brand" type="submit" title="save" label="Save"
+                                onclick={saveBuyBook} disabled={showErrorMessage}></lightning-button>
+                        </div>
+                        <!-- "save and new" button -->
+                        <div style="padding-right:3px">
+                            <lightning-button variant="brand" label="Save And New" title="Save And New"
+                                disabled={showErrorMessage} onclick={saveAndNewBuyBook}></lightning-button>
+                        </div>
+                        <!-- "cancel" button -->
+                        <div>
+                            <lightning-button variant="brand" type="cancel" title="cancel" label="Cancel"
+                                onclick={closeModal}></lightning-button>
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

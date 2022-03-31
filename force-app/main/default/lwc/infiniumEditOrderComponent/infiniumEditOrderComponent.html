@@ -1,0 +1,15 @@
+<!-- Author : Sanjana; Date : 21-09-2021
+ -->
+<!-- Aim: To hold the bread crumb and the child component  -->
+<template>
+    <!-- Breadcrumb with on click of home will navigate to home page -->
+    <div class="breadcrumbContents">
+        <ul class="breadcrumb">
+            <li><a onclick={navigateToHomePage}>Home</a></li>
+            <li><a>Edit Order</a></li>
+        </ul>
+     </div>
+  <br/>
+  <!-- To invoke the child component to display the table and edit,deactivate,add/remove states and territories -->
+<c-infinium-edit-order-details-component></c-infinium-edit-order-details-component>
+</template>
